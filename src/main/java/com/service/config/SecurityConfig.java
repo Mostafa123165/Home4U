@@ -2,6 +2,8 @@ package com.service.config;
 
 import com.service.auth.provider.EmailAuthenticationProvider;
 import com.service.auth.provider.PhoneAuthenticationProvider;
+import com.service.common.service.MessageSourceService;
+import com.service.error.CustomAuthenticationEntryPoint;
 import com.service.userManagement.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +31,8 @@ public class SecurityConfig {
     );
 
     private final String[] PERMIT_URL = {
-            "/auth/**"
+            "api/v1/auth/**",
+            "api/v1/user-types/**"
     };
 
     @Bean
@@ -44,7 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(PERMIT_URL).permitAll()
                         .anyRequest().permitAll()
-                );
+                ).exceptionHandling(config -> config.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
 
         return http.build();
     }
@@ -64,10 +67,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserService userService, PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager(UserService userService, PasswordEncoder passwordEncoder, MessageSourceService messageSourceService) {
         return new ProviderManager(
-                new PhoneAuthenticationProvider(userService,passwordEncoder),
-                new EmailAuthenticationProvider(userService,passwordEncoder)
+                new PhoneAuthenticationProvider(userService,passwordEncoder,messageSourceService),
+                new EmailAuthenticationProvider(userService,passwordEncoder,messageSourceService)
         );
     }
 

@@ -1,9 +1,11 @@
 package com.service.auth.provider;
 
+import com.service.common.service.MessageSourceService;
 import com.service.userManagement.model.User;
 import com.service.userManagement.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,6 +18,7 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final MessageSourceService messageSourceService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -28,7 +31,7 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider {
             return new UsernamePasswordAuthenticationToken(user.get(), password , user.get().getAuthorities());
         }
 
-        return new UsernamePasswordAuthenticationToken(null,null);
+        throw new BadCredentialsException(messageSourceService.getMessage("exception.bad.credentials"));
     }
 
     @Override

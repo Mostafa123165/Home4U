@@ -50,7 +50,7 @@ public class AuthService {
     }
 
     private void validateRegisterRequest(String email,String phone) {
-        if(email==null || phone==null) {
+        if(email==null && phone==null) {
             throw new BadRequestException("Either email or phone must be provided. Please provide at least one contact method.");
         }
         else if(userService.getByEmail(email).isPresent()) {
