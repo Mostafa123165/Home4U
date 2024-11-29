@@ -1,0 +1,75 @@
+package com.service.base.controller;
+
+import com.service.base.dto.BaseEntityDto;
+import com.service.base.mapper.BaseMapper;
+import com.service.base.model.BaseEntity;
+import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
+import com.service.base.model.SuccessResponsePage;
+import com.service.base.service.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends BaseEntityDto<ID>,ID extends Serializable> implements BaseController<T,DTO,ID>{
+
+    @Autowired
+    private  BaseServiceImpl<T,ID> baseService;
+    @Autowired
+    private  BaseMapper<T,DTO> baseMapper;
+
+    @Override
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(new SuccessResponseList<>(baseService.findAll()));
+    }
+
+    @Override
+    public ResponseEntity<?> findAll(Optional<Integer> page,
+                                     Optional<Integer> size,
+                                     Optional<String> sortableColumn) {
+        Sort sort = Sort.by(sortableColumn.orElse("id"));
+        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10), sort);
+        return ResponseEntity.ok(new SuccessResponsePage<>(baseService.findAll(pageable)));
+    }
+
+    @Override
+    public ResponseEntity<?> findById(ID id) {
+        return ResponseEntity.ok(new SuccessResponse<>(baseService.findById(id)));
+    }
+
+    @Override
+    public ResponseEntity<?> insert(DTO dto) {
+        T entity = baseMapper.unMap(dto);
+        return ResponseEntity.ok(new SuccessResponse<>(baseService.insert(entity)));
+    }
+
+    @Override
+    public ResponseEntity<?> update(DTO dto) {
+        T entity = baseMapper.unMap(dto);
+        return ResponseEntity.ok(new SuccessResponse<>(baseService.update(entity)));
+    }
+
+    @Override
+    public void deleteById(ID id) {
+        baseService.deleteById(id);
+    }
+
+    @Override
+    public ResponseEntity<?> saveAll(List<DTO> list) {
+        List<T> entity = baseMapper.unMap(list);
+        return ResponseEntity.ok(new SuccessResponseList<>(baseService.saveAll(entity)));
+    }
+
+    @Override
+    public void deleteAll(List<ID> list) {
+        baseService.deleteAll(list);
+    }
+}

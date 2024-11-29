@@ -1,0 +1,74 @@
+package com.service.config;
+
+import com.service.auth.provider.EmailAuthenticationProvider;
+import com.service.auth.provider.PhoneAuthenticationProvider;
+import com.service.userManagement.service.UserService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
+
+@Configuration
+public class SecurityConfig {
+
+
+    private final List<String> ALLOWED_ORIGIN = List.of(
+            "http://localhost:4200"
+    );
+
+    private final List<String> ALLOWED_METHOD = List.of(
+            "GET", "POST", "PUT", "DELETE","OPTIONS"
+    );
+
+    private final String[] PERMIT_URL = {
+            "/auth/**"
+    };
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                .cors(scc -> scc.configurationSource(request -> corsConfiguration()))
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(PERMIT_URL).permitAll()
+                        .anyRequest().permitAll()
+                );
+
+        return http.build();
+    }
+
+    CorsConfiguration corsConfiguration() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(ALLOWED_ORIGIN);
+        config.setAllowedMethods(ALLOWED_METHOD);
+        config.setAllowedHeaders(List.of("*"));
+        return config;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(UserService userService, PasswordEncoder passwordEncoder) {
+        return new ProviderManager(
+                new PhoneAuthenticationProvider(userService,passwordEncoder),
+                new EmailAuthenticationProvider(userService,passwordEncoder)
+        );
+    }
+
+}
