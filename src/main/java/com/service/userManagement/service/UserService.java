@@ -6,6 +6,7 @@ import com.service.error.RecordNotFoundException;
 import com.service.userManagement.model.User;
 import com.service.userManagement.repository.UserReps;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,13 @@ public class UserService extends BaseServiceImpl<User,Long>   {
 
     private final UserReps userReps;
     private final MessageSourceService messageSourceService;
+
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+    }
 
     public User findByEmail(String email) {
         return userReps.findByEmail(email)

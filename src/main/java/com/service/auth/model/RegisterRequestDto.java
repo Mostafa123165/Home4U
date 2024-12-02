@@ -18,7 +18,9 @@ public class RegisterRequestDto {
     private String lastName;
 
     @Email(message = "Please provide a valid email address (e.g., user@example.com).")
+    @NotBlank(message = "email cannot be blank")
     private String email;
+
     private String phone;
 
     @Min(value = 8, message = "Password must be at least 8 characters.")

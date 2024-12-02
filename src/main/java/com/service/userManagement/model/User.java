@@ -2,6 +2,8 @@ package com.service.userManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.service.base.model.BaseEntity;
+import com.service.common.model.City;
+import com.service.common.model.Governorate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -24,6 +26,7 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @NotNull
     private String lastName;
 
+    @NotNull
     private String email;
 
     @NotNull
@@ -35,6 +38,18 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "user_type_id")
     private UserType userType;
+
+    @ManyToOne
+    @JoinColumn(name = "governorate_id")
+    private Governorate governorate;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
+    private String otp;
+
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,6 +78,6 @@ public class User extends BaseEntity<Long> implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return enabled;
     }
 }
