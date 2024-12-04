@@ -2,9 +2,8 @@ package com.service.auth.service;
 
 
 import com.service.auth.jwt.JwtGenerator;
-import com.service.auth.model.LoginRequestDto;
-import com.service.auth.model.LoginResponseDto;
-import com.service.auth.model.RegisterRequestDto;
+import com.service.auth.jwt.TokenUtils;
+import com.service.auth.model.*;
 import com.service.base.Constant;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.SendOptService;
@@ -31,6 +30,8 @@ public class AuthService {
     private final JwtGenerator jetGenerator;
     private final AuthenticationManager authenticationManager;
     private final SendOptService sendOptService;
+    private final TokenUtils tokenUtils;
+    private final JwtGenerator jwtGenerator;
 
     @Transactional
     public String register(RegisterRequestDto registerRequest) {
@@ -120,5 +121,14 @@ public class AuthService {
         User user = userService.findByEmail(email);
         user.setPassword(passwordEncoder.encode(newPassword));
         return messageSourceService.getMessage("reset.password.success");
+    }
+
+    public AccessTokenDto refreshToken(RefreshTokenDto request) {
+        Long id = tokenUtils.validateToken(request.getRefreshToken());
+        if(id != null && id > 0) {
+           String token = jetGenerator.generateToken(id,false);
+           return new AccessTokenDto(token);
+        }
+        throw new BadRequestException("Invalid refresh token");
     }
 }

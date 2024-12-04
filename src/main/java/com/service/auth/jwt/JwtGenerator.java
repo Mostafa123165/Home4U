@@ -27,8 +27,7 @@ public class JwtGenerator {
                     .issuer("Home4U")
                     .subject(userId.toString())
                     .issuedAt(new Date())
-                    .expiration(new Date())
-                   // .expiration(generateExpirationDate(isRefresh))
+                    .expiration(generateExpirationDate(isRefresh))
                     .signWith(getKey())
                     .compact();
     }

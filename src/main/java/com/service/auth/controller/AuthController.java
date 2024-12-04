@@ -1,6 +1,7 @@
 package com.service.auth.controller;
 
 import com.service.auth.model.LoginRequestDto;
+import com.service.auth.model.RefreshTokenDto;
 import com.service.auth.model.RegisterRequestDto;
 import com.service.auth.service.AuthService;
 import com.service.base.model.SuccessResponse;
@@ -31,7 +32,7 @@ public class AuthController {
         return ResponseEntity.ok(new SuccessResponse<>(authService.sendOpt(email)));
     }
 
-    @GetMapping("/activate-the-account")
+    @PutMapping("/activate-the-account")
     public ResponseEntity<?> activateTheAccount(@RequestParam String otp, @RequestParam String email) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.activateTheAccount(otp,email)));
     }
@@ -39,6 +40,11 @@ public class AuthController {
     @PutMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestParam String email,@RequestParam String newPassword) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.resetPassword(email,newPassword)));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenDto request) {
+        return ResponseEntity.ok(new SuccessResponse<>(authService.refreshToken(request)));
     }
 
 }
