@@ -47,8 +47,10 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @JoinColumn(name = "city_id")
     private City city;
 
+    @JsonIgnore
     private String otp;
 
+    @JsonIgnore
     private boolean enabled;
 
     @Override

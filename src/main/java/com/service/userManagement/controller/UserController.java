@@ -1,25 +1,22 @@
-/*
 package com.service.userManagement.controller;
 
-import com.service.auth.model.AuthRequest;
-import com.service.userManagement.dto.UserDetailsDto;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.service.userManagement.model.User;
+import com.service.userManagement.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/v1/users")
+@RestController
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
 public class UserController {
 
+    private final UserService userService;
 
-    public void register(@Valid @RequestBody UserDetailsDto dto) {
-
-
+    @GetMapping("/info")
+    public User getUserInfo() {
+        return userService.getCurrentUser();
     }
 
-    @PostMapping("/login")
-    public void login(@RequestBody AuthRequest req) {
-
-    }
 }
-*/

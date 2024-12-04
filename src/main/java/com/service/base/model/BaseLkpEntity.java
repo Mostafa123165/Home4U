@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseLkpEntity<ID extends Serializable> {
+public abstract class BaseLkpEntity<ID extends Serializable> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

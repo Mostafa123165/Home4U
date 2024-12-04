@@ -2,8 +2,10 @@ package com.service.error;
 
 import com.service.base.model.ErrorResponse;
 import com.service.common.service.MessageSourceService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +58,11 @@ public class GlobalExceptionHandling {
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
 
-   /* @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleException(Exception ex) {
+    @ExceptionHandler(ExpiredJwtException.class)
+    public final ResponseEntity<Object> handleException(ExpiredJwtException ex) {
         List<String> details = new ArrayList<>();
-        details.add(messageSourceService.getMessage(ex.getLocalizedMessage()));
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(),details);
-        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED, messageSourceService.getMessage("Token expired"),details);
+        return new ResponseEntity<Object>(error, HttpStatus.UNAUTHORIZED);
     }
-*/
 }

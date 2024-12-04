@@ -1,5 +1,6 @@
 package com.service.config;
 
+import com.service.auth.jwt.JwtValidatorFilter;
 import com.service.auth.provider.EmailAuthenticationProvider;
 import com.service.auth.provider.PhoneAuthenticationProvider;
 import com.service.common.service.MessageSourceService;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
@@ -32,7 +34,9 @@ public class SecurityConfig {
 
     private final String[] PERMIT_URL = {
             "api/v1/auth/**",
-            "api/v1/user-types/**"
+            "api/v1/user-types/**",
+            "api/v1/governorates/**",
+            "api/v1/cities/governorate/**"
     };
 
     @Bean
@@ -46,8 +50,10 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(PERMIT_URL).permitAll()
-                        .anyRequest().permitAll()
-                ).exceptionHandling(config -> config.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtValidatorFilter(), BasicAuthenticationFilter.class)
+                .exceptionHandling(config -> config.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
 
         return http.build();
     }
@@ -72,6 +78,11 @@ public class SecurityConfig {
                 new PhoneAuthenticationProvider(userService,passwordEncoder,messageSourceService),
                 new EmailAuthenticationProvider(userService,passwordEncoder,messageSourceService)
         );
+    }
+
+    @Bean
+    public JwtValidatorFilter jwtValidatorFilter() {
+        return new JwtValidatorFilter();
     }
 
 }
