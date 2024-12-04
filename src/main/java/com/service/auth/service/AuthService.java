@@ -34,7 +34,7 @@ public class AuthService {
     private final JwtGenerator jwtGenerator;
 
     @Transactional
-    public String register(RegisterRequestDto registerRequest) {
+    public String register(UserRegisterDto registerRequest) {
 
         validateRegisterRequest(registerRequest.getEmail(), registerRequest.getPhone());
 
