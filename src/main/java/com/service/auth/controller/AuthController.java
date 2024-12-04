@@ -2,7 +2,7 @@ package com.service.auth.controller;
 
 import com.service.auth.model.LoginRequestDto;
 import com.service.auth.model.RefreshTokenDto;
-import com.service.auth.model.RegisterRequestDto;
+import com.service.auth.model.UserRegisterDto;
 import com.service.auth.service.AuthService;
 import com.service.base.model.SuccessResponse;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDto registerRequest) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto registerRequest) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.register(registerRequest)));
     }
 
