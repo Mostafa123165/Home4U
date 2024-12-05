@@ -27,12 +27,12 @@ public class AuthController {
         return ResponseEntity.ok(new SuccessResponse<>(authService.login(authRequest)));
     }
 
-    @GetMapping("/send-otp")
+    @PostMapping("/send-otp")
     public ResponseEntity<?> sendOtp(@RequestParam String email) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.sendOpt(email)));
     }
 
-    @PutMapping("/activate-the-account")
+    @PostMapping("/activate-the-account")
     public ResponseEntity<?> activateTheAccount(@RequestParam String otp, @RequestParam String email) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.activateTheAccount(otp,email)));
     }
