@@ -8,7 +8,7 @@ import com.service.userManagement.dto.UserDto;
 import com.service.userManagement.model.User;
 import org.mapstruct.Mapper;
 
-@Mapper(uses = {UserTypeMapper.class, GovernorateMapper.class, CityMapper.class})
+@Mapper(uses = {UserTypeMapper.class, CityMapper.class, GovernorateMapper.class})
 public interface UserMapper extends BaseMapper<User, UserDto> {
 
     User unMapRegister(UserRegisterDto t);

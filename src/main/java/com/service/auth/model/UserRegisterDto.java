@@ -1,5 +1,8 @@
 package com.service.auth.model;
 
+import com.service.common.dto.CityDto;
+import com.service.common.dto.GovernorateDto;
+import com.service.common.model.Governorate;
 import com.service.userManagement.dto.UserTypeDto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -26,4 +29,9 @@ public class UserRegisterDto {
 
     @NotNull(message = "user type cannot be blank")
     private UserTypeDto userType;
+
+    private GovernorateDto governorate;
+
+    private CityDto city;
+
 }
