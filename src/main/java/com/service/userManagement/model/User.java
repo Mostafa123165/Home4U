@@ -39,11 +39,11 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @JoinColumn(name = "user_type_id")
     private UserType userType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "governorate_id")
     private Governorate governorate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
