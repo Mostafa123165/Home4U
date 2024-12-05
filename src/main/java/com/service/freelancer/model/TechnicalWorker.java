@@ -1,6 +1,7 @@
-package com.service.userManagement.model;
+package com.service.freelancer.model;
 
 import com.service.base.model.BaseEntity;
+import com.service.userManagement.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

@@ -33,7 +33,7 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
             throw new BadRequestException("Not valid token");
         }
 
-        Long userId = tokenUtils.validateToken(token);
+        Long userId = tokenUtils.validateToken(token,response);
 
         User user = userService.findById(userId);
 

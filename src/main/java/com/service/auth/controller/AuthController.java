@@ -1,7 +1,8 @@
 package com.service.auth.controller;
 
 import com.service.auth.model.LoginRequestDto;
-import com.service.auth.model.RegisterRequestDto;
+import com.service.auth.model.RefreshTokenDto;
+import com.service.auth.model.UserRegisterDto;
 import com.service.auth.service.AuthService;
 import com.service.base.model.SuccessResponse;
 import jakarta.validation.Valid;
@@ -17,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDto registerRequest) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterDto registerRequest) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.register(registerRequest)));
     }
 
@@ -26,12 +27,12 @@ public class AuthController {
         return ResponseEntity.ok(new SuccessResponse<>(authService.login(authRequest)));
     }
 
-    @GetMapping("/send-otp")
+    @PostMapping("/send-otp")
     public ResponseEntity<?> sendOtp(@RequestParam String email) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.sendOpt(email)));
     }
 
-    @GetMapping("/activate-the-account")
+    @PostMapping("/activate-the-account")
     public ResponseEntity<?> activateTheAccount(@RequestParam String otp, @RequestParam String email) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.activateTheAccount(otp,email)));
     }
@@ -39,6 +40,11 @@ public class AuthController {
     @PutMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestParam String email,@RequestParam String newPassword) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.resetPassword(email,newPassword)));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenDto request) {
+        return ResponseEntity.ok(new SuccessResponse<>(authService.refreshToken(request)));
     }
 
 }
