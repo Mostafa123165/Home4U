@@ -21,10 +21,6 @@ public class TechnicalWorkerService extends BaseServiceImpl<TechnicalWorker, Lon
 
     @Override
     public TechnicalWorker insert(TechnicalWorker entity) {
-        User user = userService.getCurrentUser();
-        entity.setUser(user);
-        if(entity.getStatusCode() == null)
-            entity.setStatusCode(Constant.StatusCodeEnum.DRAFT.getCode());
         return technicalWorkerReps.save(entity);
     }
 
