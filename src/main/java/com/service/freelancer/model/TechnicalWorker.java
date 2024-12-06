@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "fre_technical_worker")
 public class TechnicalWorker extends BaseEntity<Long> {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
