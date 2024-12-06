@@ -20,7 +20,6 @@ public class EngineerService extends BaseServiceImpl<Engineer, Long> {
 
 
     private final UserService userService;
-    private final AuthService authService;
 
     @Override
     public Engineer insert(Engineer entity) {

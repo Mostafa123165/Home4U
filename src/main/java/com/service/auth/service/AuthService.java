@@ -38,7 +38,6 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final SendOptService sendOptService;
     private final TokenUtils tokenUtils;
-    private final JwtGenerator jwtGenerator;
     private final EngineerService engineerService;
     private final EngineerMapper engineerMapper;
     private final TechnicalWorkerService technicalWorkerService;
@@ -47,62 +46,21 @@ public class AuthService {
     @Transactional
     public String register(UserRegisterDto registerRequest) {
 
-        validateRegisterRequest(registerRequest.getEmail(), registerRequest.getPhone());
-
         registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
         User user = userMapper.unMapRegister(registerRequest);
 
-        if(user.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
-             userService.insert(user);
+        if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER)) {
+            userService.insert(user);
         }
-        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
-        }
-        else{
+        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER)) {
+            Engineer engineer =  engineerMapper.unMap(registerRequest.getEngineer());
+            engineer.setUser(user);
+            engineerService.insert(engineer);
         }
 
         sendOptService.sendOtp(user);
 
         return messageSourceService.getMessage("success.user.registered");
-    }
-
-    @Transactional
-    public String registerV2(Object registerDto) {
-
-        if(registerDto instanceof EngineerDto) {
-            EngineerDto engineerDto = (EngineerDto) registerDto;
-            Engineer engineer = engineerMapper.unMap(engineerDto);
-//            engineerService.insert();
-
-
-        }
-
-//        registerDto.setPassword(hashingPassword(registerDto.getPassword()));
-//        User user = userMapper.unMapRegister(registerDto);
-//
-//        if(user.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
-//            userService.insert(user);
-//        }
-//        else if(registerDto.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
-//        }
-//        else{
-//        }
-
-//        sendOptService.sendOtp(user);
-
-        return messageSourceService.getMessage("success.user.registered");
-    }
-
-
-    private void validateRegisterRequest(String email,String phone) {
-        if(email==null && phone==null) {
-            throw new BadRequestException("Either email or phone must be provided. Please provide at least one contact method.");
-        }
-        else if(email != null && userService.getByEmail(email).isPresent()) {
-           throw new BadRequestException(messageSourceService.getMessage("validation.email.in_use"));
-        }
-        else if(phone != null && userService.getByPhone(phone).isPresent()) {
-           throw new BadRequestException(messageSourceService.getMessage("validation.phone.in_use"));
-        }
     }
 
     private String hashingPassword(String password) {
