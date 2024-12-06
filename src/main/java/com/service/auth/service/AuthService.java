@@ -8,7 +8,6 @@ import com.service.base.Constant;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.SendOptService;
 import com.service.error.BadRequestException;
-import com.service.freelancer.dto.EngineerDto;
 import com.service.freelancer.mapper.EngineerMapper;
 import com.service.freelancer.mapper.TechnicalWorkerMapper;
 import com.service.freelancer.model.Engineer;
@@ -49,13 +48,18 @@ public class AuthService {
         registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
         User user = userMapper.unMapRegister(registerRequest);
 
-        if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER)) {
+        if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
             userService.insert(user);
         }
-        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER)) {
+        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
             Engineer engineer =  engineerMapper.unMap(registerRequest.getEngineer());
             engineer.setUser(user);
             engineerService.insert(engineer);
+        }
+        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.TECHNICAL_WORKER.name())) {
+            TechnicalWorker technicalWorker =  technicalWorkerMapper.unMap(registerRequest.getTechnicalWorker());
+            technicalWorker.setUser(user);
+            technicalWorkerService.insert(technicalWorker);
         }
 
         sendOptService.sendOtp(user);
