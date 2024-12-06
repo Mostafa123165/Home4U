@@ -20,13 +20,13 @@ public interface BaseController<T,DTO,ID>{
     ResponseEntity<?> findById(@PathVariable ID id);
 
     @PostMapping
-    ResponseEntity<?> insert(DTO dto);
+    ResponseEntity<?> insert( @RequestBody DTO dto);
 
     @PutMapping
-    ResponseEntity<?> update(DTO dto);
+    ResponseEntity<?> update( @RequestBody DTO dto);
 
     @PostMapping("/all")
-    ResponseEntity<?> saveAll(List<DTO> dtos);
+    ResponseEntity<?> saveAll( @RequestBody List<DTO> dtos);
 
     @DeleteMapping
     void deleteById(@RequestParam ID id);

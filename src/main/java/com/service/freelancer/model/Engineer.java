@@ -2,17 +2,17 @@ package com.service.freelancer.model;
 
 import com.service.base.model.BaseEntity;
 import com.service.userManagement.model.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "engineer")
+@Table(name = "fre_engineer")
 public class Engineer extends BaseEntity<Long> {
 
     @ManyToOne
@@ -23,7 +23,15 @@ public class Engineer extends BaseEntity<Long> {
     @JoinColumn(name = "engineer_type_id")
     private EngineerType type;
 
-    private String name;
+    @NotNull
+    @Column(name = "years_of_experience", nullable = false)
+    private int yearsOfExperience;
 
+    @ManyToMany
+    @JoinTable(name = "fre_engineer_service",
+            uniqueConstraints = @UniqueConstraint(columnNames={"engineer_id", "service_id"} ) ,
+            joinColumns = @JoinColumn(name = "engineer_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private List<EngineerServ> engineerServ;
 
 }

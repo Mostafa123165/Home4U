@@ -8,6 +8,13 @@ import com.service.base.Constant;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.SendOptService;
 import com.service.error.BadRequestException;
+import com.service.freelancer.dto.EngineerDto;
+import com.service.freelancer.mapper.EngineerMapper;
+import com.service.freelancer.mapper.TechnicalWorkerMapper;
+import com.service.freelancer.model.Engineer;
+import com.service.freelancer.model.TechnicalWorker;
+import com.service.freelancer.service.EngineerService;
+import com.service.freelancer.service.TechnicalWorkerService;
 import com.service.userManagement.mapper.UserMapper;
 import com.service.userManagement.model.User;
 import com.service.userManagement.service.UserService;
@@ -32,6 +39,10 @@ public class AuthService {
     private final SendOptService sendOptService;
     private final TokenUtils tokenUtils;
     private final JwtGenerator jwtGenerator;
+    private final EngineerService engineerService;
+    private final EngineerMapper engineerMapper;
+    private final TechnicalWorkerService technicalWorkerService;
+    private final TechnicalWorkerMapper technicalWorkerMapper;
 
     @Transactional
     public String register(UserRegisterDto registerRequest) {
@@ -53,6 +64,34 @@ public class AuthService {
 
         return messageSourceService.getMessage("success.user.registered");
     }
+
+    @Transactional
+    public String registerV2(Object registerDto) {
+
+        if(registerDto instanceof EngineerDto) {
+            EngineerDto engineerDto = (EngineerDto) registerDto;
+            Engineer engineer = engineerMapper.unMap(engineerDto);
+//            engineerService.insert();
+
+
+        }
+
+//        registerDto.setPassword(hashingPassword(registerDto.getPassword()));
+//        User user = userMapper.unMapRegister(registerDto);
+//
+//        if(user.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
+//            userService.insert(user);
+//        }
+//        else if(registerDto.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
+//        }
+//        else{
+//        }
+
+//        sendOptService.sendOtp(user);
+
+        return messageSourceService.getMessage("success.user.registered");
+    }
+
 
     private void validateRegisterRequest(String email,String phone) {
         if(email==null && phone==null) {
