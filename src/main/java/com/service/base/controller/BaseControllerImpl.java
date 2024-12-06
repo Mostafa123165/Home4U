@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
@@ -32,27 +35,27 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
     }
 
     @Override
-    public ResponseEntity<?> findAll(Optional<Integer> page,
-                                     Optional<Integer> size,
-                                     Optional<String> sortableColumn) {
+    public ResponseEntity<?> findAll(@RequestParam Optional<Integer> page,
+                                     @RequestParam Optional<Integer> size,
+                                     @RequestParam Optional<String> sortableColumn) {
         Sort sort = Sort.by(sortableColumn.orElse("id"));
         Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10), sort);
         return ResponseEntity.ok(new SuccessResponsePage<>(baseService.findAll(pageable)));
     }
 
     @Override
-    public ResponseEntity<?> findById(ID id) {
+    public ResponseEntity<?> findById(@PathVariable ID id) {
         return ResponseEntity.ok(new SuccessResponse<>(baseService.findById(id)));
     }
 
     @Override
-    public ResponseEntity<?> insert(DTO dto) {
+    public ResponseEntity<?> insert(@RequestBody DTO dto) {
         T entity = baseMapper.unMap(dto);
         return ResponseEntity.ok(new SuccessResponse<>(baseService.insert(entity)));
     }
 
     @Override
-    public ResponseEntity<?> update(DTO dto) {
+    public ResponseEntity<?> update(@RequestBody DTO dto) {
         T entity = baseMapper.unMap(dto);
         return ResponseEntity.ok(new SuccessResponse<>(baseService.update(entity)));
     }
@@ -63,7 +66,7 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
     }
 
     @Override
-    public ResponseEntity<?> saveAll(List<DTO> list) {
+    public ResponseEntity<?> saveAll(@RequestBody List<DTO> list) {
         List<T> entity = baseMapper.unMap(list);
         return ResponseEntity.ok(new SuccessResponseList<>(baseService.saveAll(entity)));
     }

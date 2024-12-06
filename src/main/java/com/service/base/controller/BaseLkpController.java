@@ -20,12 +20,12 @@ public interface BaseLkpController<T,DTO,ID> {
     ResponseEntity<?> findById(@PathVariable ID id);
 
     @PostMapping
-    ResponseEntity<?> insert(DTO dto);
+    ResponseEntity<?> insert(@RequestBody DTO dto);
 
     @PutMapping
-    ResponseEntity<?> update(DTO dto);
+    ResponseEntity<?> update(@RequestBody DTO dto);
 
     @PostMapping("/all")
-    ResponseEntity<?> saveAll(List<DTO> list);
+    ResponseEntity<?> saveAll(@RequestBody List<DTO> list);
 
 }
