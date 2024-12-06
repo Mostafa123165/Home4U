@@ -1,8 +1,10 @@
 package com.service.auth.model;
 
+import com.service.base.dto.BaseEntityDto;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
-import com.service.common.model.Governorate;
+import com.service.freelancer.dto.EngineerDto;
+import com.service.freelancer.dto.TechnicalWorkerDto;
 import com.service.userManagement.dto.UserTypeDto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -34,4 +36,7 @@ public class UserRegisterDto {
 
     private CityDto city;
 
+    private EngineerDto engineer;
+
+    private TechnicalWorkerDto technicalWorker;
 }

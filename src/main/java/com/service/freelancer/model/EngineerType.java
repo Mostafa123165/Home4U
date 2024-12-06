@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "engineer_type_lkp")
+@Table(name = "fre_engineer_type_lkp")
 public class EngineerType extends BaseLkpEntity<Integer> {
 
 
