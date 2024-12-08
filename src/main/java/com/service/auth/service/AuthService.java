@@ -45,6 +45,8 @@ public class AuthService {
     @Transactional
     public String register(UserRegisterDto registerRequest) {
 
+        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPassword());
+
         registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
         User user = userMapper.unMapRegister(registerRequest);
 
@@ -65,6 +67,15 @@ public class AuthService {
         sendOptService.sendOtp(user);
 
         return messageSourceService.getMessage("success.user.registered");
+    }
+
+    private void checkDuplicateEmailOrPhone(String email, String phone) {
+        if(userService.getByEmail(email).isPresent()) {
+            throw new BadRequestException(messageSourceService.getMessage("validation.email.in_use"));
+        }
+        if(phone != null && !phone.isBlank() && userService.getByPhone(phone).isPresent()) {
+            throw new BadRequestException(messageSourceService.getMessage("validation.phone.in_use"));
+        }
     }
 
     private String hashingPassword(String password) {
