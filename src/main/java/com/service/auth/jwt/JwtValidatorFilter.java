@@ -55,6 +55,10 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
         return   request.getRequestURI().startsWith("/api/v1/auth")
                 | request.getRequestURI().startsWith("/api/v1/user-types")
                 | request.getRequestURI().startsWith("/api/v1/cities/governorate")
-                | request.getRequestURI().startsWith("/api/v1/governorates");
+                | request.getRequestURI().startsWith("/api/v1/governorates")
+                | request.getRequestURI().startsWith("/api/v1/engineer-types")
+                | request.getRequestURI().startsWith("/api/v1/engineer-services/service")
+                | request.getRequestURI().startsWith("/api/v1/technical-worker-types")
+                | request.getRequestURI().startsWith("/api/v1/technical-worker-services/service");
     }
 }
