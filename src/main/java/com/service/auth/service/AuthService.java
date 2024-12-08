@@ -45,7 +45,7 @@ public class AuthService {
     @Transactional
     public String register(UserRegisterDto registerRequest) {
 
-        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPassword());
+        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPhone());
 
         registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
         User user = userMapper.unMapRegister(registerRequest);
