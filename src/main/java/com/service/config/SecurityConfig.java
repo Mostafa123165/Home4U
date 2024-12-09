@@ -25,7 +25,8 @@ public class SecurityConfig {
 
 
     private final List<String> ALLOWED_ORIGIN = List.of(
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "http://localhost:5173"
     );
 
     private final List<String> ALLOWED_METHOD = List.of(
