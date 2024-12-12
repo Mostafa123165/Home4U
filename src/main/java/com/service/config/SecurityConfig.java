@@ -42,7 +42,10 @@ public class SecurityConfig {
             "api/v1/engineer-types/**",
             "api/v1/engineer-services/service/**",
             "api/v1/technical-worker-types/**",
-            "api/v1/technical-worker-services/service/**"
+            "api/v1/technical-worker-services/service/**",
+            "swagger-ui/**",
+            "v3/api-docs/**",
+            "favicon.ico/**",
     };
 
     @Bean

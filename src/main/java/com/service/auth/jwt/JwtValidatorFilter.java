@@ -52,6 +52,7 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
+        System.out.println("tes -> " + request.getRequestURI());
         return   request.getRequestURI().startsWith("/api/v1/auth")
                 | request.getRequestURI().startsWith("/api/v1/user-types")
                 | request.getRequestURI().startsWith("/api/v1/cities/governorate")
@@ -59,6 +60,9 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
                 | request.getRequestURI().startsWith("/api/v1/engineer-types")
                 | request.getRequestURI().startsWith("/api/v1/engineer-services/service")
                 | request.getRequestURI().startsWith("/api/v1/technical-worker-types")
-                | request.getRequestURI().startsWith("/api/v1/technical-worker-services/service");
+                | request.getRequestURI().startsWith("/api/v1/technical-worker-services/service")
+                | request.getRequestURI().startsWith("/swagger-ui")
+                | request.getRequestURI().startsWith("/favicon.ico")
+                | request.getRequestURI().startsWith("/v3/api-docs");
     }
 }
