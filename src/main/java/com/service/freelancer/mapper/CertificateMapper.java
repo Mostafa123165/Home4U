@@ -15,12 +15,6 @@ import java.util.List;
 @Mapper
 public interface CertificateMapper extends BaseMapper<Certificate, CertificateDto> {
 
-    @Override
-    @Mappings({
-            @Mapping(target = "path", ignore = true)
-    })
-    CertificateDto map(Certificate t);
-    List<CertificateDto> map(List<Certificate> t);
 
     @Override
     @Mappings({
