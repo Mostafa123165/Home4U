@@ -2,6 +2,7 @@ package com.service.freelancer.model;
 
 import com.service.base.model.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class ProjectImage extends BaseEntity<Long> {
     private String path;
 
     @ManyToOne
+    @JoinColumn(name = "project_id")
     private Project project;
 
 

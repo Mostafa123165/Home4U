@@ -28,9 +28,9 @@ public interface BaseController<T,DTO,ID>{
     @PostMapping("/all")
     ResponseEntity<?> saveAll( @RequestBody List<DTO> dtos);
 
-    @DeleteMapping
-    void deleteById(@RequestParam ID id);
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteById(@PathVariable ID id);
 
     @DeleteMapping("/all")
-    void deleteAll(@RequestParam List<ID> ids);
+    ResponseEntity<?> deleteAll(@RequestParam List<ID> ids);
 }

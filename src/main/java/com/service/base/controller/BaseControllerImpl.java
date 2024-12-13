@@ -61,8 +61,9 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
     }
 
     @Override
-    public void deleteById(ID id) {
+    public ResponseEntity<?> deleteById(@PathVariable ID id) {
         baseService.deleteById(id);
+        return ResponseEntity.ok(new SuccessResponse<>(true));
     }
 
     @Override
@@ -72,7 +73,8 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
     }
 
     @Override
-    public void deleteAll(List<ID> list) {
+    public ResponseEntity<?> deleteAll(@RequestParam List<ID> list) {
         baseService.deleteAll(list);
+        return ResponseEntity.ok(new SuccessResponse<>(true));
     }
 }

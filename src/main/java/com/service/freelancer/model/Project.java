@@ -33,8 +33,7 @@ public class Project extends BaseEntity<Long> {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectImage> images;
 
     private String coverPath;

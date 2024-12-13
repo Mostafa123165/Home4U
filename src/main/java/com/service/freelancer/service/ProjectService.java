@@ -4,6 +4,7 @@ import com.service.base.service.BaseServiceImpl;
 import com.service.file.FileStorageService;
 import com.service.file.FileUtils;
 import com.service.freelancer.dto.ProjectDto;
+import com.service.freelancer.dto.ProjectImageDto;
 import com.service.freelancer.dto.ProjectResponseDto;
 import com.service.freelancer.mapper.ProjectMapper;
 import com.service.freelancer.model.Project;
@@ -33,16 +34,16 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
         p.setUser(userService.getCurrentUser());
         Project project = projectReps.save(p);
         project.setImages(fileStorageService.addProject(images,project));
-        project.setCoverPath(fileStorageService.addProjectCover(cover,project));
+        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project));
         return super.update(project);
     }
 
     public ProjectResponseDto getProject (Long projectId) {
         Project project = projectReps.findById(projectId).get();
         ProjectResponseDto dto = projectMapper.mapResponse(project);
-        List<byte[]> images = new ArrayList<>();
+        List<ProjectImageDto> images = new ArrayList<>();
         for (ProjectImage projectImage : project.getImages()) {
-            images.add(FileUtils.readFileFromLocation(projectImage.getPath()));
+            images.add(new ProjectImageDto(projectImage.getId() , FileUtils.readFileFromLocation(projectImage.getPath())));
         }
         dto.setImages(images);
         return dto;
@@ -60,4 +61,11 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
         return dtos;
     }
 
+    public Project update(ProjectDto dto , MultipartFile cover , List<MultipartFile> images) {
+        Project project = projectMapper.unMap(dto);
+        project.setUser(userService.getCurrentUser());
+        project.setImages(fileStorageService.addProject(images,project));
+        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project));
+        return projectReps.save(project);
+    }
 }
