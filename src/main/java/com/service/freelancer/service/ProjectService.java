@@ -2,7 +2,6 @@ package com.service.freelancer.service;
 
 import com.service.base.service.BaseServiceImpl;
 import com.service.file.FileStorageService;
-import com.service.file.FileUtils;
 import com.service.freelancer.dto.ProjectDto;
 import com.service.freelancer.dto.ProjectImageDto;
 import com.service.freelancer.dto.ProjectResponseDto;
@@ -43,7 +42,7 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
         ProjectResponseDto dto = projectMapper.mapResponse(project);
         List<ProjectImageDto> images = new ArrayList<>();
         for (ProjectImage projectImage : project.getImages()) {
-            images.add(new ProjectImageDto(projectImage.getId() , FileUtils.readFileFromLocation(projectImage.getPath())));
+            images.add(new ProjectImageDto(projectImage.getId() ,projectImage.getPath()));
         }
         dto.setImages(images);
         return dto;
@@ -55,7 +54,6 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
         List<ProjectDto> dtos = new ArrayList<>();
         for (Project p : project) {
             ProjectDto projectDto = projectMapper.map(p);
-            projectDto.setCoverPath(FileUtils.readFileFromLocation(p.getCoverPath()));
             dtos.add(projectDto);
         }
         return dtos;
