@@ -38,7 +38,7 @@ public class FileController {
                 contentType = "image/png";
             }
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType)) // تحديد نوع المحتوى هنا
+                    .contentType(MediaType.parseMediaType(contentType)) 
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                     .body(resource);
         } catch (Exception e) {
