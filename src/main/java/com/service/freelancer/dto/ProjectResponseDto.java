@@ -16,7 +16,7 @@ public class ProjectResponseDto extends BaseEntityDto<Long> {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String tool;
-    private List<byte[]> images;
+    private String tools;
+    private List<ProjectImageDto> images;
 }
 

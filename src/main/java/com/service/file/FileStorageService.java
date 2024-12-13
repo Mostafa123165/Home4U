@@ -1,6 +1,5 @@
 package com.service.file;
 
-import com.service.freelancer.model.Certificate;
 import com.service.freelancer.model.Project;
 import com.service.freelancer.model.ProjectImage;
 import com.service.userManagement.model.User;
@@ -43,7 +42,7 @@ public class FileStorageService {
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
-    public String addProjectCover (@Nonnull MultipartFile sourceFile, @Nonnull Project project) {
+    public String addProjectImage(@Nonnull MultipartFile sourceFile, @Nonnull Project project) {
         final String fileUploadSubPath = "projects" + separator + project.getId(); // projects/projectId
         return uploadFile(sourceFile, fileUploadSubPath);
     }
