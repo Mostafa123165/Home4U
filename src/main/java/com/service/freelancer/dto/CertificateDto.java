@@ -17,5 +17,5 @@ public class CertificateDto extends BaseEntityDto<Long> {
 
     private String description;
 
-    private byte[] path;
+    private String path;
 }

@@ -39,13 +39,12 @@ public class CertificateController extends BaseControllerImpl<Certificate, Certi
     @Override
     @GetMapping("/{certificateId}")
     public ResponseEntity<?> findById(@PathVariable Long certificateId) {
-        CertificateDto dto = certificateService.getCertificate(certificateId);
-        return ResponseEntity.ok(new SuccessResponse<CertificateDto>(dto));
+        return ResponseEntity.ok(new SuccessResponse<CertificateDto>(certificateMapper.map(certificateService.getCertificate(certificateId))));
     }
 
     @GetMapping("/user-certificates")
     public ResponseEntity<?> getCertificates(@RequestParam(required = false) Long userId) {
-        return ResponseEntity.ok(new SuccessResponseList<CertificateDto>(certificateService.getcertificates(userId)));
+        return ResponseEntity.ok(new SuccessResponseList<CertificateDto>(certificateMapper.map(certificateService.getCertificates(userId))));
     }
 
 }

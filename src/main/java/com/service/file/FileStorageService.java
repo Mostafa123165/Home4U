@@ -30,7 +30,7 @@ public class FileStorageService {
     private String fileUploadPath;
 
     public List<ProjectImage> addProject(@Nonnull List<MultipartFile> sourceFile, @Nonnull Project project) {
-        final String fileUploadSubPath = "projects" + separator + project.getId(); // projects/projectId
+        final String fileUploadSubPath = "projects" + "/" + project.getId(); // projects/projectId
         List<ProjectImage> paths = new ArrayList<>();
         for (MultipartFile multipartFile : sourceFile) {
             paths.add(new ProjectImage(uploadFile(multipartFile, fileUploadSubPath),project));
@@ -38,12 +38,12 @@ public class FileStorageService {
         return paths;
     }
     public String addCertificates(@Nonnull MultipartFile sourceFile, @Nonnull User user) {
-        final String fileUploadSubPath = "certificate" + separator + user.getId(); // certificate/user
+        final String fileUploadSubPath = "certificate" + "/" + user.getId(); // certificate/user
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
     public String addProjectImage(@Nonnull MultipartFile sourceFile, @Nonnull Project project) {
-        final String fileUploadSubPath = "projects" + separator + project.getId(); // projects/projectId
+        final String fileUploadSubPath = "projects" + "/" + project.getId(); // projects/projectId
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
@@ -51,7 +51,7 @@ public class FileStorageService {
             @Nonnull MultipartFile sourceFile,
             @Nonnull String fileUploadSubPath
     ) {
-        final String finalUploadPath = fileUploadPath + separator + fileUploadSubPath; //   ./uploads/projects/projectId
+        final String finalUploadPath = fileUploadPath + "/" + fileUploadSubPath; //   ./uploads/projects/projectId
         File targetFolder = new File(finalUploadPath);
 
         if (!targetFolder.exists()) {
@@ -63,7 +63,7 @@ public class FileStorageService {
         }
 
         final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
-        String targetFilePath = finalUploadPath + separator + currentTimeMillis() + "." + fileExtension;
+        String targetFilePath = finalUploadPath + "/" + currentTimeMillis() + "." + fileExtension;
         Path targetPath = Paths.get(targetFilePath);
 
         try {
