@@ -14,12 +14,7 @@ import java.util.List;
 @Mapper
 public interface ProjectMapper extends BaseMapper<Project, ProjectDto> {
 
-    @Override
-    @Mappings({
-            @Mapping(target = "coverPath", ignore = true)
-    })
-    ProjectDto map(Project t);
-    List<ProjectDto> map(List<Project> t);
+
     @Mappings({
             @Mapping(target = "images", ignore = true)
     })

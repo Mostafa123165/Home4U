@@ -27,6 +27,6 @@ public class ProjectDto extends BaseEntityDto<Long>  {
 
     private String tools;
 
-    private byte[] coverPath;
+    private String coverPath;
 
 }

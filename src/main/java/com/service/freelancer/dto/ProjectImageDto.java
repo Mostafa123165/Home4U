@@ -11,9 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProjectImageDto  {
     private Long id;
-    private byte[] path;
+    private String path;
 
-    public ProjectImageDto(Long id, byte[] path) {
+    public ProjectImageDto(Long id, String path) {
         this.id = id;
         this.path = path;
     }

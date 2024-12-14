@@ -55,7 +55,7 @@ public class ProjectController extends BaseControllerImpl<Project, ProjectDto,Lo
     @PutMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> updateProject(
             @RequestPart("images") List<MultipartFile> images,
-            @RequestPart("cover") MultipartFile cover,
+            @RequestPart(value = "cover" , required = false) MultipartFile cover,
             @RequestPart("projectData") ProjectDto projectData
     ) {
         return ResponseEntity.ok(new SuccessResponse<ProjectResponseDto>
