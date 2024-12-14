@@ -10,6 +10,7 @@ import com.service.freelancer.model.Project;
 import com.service.freelancer.service.ProjectService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,10 +26,10 @@ public class ProjectController extends BaseControllerImpl<Project, ProjectDto,Lo
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadProject(
             @RequestPart("images") List<MultipartFile> images,
-            @RequestPart(value = "cover" , required = false) MultipartFile cover,
+            @RequestPart(value = "cover",required = false) MultipartFile cover,
             @RequestPart("projectData") ProjectDto projectData
     ) {
 
