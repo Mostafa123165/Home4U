@@ -63,6 +63,7 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
                 | request.getRequestURI().startsWith("/api/v1/technical-worker-services/service")
                 | request.getRequestURI().startsWith("/swagger-ui")
                 | request.getRequestURI().startsWith("/favicon.ico")
-                | request.getRequestURI().startsWith("/v3/api-docs");
+                | request.getRequestURI().startsWith("/v3/api-docs")
+                | request.getRequestURI().startsWith("/api/v1/file/download");
     }
 }
