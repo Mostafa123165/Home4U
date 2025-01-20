@@ -17,8 +17,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static java.io.File.separator;
 import static java.lang.System.currentTimeMillis;
 
 @Service
@@ -29,21 +29,21 @@ public class FileStorageService {
     @Value("${application.file.uploads.photos-output-path}")
     private String fileUploadPath;
 
-    public List<ProjectImage> addProject(@Nonnull List<MultipartFile> sourceFile, @Nonnull Project project) {
-        final String fileUploadSubPath = "projects" + "/" + project.getId(); // projects/projectId
+    public List<ProjectImage> addProject(@Nonnull List<MultipartFile> sourceFile, @Nonnull Project project,User user) {
+        final String fileUploadSubPath = "projects" + "/" + user.getId()+ "/" +project.getId(); // projects/userId/projectId
         List<ProjectImage> paths = new ArrayList<>();
         for (MultipartFile multipartFile : sourceFile) {
-            paths.add(new ProjectImage(uploadFile(multipartFile, fileUploadSubPath),project));
+            paths.add(new ProjectImage(Objects.requireNonNull(uploadFile(multipartFile, fileUploadSubPath)),project));
         }
         return paths;
     }
     public String addCertificates(@Nonnull MultipartFile sourceFile, @Nonnull User user) {
-        final String fileUploadSubPath = "certificate" + "/" + user.getId(); // certificate/user
+        final String fileUploadSubPath = "certificate" + "/" + user.getId(); // certificate/userId
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
-    public String addProjectImage(@Nonnull MultipartFile sourceFile, @Nonnull Project project) {
-        final String fileUploadSubPath = "projects" + "/" + project.getId(); // projects/projectId
+    public String addProjectImage(@Nonnull MultipartFile sourceFile, @Nonnull Project project,User user) {
+        final String fileUploadSubPath = "projects" + "/" + user.getId()+ "/" +project.getId(); // projects/userId/projectId
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
@@ -51,7 +51,7 @@ public class FileStorageService {
             @Nonnull MultipartFile sourceFile,
             @Nonnull String fileUploadSubPath
     ) {
-        final String finalUploadPath = fileUploadPath + "/" + fileUploadSubPath; //   ./uploads/projects/projectId
+        final String finalUploadPath = fileUploadPath + "/" + fileUploadSubPath;
         File targetFolder = new File(finalUploadPath);
 
         if (!targetFolder.exists()) {
