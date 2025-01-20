@@ -24,7 +24,7 @@ public class EngineerController extends BaseControllerImpl<Engineer, EngineerDto
     private final EngineerService engineerService;
     private final EngineerMapper engineerMapper;
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user")
     public ResponseEntity<?> getByUserId(@RequestParam(required = false) Long userId) {
         return ResponseEntity.ok(new SuccessResponse<>(engineerMapper.map(engineerService.findByUserId(userId))));
     }

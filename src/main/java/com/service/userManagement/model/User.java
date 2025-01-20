@@ -53,6 +53,8 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @JsonIgnore
     private boolean enabled;
 
+    private String personalPhoto;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_"+userType.getCode()));

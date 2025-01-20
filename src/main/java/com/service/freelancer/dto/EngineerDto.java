@@ -13,10 +13,10 @@ import java.util.List;
 @Getter
 public class EngineerDto extends BaseEntityDto<Long> {
 
+    private UserRegisterDto user;
+
     @NotNull
     private EngineerTypeDto type;
-
-    private UserRegisterDto user;
 
     @NotNull
     private int yearsOfExperience;
@@ -24,4 +24,11 @@ public class EngineerDto extends BaseEntityDto<Long> {
     @NotEmpty
     @NotNull
     private List<EngineerServDto> engineerServ;
+
+    private String bio;
+
+    @NotNull
+    private String linkedin;
+
+    private String behance;
 }
