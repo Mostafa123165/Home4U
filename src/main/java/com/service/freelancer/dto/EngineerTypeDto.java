@@ -8,8 +8,6 @@ import lombok.Setter;
 @Getter
 public class EngineerTypeDto extends BaseLkpEntityDto<Integer> {
     private static final long serialVersionUID = 5877866567112767764L;
-
-    private String name;
     private String nameAr;
     private String nameEn;
 }

@@ -9,6 +9,7 @@ import com.service.freelancer.mapper.ProjectMapper;
 import com.service.freelancer.model.Project;
 import com.service.freelancer.model.ProjectImage;
 import com.service.freelancer.repository.ProjectReps;
+import com.service.userManagement.model.User;
 import com.service.userManagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,12 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
 
 
     public Project insert(ProjectDto dto ,MultipartFile cover ,List<MultipartFile> images) {
+        User user = userService.getCurrentUser();
         Project p = projectMapper.unMap(dto);
-        p.setUser(userService.getCurrentUser());
+        p.setUser(user);
         Project project = projectReps.save(p);
-        project.setImages(fileStorageService.addProject(images,project));
-        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project));
+        project.setImages(fileStorageService.addProject(images,project,user));
+        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project,user));
         return super.update(project);
     }
 
@@ -60,10 +62,11 @@ public class ProjectService  extends BaseServiceImpl<Project, Long> {
     }
 
     public Project update(ProjectDto dto , MultipartFile cover , List<MultipartFile> images) {
+        User user = userService.getCurrentUser();
         Project project = projectMapper.unMap(dto);
-        project.setUser(userService.getCurrentUser());
-        project.setImages(fileStorageService.addProject(images,project));
-        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project));
+        project.setUser(user);
+        project.setImages(fileStorageService.addProject(images,project,user));
+        project.setCoverPath(fileStorageService.addProjectImage(cover == null ? images.get(0) : cover , project,user));
         return projectReps.save(project);
     }
 }
