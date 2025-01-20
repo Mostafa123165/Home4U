@@ -47,6 +47,11 @@ public class FileStorageService {
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 
+    public String addPersonalPhoto(MultipartFile sourceFile, Long userId) {
+        final String fileUploadSubPath = "personalPhoto" + "/" + userId; // personalPhoto/userId
+        return uploadFile(sourceFile, fileUploadSubPath);
+    }
+
     private String uploadFile(
             @Nonnull MultipartFile sourceFile,
             @Nonnull String fileUploadSubPath

@@ -1,6 +1,5 @@
 package com.service.auth.model;
 
-import com.service.base.dto.BaseEntityDto;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
 import com.service.freelancer.dto.EngineerDto;
@@ -27,6 +26,8 @@ public class UserRegisterDto {
 
     @Size(max = 11,message = "Phone number length must be equal 11")
     private String phone;
+
+    private String personalPhoto;
 
     @Min(value = 8, message = "Password must be at least 8 characters.")
     private String password;

@@ -35,4 +35,8 @@ public class TechnicalWorker extends BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<TechnicalWorkerServ> workerServs;
 
+    @Column(name = "bio", columnDefinition = "TEXT")
+    private String bio;
+
+
 }
