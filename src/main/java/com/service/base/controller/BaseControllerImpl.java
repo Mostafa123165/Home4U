@@ -31,7 +31,8 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
 
     @Override
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new SuccessResponseList<>(baseService.findAll()));
+        List<DTO> entities = baseMapper.map(baseService.findAll());
+        return ResponseEntity.ok(new SuccessResponseList<>(entities));
     }
 
     @Override
@@ -45,7 +46,8 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
 
     @Override
     public ResponseEntity<?> findById(@PathVariable ID id) {
-        return ResponseEntity.ok(new SuccessResponse<>(baseService.findById(id)));
+        DTO entity = baseMapper.map(baseService.findById(id));
+        return ResponseEntity.ok(new SuccessResponse<>(entity));
     }
 
     @Override

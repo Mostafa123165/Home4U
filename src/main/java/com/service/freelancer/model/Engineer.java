@@ -33,13 +33,4 @@ public class Engineer extends BaseEntity<Long> {
             joinColumns = @JoinColumn(name = "engineer_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
     private List<EngineerServ> engineerServ;
-
-    @OneToMany
-    @JoinColumn(name = "engineer_id")
-    private List<Certificate> certificates;
-
-    @OneToMany
-    @JoinColumn(name = "engineer_id")
-    private List<Project> projects;
-
 }

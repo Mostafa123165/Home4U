@@ -13,6 +13,8 @@ import lombok.Setter;
 @Getter @Setter
 public class UserRegisterDto {
 
+    private Long id;
+
     @NotBlank(message = "first name cannot be blank")
     private String firstName;
 

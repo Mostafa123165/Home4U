@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EngineerService extends BaseServiceImpl<Engineer, Long> {
 
-    private final EngineerReps engineerReps;
     private final UserService userService;
 
-    @Override
-    public Engineer insert(Engineer entity) {
-        return engineerReps.save(entity);
+    private final EngineerReps engineerReps;
+
+    public Engineer findByUserId(Long userId) {
+        if (userId == null) userId = userService.getCurrentUser().getId();
+        return engineerReps.findByUserId(userId);
     }
 }

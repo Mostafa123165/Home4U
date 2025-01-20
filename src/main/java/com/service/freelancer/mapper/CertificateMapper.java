@@ -2,10 +2,7 @@ package com.service.freelancer.mapper;
 
 import com.service.base.mapper.BaseMapper;
 import com.service.freelancer.dto.CertificateDto;
-import com.service.freelancer.dto.ProjectDto;
-import com.service.freelancer.dto.ProjectResponseDto;
 import com.service.freelancer.model.Certificate;
-import com.service.freelancer.model.Project;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -21,5 +18,7 @@ public interface CertificateMapper extends BaseMapper<Certificate, CertificateDt
             @Mapping(target = "path", ignore = true)
     })
     Certificate unMap(CertificateDto dto);
+    List<Certificate> unMap(List<CertificateDto> dto);
+
 
 }

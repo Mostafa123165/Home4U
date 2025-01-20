@@ -4,7 +4,7 @@ import com.service.base.service.BaseServiceImpl;
 import com.service.file.FileStorageService;
 import com.service.freelancer.model.Project;
 import com.service.freelancer.model.ProjectImage;
-import com.service.freelancer.repository.ProjectImageReps;
+import com.service.userManagement.model.User;
 import com.service.userManagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ public class ProjectImageService extends BaseServiceImpl<ProjectImage, Long> {
 
     private final ProjectService projectService;
     private final FileStorageService fileStorageService;
-//    private final ProjectImageReps projectImageReps;
-
+    private final UserService userService;
 
     public void insert(Long projectId, MultipartFile image) {
+        User user = userService.getCurrentUser();
         Project project = projectService.findById(projectId);
-        ProjectImage projectImage = new ProjectImage(fileStorageService.addProjectImage(image, project),project);
+        ProjectImage projectImage = new ProjectImage(fileStorageService.addProjectImage(image, project,user),project);
         project.getImages().add(projectImage);
         projectService.insert(project);
     }
