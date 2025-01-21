@@ -72,7 +72,7 @@ public class GlobalExceptionHandling {
 
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST,ex.getMessage(),details);
-        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),details);
+        return new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
