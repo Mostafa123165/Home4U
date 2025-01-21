@@ -1,6 +1,6 @@
 ALTER TABLE fre_engineer
     ADD COLUMN bio TEXT,
-ADD COLUMN linkedin_link VARCHAR(255) NOT null,
+ADD COLUMN linkedin_link VARCHAR(255),
 ADD COLUMN behance_link VARCHAR(255);
 
 
