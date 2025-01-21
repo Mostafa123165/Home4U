@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,17 @@ public class GlobalExceptionHandling {
     public final ResponseEntity<Object> handleException(ExpiredJwtException ex) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED, messageSourceService.getMessage("Token expired"),details);
-        return new ResponseEntity<Object>(error, HttpStatus.UNAUTHORIZED);
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST, messageSourceService.getMessage("Token expired"),details);
+        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+        log.error("Application error in: [" + ex.getClass().getName() + "]", ex);
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST,ex.getMessage(),details);
+        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
 }
