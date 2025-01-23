@@ -42,4 +42,6 @@ public class UserRegisterDto {
     private EngineerDto engineer;
 
     private TechnicalWorkerDto technicalWorker;
+
+    private Boolean enabled;
 }
