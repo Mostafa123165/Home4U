@@ -1,6 +1,7 @@
 package com.service.freelancer.controller;
 
 import com.service.base.controller.BaseLkpControllerImpl;
+import com.service.base.model.SuccessResponse;
 import com.service.base.model.SuccessResponseList;
 import com.service.freelancer.dto.TechnicalWorkerServDto;
 import com.service.freelancer.mapper.TechnicalWorkerServMapper;
@@ -10,10 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,10 +26,25 @@ public class TechnicalWorkerServController extends BaseLkpControllerImpl<Technic
     private final TechnicalWorkerServMapper technicalWorkerServMapper;
 
     @GetMapping("/service/{id}")
-    @Operation(summary = "Get engineer service")
+    @Operation(summary = "Get Technical Worker service")
     public ResponseEntity<?> service (@PathVariable Long id) {
-        List<TechnicalWorkerServDto> engineerServs =technicalWorkerServMapper.map(technicalWorkerServService.getService(id));
-        return ResponseEntity.ok(new SuccessResponseList<>(engineerServs));
+        List<TechnicalWorkerServDto> technicalWorkerServs =technicalWorkerServMapper.map(technicalWorkerServService.getService(id));
+        return ResponseEntity.ok(new SuccessResponseList<>(technicalWorkerServs));
+    }
+
+
+    @GetMapping("/service")
+    @Operation(summary = "Get his own Technical Worker services")
+    public ResponseEntity<?> getOwnEngineerServices (@RequestParam Long userId) {
+        List<TechnicalWorkerServDto> technicalWorkerServs =technicalWorkerServMapper.map(technicalWorkerServService.getOwnEngineerServices(userId));
+        return ResponseEntity.ok(new SuccessResponseList<>(technicalWorkerServs));
+    }
+
+    @PutMapping("/service/update")
+    @Operation(summary = "Get his own Technical Worker services")
+    public ResponseEntity<?> updateOwnEngineerServices (@RequestParam Long userId,@RequestBody List<TechnicalWorkerServDto> technicalWorkerServs) {
+        technicalWorkerServService.updateOwnEngineerServices(userId,technicalWorkerServMapper.unMap(technicalWorkerServs));
+        return ResponseEntity.ok(new SuccessResponse<>(true));
     }
 
 }

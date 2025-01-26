@@ -2,6 +2,7 @@ package com.service.freelancer.controller;
 
 
 import com.service.base.controller.BaseLkpControllerImpl;
+import com.service.base.model.SuccessResponse;
 import com.service.base.model.SuccessResponseList;
 import com.service.freelancer.dto.EngineerServDto;
 import com.service.freelancer.mapper.EngineerServMapper;
@@ -11,10 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +31,21 @@ public class EngineerServController extends BaseLkpControllerImpl< EngineerServ,
     public ResponseEntity<?> service (@PathVariable Long id) {
         List<EngineerServDto> engineerServs =engineerServMapper.map(engineerServService.getService(id));
         return ResponseEntity.ok(new SuccessResponseList<>(engineerServs));
+    }
+
+
+    @GetMapping("/service")
+    @Operation(summary = "Get his own Technical Worker services")
+    public ResponseEntity<?> getOwnEngineerServices (@RequestParam Long userId) {
+        List<EngineerServDto> engineerServs = engineerServMapper.map(engineerServService.getOwnEngineerServices(userId));
+        return ResponseEntity.ok(new SuccessResponseList<>(engineerServs));
+    }
+
+    @PutMapping("/service/update")
+    @Operation(summary = "Get his own Technical Worker services")
+    public ResponseEntity<?> updateOwnEngineerServices (@RequestParam Long userId,@RequestBody List<EngineerServDto> engineerServs) {
+        engineerServService.updateOwnEngineerServices(userId,engineerServMapper.unMap(engineerServs));
+        return ResponseEntity.ok(new SuccessResponse<>(true));
     }
 
 }
