@@ -1,9 +1,8 @@
 package com.service.freelancer.service;
 
 import com.service.base.service.BaseLkpServiceImpl;
-import com.service.freelancer.model.EngineerServ;
+import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.model.TechnicalWorkerServ;
-import com.service.freelancer.repository.EngineerServReps;
 import com.service.freelancer.repository.TechnicalWorkerServReps;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,20 @@ public class TechnicalWorkerServService extends BaseLkpServiceImpl<TechnicalWork
 
     private final TechnicalWorkerServReps technicalWorkerServReps;
 
+    private final TechnicalWorkerService technicalWorkerService;
+
     public List<TechnicalWorkerServ> getService(Long id) {
         return technicalWorkerServReps.getService(id);
+    }
+
+
+    public List<TechnicalWorkerServ> getOwnEngineerServices(Long userId) {
+        return technicalWorkerServReps.getOwnTechnicalWorkerServices(userId);
+    }
+
+    public void updateOwnEngineerServices(Long userId,List<TechnicalWorkerServ> engineerServs) {
+        TechnicalWorker technicalWorker = technicalWorkerService.findByUserId(userId);
+        technicalWorker.setWorkerServs(engineerServs);
+        technicalWorkerService.update(technicalWorker);
     }
 }

@@ -13,4 +13,10 @@ public interface EngineerServReps extends BaseLkpRepository<EngineerServ, Intege
     @Query("select e from EngineerServ e " +
             "where (e.engineerType.id = :id or e.engineerType is null) AND e.statusCode = 5")
     List<EngineerServ> getService(Long id);
+
+    @Query("""
+            select es
+            from Engineer e join e.engineerServ es join e.user u where u.id = :userId
+        """)
+    List<EngineerServ> getOwnEngineerServices(Long userId);
 }
