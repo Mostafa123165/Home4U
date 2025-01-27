@@ -26,7 +26,7 @@ public class ProjectController extends BaseControllerImpl<Project, ProjectDto,Lo
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> uploadProject(
             @RequestPart("images") List<MultipartFile> images,
             @RequestPart(value = "cover",required = false) MultipartFile cover,
@@ -52,7 +52,7 @@ public class ProjectController extends BaseControllerImpl<Project, ProjectDto,Lo
 
 
 
-    @PutMapping(consumes = "multipart/form-data")
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> updateProject(
             @RequestPart("images") List<MultipartFile> images,
             @RequestPart(value = "cover" , required = false) MultipartFile cover,
