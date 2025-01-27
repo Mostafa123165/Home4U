@@ -8,6 +8,7 @@ import com.service.freelancer.mapper.CertificateMapper;
 import com.service.freelancer.model.Certificate;
 import com.service.freelancer.service.CertificateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,7 @@ public class CertificateController extends BaseControllerImpl<Certificate, Certi
 
     private final CertificateMapper certificateMapper;
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> uploadProject(
             @RequestPart("image") MultipartFile image,
             @RequestPart("certificate") CertificateDto certificate
@@ -28,7 +29,7 @@ public class CertificateController extends BaseControllerImpl<Certificate, Certi
         return ResponseEntity.ok(new SuccessResponse<CertificateDto>(certificateMapper.map(certificateService.insert(certificate,image))));
     }
 
-    @PutMapping(consumes = "multipart/form-data")
+    @PutMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> updateProject(
             @RequestPart("image") MultipartFile image,
             @RequestPart("certificate") CertificateDto certificate
