@@ -17,13 +17,17 @@ public class TechnicalWorkerServService extends BaseLkpServiceImpl<TechnicalWork
 
     private final TechnicalWorkerService technicalWorkerService;
 
+    public void deleteWorkerServiceByWorkerIdAndServiceId(Long workerId, Long serviceId) {
+        technicalWorkerServReps.deleteWorkerServiceByWorkerIdAndServiceId(workerId, serviceId);
+    }
+
     public List<TechnicalWorkerServ> getService(Long id) {
         return technicalWorkerServReps.getService(id);
     }
 
 
-    public List<TechnicalWorkerServ> getOwnEngineerServices(Long userId) {
-        return technicalWorkerServReps.getOwnTechnicalWorkerServices(userId);
+    public List<TechnicalWorkerServ> getOwnEngineerServices(Long workerId) {
+        return technicalWorkerServReps.getOwnTechnicalWorkerServices(workerId);
     }
 
     public void updateOwnEngineerServices(Long userId,List<TechnicalWorkerServ> engineerServs) {

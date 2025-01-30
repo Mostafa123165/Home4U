@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-@Mapper(componentModel = "spring",imports = {LocaleContextHolder.class ,TechnicalWorkerTypeMapper.class})
+@Mapper(componentModel = "spring",imports = {LocaleContextHolder.class })
 public interface TechnicalWorkerServMapper extends BaseMapper<TechnicalWorkerServ, TechnicalWorkerServDto> {
     @Override
     @Mappings({
