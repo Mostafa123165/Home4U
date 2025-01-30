@@ -2,6 +2,8 @@ package com.service.freelancer.repository;
 
 import com.service.base.repository.BaseLkpRepository;
 import com.service.freelancer.model.EngineerServ;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +18,15 @@ public interface EngineerServReps extends BaseLkpRepository<EngineerServ, Intege
 
     @Query("""
             select es
-            from Engineer e join e.engineerServ es join e.user u where u.id = :userId
+            from Engineer e join e.engineerServ es  where e.id = :engineerId
         """)
-    List<EngineerServ> getOwnEngineerServices(Long userId);
+    List<EngineerServ> getEngineerServices(Long engineerId);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            DELETE FROM fre_engineer_service
+            WHERE engineer_id =:engineerId  AND service_id =:serviceId
+        """,nativeQuery = true)
+    void deleteEngineerServiceByEngineerIdAndServiceId(Long engineerId, Long serviceId);
 }

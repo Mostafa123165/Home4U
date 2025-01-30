@@ -2,6 +2,8 @@ package com.service.freelancer.repository;
 
 import com.service.base.repository.BaseLkpRepository;
 import com.service.freelancer.model.TechnicalWorkerServ;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +18,15 @@ public interface TechnicalWorkerServReps extends BaseLkpRepository<TechnicalWork
 
     @Query("""
             select ws
-            from TechnicalWorker tw join tw.workerServs ws join tw.user u where u.id = :userId
+            from TechnicalWorker tw join tw.workerServs ws  where tw.id = :workerId
         """)
-    List<TechnicalWorkerServ> getOwnTechnicalWorkerServices(Long userId);
+    List<TechnicalWorkerServ> getOwnTechnicalWorkerServices(Long workerId);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            DELETE FROM fre_worker_service
+            WHERE worker_id = :workerId AND service_id = :serviceId
+        """,nativeQuery = true)
+    void deleteWorkerServiceByWorkerIdAndServiceId(Long workerId, Long serviceId);
 }
