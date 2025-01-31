@@ -8,11 +8,15 @@ import com.service.base.Constant;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.SendOptService;
 import com.service.error.BadRequestException;
+import com.service.file.FileStorageService;
 import com.service.freelancer.mapper.EngineerMapper;
+import com.service.freelancer.mapper.EngineeringOfficeMapper;
 import com.service.freelancer.mapper.TechnicalWorkerMapper;
 import com.service.freelancer.model.Engineer;
+import com.service.freelancer.model.EngineeringOffice;
 import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.service.EngineerService;
+import com.service.freelancer.service.EngineeringOfficeService;
 import com.service.freelancer.service.TechnicalWorkerService;
 import com.service.userManagement.mapper.UserMapper;
 import com.service.userManagement.model.User;
@@ -24,6 +28,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +46,9 @@ public class AuthService {
     private final EngineerMapper engineerMapper;
     private final TechnicalWorkerService technicalWorkerService;
     private final TechnicalWorkerMapper technicalWorkerMapper;
+    private final EngineeringOfficeMapper engineeringOfficeMapper;
+    private final FileStorageService fileStorageService;
+    private final EngineeringOfficeService engineeringOfficeService;
 
     @Transactional
     public String register(UserRegisterDto registerRequest) {
@@ -143,4 +151,31 @@ public class AuthService {
         }
         throw new BadRequestException("Invalid refresh token");
     }
+
+    public String engineeringOfficeRegister(MultipartFile commercialRegister,
+                                            MultipartFile personalCard,
+                                            MultipartFile taxCard, MultipartFile cover,
+                                            UserRegisterDto registerRequest) {
+
+        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPhone());
+
+        registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
+        User user = userMapper.unMapRegister(registerRequest);
+        user = userService.insert(user);
+        EngineeringOffice engineeringOffice = engineeringOfficeMapper.unMap(registerRequest.getEngineeringOffice());
+
+        if(!cover.isEmpty()) user.setPersonalPhoto(fileStorageService.addPersonalPhoto(cover,user.getId()));
+        engineeringOffice.setTaxCardPath(fileStorageService.addEngineeringTaxCard(taxCard,user));
+        engineeringOffice.setCommercialRegisterPath(fileStorageService.addEngineeringCommercialRegister(commercialRegister,user));
+        engineeringOffice.setPersonalCardPath(fileStorageService.addEngineeringPersonalCard(personalCard,user));
+
+        engineeringOffice.setUser(user);
+
+        engineeringOfficeService.insert(engineeringOffice);
+
+        sendOptService.sendOtp(user);
+
+        return messageSourceService.getMessage("success.user.registered");
+    }
+
 }
