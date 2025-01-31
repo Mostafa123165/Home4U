@@ -29,7 +29,7 @@ public class EngineeringOffice extends BaseEntity<Long> {
     private String personalCardPath;
 
     @ManyToOne
-    @JoinColumn(name = "field_id")
+    @JoinColumn(name = "fields_id")
     private EngineeringOfficeField engineeringOfficeField;
 
     @ManyToMany

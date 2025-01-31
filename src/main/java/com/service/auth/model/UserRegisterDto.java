@@ -3,6 +3,7 @@ package com.service.auth.model;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
 import com.service.freelancer.dto.EngineerDto;
+import com.service.freelancer.dto.EngineeringOfficeDto;
 import com.service.freelancer.dto.TechnicalWorkerDto;
 import com.service.userManagement.dto.UserTypeDto;
 import jakarta.validation.constraints.*;
@@ -42,6 +43,8 @@ public class UserRegisterDto {
     private EngineerDto engineer;
 
     private TechnicalWorkerDto technicalWorker;
+
+    private EngineeringOfficeDto engineeringOffice;
 
     private Boolean enabled;
 }
