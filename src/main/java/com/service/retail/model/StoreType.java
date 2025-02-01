@@ -1,4 +1,4 @@
-package com.service.userManagement.model;
+package com.service.retail.model;
 
 import com.service.base.model.BaseLkpEntity;
 import jakarta.persistence.Entity;

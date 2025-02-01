@@ -14,9 +14,14 @@ import com.service.freelancer.model.Engineer;
 import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.service.EngineerService;
 import com.service.freelancer.service.TechnicalWorkerService;
+import com.service.retail.mapper.ExhibitionMapper;
+import com.service.retail.model.Exhibition;
+import com.service.retail.service.ExhibitionService;
 import com.service.userManagement.mapper.UserMapper;
 import com.service.userManagement.model.User;
+import com.service.userManagement.model.UserType;
 import com.service.userManagement.service.UserService;
+import com.service.userManagement.service.UserTypesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,6 +46,9 @@ public class AuthService {
     private final EngineerMapper engineerMapper;
     private final TechnicalWorkerService technicalWorkerService;
     private final TechnicalWorkerMapper technicalWorkerMapper;
+    private final ExhibitionMapper exhibitionMapper;
+    private final ExhibitionService exhibitionService;
+    private final UserTypesService userTypesService;
 
     @Transactional
     public String register(UserRegisterDto registerRequest) {
@@ -49,19 +57,24 @@ public class AuthService {
 
         registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
         User user = userMapper.unMapRegister(registerRequest);
+        UserType userType = userTypesService.findById(registerRequest.getUserType().getId());
 
-        if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
+        if(userType.getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
             userService.insert(user);
         }
-        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
+        else if(userType.getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
             Engineer engineer =  engineerMapper.unMap(registerRequest.getEngineer());
             engineer.setUser(user);
             engineerService.insert(engineer);
         }
-        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.TECHNICAL_WORKER.name())) {
+        else if(userType.getCode().equals(Constant.UserTypeEnum.TECHNICAL_WORKER.name())) {
             TechnicalWorker technicalWorker =  technicalWorkerMapper.unMap(registerRequest.getTechnicalWorker());
             technicalWorker.setUser(user);
             technicalWorkerService.insert(technicalWorker);
+        }else if(userType.getCode().equals(Constant.UserTypeEnum.EXHIBITION.name())) {
+            Exhibition exhibition = exhibitionMapper.unMapUserRegister(registerRequest);
+            exhibition.setUser(user);
+            exhibitionService.insert(exhibition);
         }
 
         sendOptService.sendOtp(user);

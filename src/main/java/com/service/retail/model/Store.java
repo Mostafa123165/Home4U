@@ -1,6 +1,7 @@
-package com.service.userManagement.model;
+package com.service.retail.model;
 
 import com.service.base.model.BaseEntity;
+import com.service.userManagement.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -11,15 +12,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "exhibition")
-public class Exhibition extends BaseEntity<Long> {
+@Table(name = "store")
+public class Store extends BaseEntity<Long> {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "exhibition_type_id")
-    private ExhibitionType type;
-
+    @JoinColumn(name = "store_type_id")
+    private StoreType type;
 }
