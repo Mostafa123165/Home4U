@@ -21,13 +21,17 @@ public class EngineerServService extends BaseLkpServiceImpl<EngineerServ, Intege
         return engineerServReps.getService(id);
     }
 
-    public List<EngineerServ> getOwnEngineerServices(Long userId) {
-        return engineerServReps.getOwnEngineerServices(userId);
+    public List<EngineerServ> getEngineerServices(Long engineerId) {
+        return engineerServReps.getEngineerServices(engineerId);
     }
 
     public void updateOwnEngineerServices(Long userId,List<EngineerServ> engineerServs) {
         Engineer engineer = engineerService.findByUserId(userId);
         engineer.setEngineerServ(engineerServs);
         engineerService.update(engineer);
+    }
+
+    public void deleteEngineerServiceByEngineerIdAndServiceId(Long engineerId, Long serviceId) {
+        engineerServReps.deleteEngineerServiceByEngineerIdAndServiceId(engineerId, serviceId);
     }
 }

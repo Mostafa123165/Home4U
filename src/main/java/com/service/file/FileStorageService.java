@@ -91,4 +91,21 @@ public class FileStorageService {
         }
         return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
+
+
+
+    public String addEngineeringTaxCard(MultipartFile taxCard, User user) {
+        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/tax-card"; // certificate/userId
+        return uploadFile(taxCard, fileUploadSubPath);
+    }
+
+    public String addEngineeringCommercialRegister(MultipartFile commercialRegister, User user) {
+        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/commercia-register"; // certificate/userId
+        return uploadFile(commercialRegister, fileUploadSubPath);
+    }
+
+    public String addEngineeringPersonalCard(MultipartFile personalCard, User user) {
+        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/personal-card"; // certificate/userId
+        return uploadFile(personalCard, fileUploadSubPath);
+    }
 }

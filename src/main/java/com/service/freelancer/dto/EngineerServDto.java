@@ -12,5 +12,5 @@ public class  EngineerServDto extends BaseLkpEntityDto<Integer> {
 
     private String nameAr;
     private String nameEn;
-    private EngineerTypeDto engineerType;
+
 }

@@ -8,11 +8,15 @@ import com.service.base.Constant;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.SendOptService;
 import com.service.error.BadRequestException;
+import com.service.file.FileStorageService;
 import com.service.freelancer.mapper.EngineerMapper;
+import com.service.freelancer.mapper.EngineeringOfficeMapper;
 import com.service.freelancer.mapper.TechnicalWorkerMapper;
 import com.service.freelancer.model.Engineer;
+import com.service.freelancer.model.EngineeringOffice;
 import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.service.EngineerService;
+import com.service.freelancer.service.EngineeringOfficeService;
 import com.service.freelancer.service.TechnicalWorkerService;
 import com.service.retail.mapper.ExhibitionMapper;
 import com.service.retail.model.Exhibition;
@@ -29,6 +33,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +51,9 @@ public class AuthService {
     private final EngineerMapper engineerMapper;
     private final TechnicalWorkerService technicalWorkerService;
     private final TechnicalWorkerMapper technicalWorkerMapper;
+    private final EngineeringOfficeMapper engineeringOfficeMapper;
+    private final FileStorageService fileStorageService;
+    private final EngineeringOfficeService engineeringOfficeService;
     private final ExhibitionMapper exhibitionMapper;
     private final ExhibitionService exhibitionService;
     private final UserTypesService userTypesService;
@@ -59,15 +67,15 @@ public class AuthService {
         User user = userMapper.unMapRegister(registerRequest);
         UserType userType = userTypesService.findById(registerRequest.getUserType().getId());
 
-        if(userType.getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
+        if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.GENERAL_USER.name())) {
             userService.insert(user);
         }
-        else if(userType.getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
+        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.ENGINEER.name())) {
             Engineer engineer =  engineerMapper.unMap(registerRequest.getEngineer());
             engineer.setUser(user);
             engineerService.insert(engineer);
         }
-        else if(userType.getCode().equals(Constant.UserTypeEnum.TECHNICAL_WORKER.name())) {
+        else if(registerRequest.getUserType().getCode().equals(Constant.UserTypeEnum.TECHNICAL_WORKER.name())) {
             TechnicalWorker technicalWorker =  technicalWorkerMapper.unMap(registerRequest.getTechnicalWorker());
             technicalWorker.setUser(user);
             technicalWorkerService.insert(technicalWorker);
@@ -156,4 +164,31 @@ public class AuthService {
         }
         throw new BadRequestException("Invalid refresh token");
     }
+
+    public String engineeringOfficeRegister(MultipartFile commercialRegister,
+                                            MultipartFile personalCard,
+                                            MultipartFile taxCard, MultipartFile cover,
+                                            UserRegisterDto registerRequest) {
+
+        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPhone());
+
+        registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
+        User user = userMapper.unMapRegister(registerRequest);
+        user = userService.insert(user);
+        EngineeringOffice engineeringOffice = engineeringOfficeMapper.unMap(registerRequest.getEngineeringOffice());
+
+        if(!cover.isEmpty()) user.setPersonalPhoto(fileStorageService.addPersonalPhoto(cover,user.getId()));
+        engineeringOffice.setTaxCardPath(fileStorageService.addEngineeringTaxCard(taxCard,user));
+        engineeringOffice.setCommercialRegisterPath(fileStorageService.addEngineeringCommercialRegister(commercialRegister,user));
+        engineeringOffice.setPersonalCardPath(fileStorageService.addEngineeringPersonalCard(personalCard,user));
+
+        engineeringOffice.setUser(user);
+
+        engineeringOfficeService.insert(engineeringOffice);
+
+        sendOptService.sendOtp(user);
+
+        return messageSourceService.getMessage("success.user.registered");
+    }
+
 }

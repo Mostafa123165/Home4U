@@ -35,8 +35,8 @@ public class TechnicalWorkerServController extends BaseLkpControllerImpl<Technic
 
     @GetMapping("/service")
     @Operation(summary = "Get his own Technical Worker services")
-    public ResponseEntity<?> getOwnEngineerServices (@RequestParam Long userId) {
-        List<TechnicalWorkerServDto> technicalWorkerServs =technicalWorkerServMapper.map(technicalWorkerServService.getOwnEngineerServices(userId));
+    public ResponseEntity<?> getOwnEngineerServices (@RequestParam Long workerId) {
+        List<TechnicalWorkerServDto> technicalWorkerServs =technicalWorkerServMapper.map(technicalWorkerServService.getOwnEngineerServices(workerId));
         return ResponseEntity.ok(new SuccessResponseList<>(technicalWorkerServs));
     }
 
@@ -44,6 +44,12 @@ public class TechnicalWorkerServController extends BaseLkpControllerImpl<Technic
     @Operation(summary = "Get his own Technical Worker services")
     public ResponseEntity<?> updateOwnEngineerServices (@RequestParam Long userId,@RequestBody List<TechnicalWorkerServDto> technicalWorkerServs) {
         technicalWorkerServService.updateOwnEngineerServices(userId,technicalWorkerServMapper.unMap(technicalWorkerServs));
+        return ResponseEntity.ok(new SuccessResponse<>(true));
+    }
+
+    @DeleteMapping("/service")
+    public ResponseEntity<?> deleteWorkerService(@RequestParam Long workerId, @RequestParam Long serviceId) {
+        technicalWorkerServService.deleteWorkerServiceByWorkerIdAndServiceId(workerId, serviceId);
         return ResponseEntity.ok(new SuccessResponse<>(true));
     }
 

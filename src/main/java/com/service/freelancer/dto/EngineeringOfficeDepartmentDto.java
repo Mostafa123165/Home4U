@@ -6,9 +6,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class TechnicalWorkerServDto extends BaseLkpEntityDto<Integer> {
+public class EngineeringOfficeDepartmentDto  extends BaseLkpEntityDto<Integer> {
     private static final long serialVersionUID = 5877866567112767764L;
+
 
     private String nameAr;
     private String nameEn;
+
 }
