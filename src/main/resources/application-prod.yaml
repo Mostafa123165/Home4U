@@ -5,8 +5,7 @@ spring:
   datasource:
     url: jdbc:mysql://149.102.135.15:3311/home4u?jdbcCompliantTruncation=false&allowMultiQueries=true
     username: home4u
-    password: "howpo8-neRnif-cypwyx"
-
+    password: ${home4uPassword}
   cache:
     type: redis
   data:
@@ -15,6 +14,7 @@ spring:
       port: 6379
       repositories:
         enabled: false
+      password: ${REDIS_PASSWORD}
 
   flyway:
     enabled: true
