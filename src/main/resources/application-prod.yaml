@@ -9,7 +9,7 @@ spring:
 
   cache:
     type: redis
-    host: localhost
+    host: http://149.102.135.15
     port: 6379
     repositories:
       enabled: false
