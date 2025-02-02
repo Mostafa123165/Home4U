@@ -9,12 +9,15 @@ spring:
 
   cache:
     type: redis
-    host: http://149.102.135.15
-    port: 6379
-    repositories:
-      enabled: false
+  data:
+    redis:
+      host: 149.102.135.15
+      port: 6379
+      repositories:
+        enabled: false
 
   flyway:
     enabled: true
     locations: classpath:dp/migration
     baseline-on-migrate: true
+
