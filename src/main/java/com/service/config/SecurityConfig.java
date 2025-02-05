@@ -27,7 +27,8 @@ public class SecurityConfig {
     private final List<String> ALLOWED_ORIGIN = List.of(
             "http://localhost:4200",
             "http://localhost:5173",
-            "https://starter-final-project.vercel.app"
+            "https://starter-final-project.vercel.app",
+            "http://149.102.135.15:5001"
     );
 
     private final List<String> ALLOWED_METHOD = List.of(
