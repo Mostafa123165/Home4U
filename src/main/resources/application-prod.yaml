@@ -1,5 +1,8 @@
 server:
   port: 8080
+  servlet:
+    context-path: /
+    version: 1.00.01
 
 spring:
   datasource:
