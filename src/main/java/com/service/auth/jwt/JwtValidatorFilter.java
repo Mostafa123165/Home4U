@@ -52,7 +52,6 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        System.out.println("tes -> " + request.getRequestURI());
         return   request.getRequestURI().startsWith("/api/v1/auth")
                 | request.getRequestURI().startsWith("/api/v1/user-types")
                 | request.getRequestURI().startsWith("/api/v1/cities/governorate")

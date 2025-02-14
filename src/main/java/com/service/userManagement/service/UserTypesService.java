@@ -2,6 +2,8 @@ package com.service.userManagement.service;
 
 import com.service.base.service.BaseLkpServiceImpl;
 import com.service.userManagement.model.UserType;
+import com.service.userManagement.repository.UserTypeReps;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -9,12 +11,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserTypesService extends BaseLkpServiceImpl<UserType,Integer> {
+
+
+    private final UserTypeReps UserTypeReps;
 
     @Override
     @Cacheable(value = "user_type", key = "#root.methodName")
     public List<UserType> findAll() {
-        return super.findAll();
+        return UserTypeReps.findAll();
     }
 
     @Override
