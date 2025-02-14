@@ -18,9 +18,9 @@ import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.service.EngineerService;
 import com.service.freelancer.service.EngineeringOfficeService;
 import com.service.freelancer.service.TechnicalWorkerService;
-import com.service.retail.mapper.ExhibitionMapper;
-import com.service.retail.model.Exhibition;
-import com.service.retail.service.ExhibitionService;
+import com.service.business.mapper.BusinessMapper;
+import com.service.business.model.Business;
+import com.service.business.service.BusinessService;
 import com.service.userManagement.mapper.UserMapper;
 import com.service.userManagement.model.User;
 import com.service.userManagement.model.UserType;
@@ -54,9 +54,9 @@ public class AuthService {
     private final EngineeringOfficeMapper engineeringOfficeMapper;
     private final FileStorageService fileStorageService;
     private final EngineeringOfficeService engineeringOfficeService;
-    private final ExhibitionMapper exhibitionMapper;
-    private final ExhibitionService exhibitionService;
     private final UserTypesService userTypesService;
+    private final BusinessService businessService;
+    private final BusinessMapper businessMapper;
 
     @Transactional
     public String register(UserRegisterDto registerRequest) {
@@ -79,10 +79,11 @@ public class AuthService {
             TechnicalWorker technicalWorker =  technicalWorkerMapper.unMap(registerRequest.getTechnicalWorker());
             technicalWorker.setUser(user);
             technicalWorkerService.insert(technicalWorker);
-        }else if(userType.getCode().equals(Constant.UserTypeEnum.EXHIBITION.name())) {
-            Exhibition exhibition = exhibitionMapper.unMapUserRegister(registerRequest);
-            exhibition.setUser(user);
-            exhibitionService.insert(exhibition);
+        } else if(userType.getCode().equals(Constant.UserTypeEnum.EXHIBITION.name())
+                || userType.getCode().equals(Constant.UserTypeEnum.STORE.name())) {
+            Business business = businessMapper.unMapUserRegister(registerRequest);
+            business.setUser(user);
+            businessService.insert(business);
         }
 
         sendOptService.sendOtp(user);

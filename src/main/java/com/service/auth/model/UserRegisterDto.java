@@ -5,7 +5,7 @@ import com.service.common.dto.GovernorateDto;
 import com.service.freelancer.dto.EngineerDto;
 import com.service.freelancer.dto.EngineeringOfficeDto;
 import com.service.freelancer.dto.TechnicalWorkerDto;
-import com.service.retail.dto.ExhibitionDto;
+import com.service.business.dto.BusinessDto;
 import com.service.userManagement.dto.UserTypeDto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -49,5 +49,5 @@ public class UserRegisterDto {
 
     private Boolean enabled;
 
-    private ExhibitionDto exhibition;
+    private BusinessDto business;
 }
