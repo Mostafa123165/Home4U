@@ -51,6 +51,8 @@ public class SecurityConfig {
             "favicon.ico/**",
             "api/v1/file/download/**",
             "api/v1/business-types/**",
+            "/api/v1/engineer-types/**",
+            "/api/v1/engineer-services/service/**",
     };
 
     @Bean
