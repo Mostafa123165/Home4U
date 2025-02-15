@@ -50,6 +50,7 @@ public class SecurityConfig {
             "v3/api-docs/**",
             "favicon.ico/**",
             "api/v1/file/download/**",
+            "api/v1/business-types/**",
     };
 
     @Bean
