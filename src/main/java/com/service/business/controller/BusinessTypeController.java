@@ -7,7 +7,6 @@ import com.service.business.mapper.BusinessTypeMapper;
 import com.service.business.model.BusinessType;
 import com.service.business.service.BusinessTypeService;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class BusinessTypeController extends BaseLkpControllerImpl<BusinessType, 
     private final BusinessTypeMapper businessTypeMapper;
 
     @GetMapping("/user-type/{userTypeId}")
-    public ResponseEntity<?> findByUserType(@PathVariable Long userTypeId) {
+    public ResponseEntity<?> findByUserType(@PathVariable Integer userTypeId) {
         return ResponseEntity.ok(new SuccessResponseList<>(businessTypeMapper.map(businessTypeService.findByUserType(userTypeId))));
     }
 }
