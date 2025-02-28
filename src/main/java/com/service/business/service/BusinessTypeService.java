@@ -18,7 +18,7 @@ public class BusinessTypeService extends BaseLkpServiceImpl<BusinessType,Integer
     private final BusinessTypeReps businessTypeReps;
 
     @Cacheable(value = "BusinessType",key = "#root.methodName + '_' + #root.args")
-    public List<BusinessType> findByUserType(Long userTypeId) {
+    public List<BusinessType> findByUserType(Integer userTypeId) {
         return businessTypeReps.findByUserTypeId(userTypeId);
     }
 

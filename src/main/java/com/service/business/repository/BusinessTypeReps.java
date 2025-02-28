@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface BusinessTypeReps extends BaseLkpRepository<BusinessType,Integer> {
 
-    List<BusinessType> findByUserTypeId(Long userTypeId);
+    List<BusinessType> findByUserTypeId(Integer userTypeId);
 }
