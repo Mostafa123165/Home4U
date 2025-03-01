@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,4 +42,7 @@ public class Business extends BaseEntity<Long> {
             inverseJoinColumns = @JoinColumn(name = "business_type_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"business_id", "business_type_id"}))
     private Set<BusinessType> businessTypes;
+
+    @OneToMany(mappedBy = "business")
+    private List<Product> products;
 }
