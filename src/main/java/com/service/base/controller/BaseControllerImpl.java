@@ -53,13 +53,16 @@ public abstract class BaseControllerImpl<T extends BaseEntity<ID>,DTO extends Ba
     @Override
     public ResponseEntity<?> insert(@RequestBody DTO dto) {
         T entity = baseMapper.unMap(dto);
-        return ResponseEntity.ok(new SuccessResponse<>(baseService.insert(entity)));
+        T result = baseService.insert(entity);
+        return ResponseEntity.ok(new SuccessResponse<DTO>(baseMapper.map(result)));
     }
 
     @Override
     public ResponseEntity<?> update(@RequestBody DTO dto) {
         T entity = baseMapper.unMap(dto);
-        return ResponseEntity.ok(new SuccessResponse<>(baseService.update(entity)));
+        T result = baseService.update(entity);
+        DTO dtos = baseMapper.map(result);
+        return ResponseEntity.ok(new SuccessResponse<>(dtos));
     }
 
     @Override
