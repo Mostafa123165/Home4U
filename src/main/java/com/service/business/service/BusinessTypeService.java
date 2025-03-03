@@ -22,6 +22,11 @@ public class BusinessTypeService extends BaseLkpServiceImpl<BusinessType,Integer
         return businessTypeReps.findByUserTypeId(userTypeId);
     }
 
+    @Override
+    @Cacheable(value = "BusinessType",key = "#root.methodName")
+    public List<BusinessType> findAll() {
+        return super.findAll();
+    }
 
     @Override
     @CacheEvict(value = "BusinessType", allEntries = true)
