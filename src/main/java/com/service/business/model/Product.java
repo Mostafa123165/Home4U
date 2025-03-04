@@ -4,6 +4,8 @@ import com.service.base.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 
 import java.util.List;
@@ -53,6 +55,10 @@ public class Product extends BaseEntity<Long> {
     @Column(name = "height")
     private double height;
 
+    @Transient
+    private String mainImagePath;
+
+    @Fetch(FetchMode.SUBSELECT)
     @ElementCollection
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
     @Column(name = "image_path")
@@ -70,5 +76,9 @@ public class Product extends BaseEntity<Long> {
 
     public void associateTheStockWithProduct(List<ProductStock> stocks) {
         stocks.forEach(stock -> stock.setProduct(this));
+    }
+
+    public String getMainImagePath() {
+        return getImagePaths().isEmpty() ? null : getImagePaths().get(0);
     }
 }

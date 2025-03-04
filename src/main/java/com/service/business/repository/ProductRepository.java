@@ -12,11 +12,12 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends BaseRepository<Product, Long> {
 
 
-    @Query(value = """
+   @Query(value = """
     SELECT product
     FROM Product product
-    LEFT JOIN product.stocks stock
-    LEFT JOIN stock.color color
+    JOIN FETCH product.businessType
+    LEFT JOIN FETCH product.stocks stock
+    LEFT JOIN FETCH stock.color
     WHERE product.business.id = :businessId
     ORDER BY product.createdDate DESC
     """)

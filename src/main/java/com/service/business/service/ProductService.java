@@ -49,14 +49,22 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         SearchRequest searchRequest = req.orElse(new SearchRequest());
         Pageable pageable = PageRequest.of(searchRequest.getPageNumber(), searchRequest.getPageSize());
 
+        validateSearchRequest(searchRequest);
+
         Number businessId = null;
         if(searchRequest.getSearchCriteria() != null) {
             businessId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessId",null);
         }
 
-
         return productReps.filter(
                 businessId.longValue(),
                 pageable);
+    }
+
+    private void validateSearchRequest(SearchRequest searchRequest) {
+        Number businessId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessId",null);
+        if(businessId == null) {
+            throw new BadRequestException("The business id is required.");
+        }
     }
 }
