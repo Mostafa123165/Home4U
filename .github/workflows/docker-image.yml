@@ -16,9 +16,9 @@ jobs:
 
     steps:
     - name: Delete all artifacts
-      uses: geekyeggo/delete-artifact@v4
+      uses: geekyeggo/delete-artifact@v3
       with:
-        name: docker-image
+        name: '*'
         if_no_artifact_found: ignore
     
     - name: Checkout code
