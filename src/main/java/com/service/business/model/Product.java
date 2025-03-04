@@ -74,11 +74,18 @@ public class Product extends BaseEntity<Long> {
     @Formula("(select COALESCE(ROUND(SUM(stock.amount),2),0) from product_stocks stock where stock.product_id = id)")
     private double stockAmount;
 
+    @Transient
+    private boolean inStock;
+
     public void associateTheStockWithProduct(List<ProductStock> stocks) {
         stocks.forEach(stock -> stock.setProduct(this));
     }
 
     public String getMainImagePath() {
         return getImagePaths().isEmpty() ? null : getImagePaths().get(0);
+    }
+
+    public boolean isInStock() {
+        return stocks != null && !stocks.isEmpty();
     }
 }
