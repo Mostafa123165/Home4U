@@ -1,3 +1,4 @@
+/*
 package com.service.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -30,3 +31,4 @@ public class SwaggerConfig {
         return new OpenAPI().addServersItem(new Server().url(context).description(version));
     }
 }
+*/

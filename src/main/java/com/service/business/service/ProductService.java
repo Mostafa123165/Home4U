@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,14 +50,39 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         SearchRequest searchRequest = req.orElse(new SearchRequest());
         Pageable pageable = PageRequest.of(searchRequest.getPageNumber(), searchRequest.getPageSize());
 
+        validateSearchRequest(searchRequest);
+
+        String name = null;
         Number businessId = null;
+        List<Integer> businessTypeIds = null;
+        List<Integer> colorIds = null;
+        List<Integer> materialIds = null;
+        Number minPrice = null;
+        Number maxPrice = null;
+
         if(searchRequest.getSearchCriteria() != null) {
             businessId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessId",null);
+            minPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("minPrice",null);
+            maxPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("maxPrice",null);
+            colorIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("colorIds",null);
+            businessTypeIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("businessTypeIds",null);
         }
 
-
         return productReps.filter(
-                businessId.longValue(),
+                businessId != null ? businessId.longValue() : 0,
+                name,
+                businessTypeIds,
+                colorIds,
+                materialIds,
+                minPrice != null ? minPrice.doubleValue() : null,
+                maxPrice != null ? maxPrice.doubleValue() : null,
                 pageable);
+    }
+
+    private void validateSearchRequest(SearchRequest searchRequest) {
+        Number businessId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessId",null);
+        if(businessId == null) {
+            throw new BadRequestException("The business id is required.");
+        }
     }
 }

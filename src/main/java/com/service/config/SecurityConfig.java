@@ -30,7 +30,8 @@ public class SecurityConfig {
             "http://localhost:5174",
             "http://localhost:5175",
             "https://starter-final-project.vercel.app",
-            "http://149.102.135.15:5001"
+            "http://149.102.135.15:5001",
+            "https://home4u.gosoftcloud.com"
     );
 
     private final List<String> ALLOWED_METHOD = List.of(

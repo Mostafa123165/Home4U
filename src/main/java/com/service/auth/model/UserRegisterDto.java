@@ -1,5 +1,6 @@
 package com.service.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
 import com.service.freelancer.dto.EngineerDto;
@@ -32,6 +33,7 @@ public class UserRegisterDto {
     private String personalPhoto;
 
     @Min(value = 8, message = "Password must be at least 8 characters.")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull(message = "user type cannot be blank")
