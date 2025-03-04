@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Delete all artifacts
-      uses: geekyeggo/delete-artifact@v3
+      uses: geekyeggo/delete-artifact@2.1.0
       with:
         name: '*'
         if_no_artifact_found: ignore
