@@ -27,7 +27,7 @@ public class ProductController extends BaseControllerImpl<Product, ProductDto, L
     private final ProductMapper productMapper;
 
     @PostMapping("/filter")
-    public ResponseEntity<?> findByBusinessId(@RequestBody Optional<SearchRequest> searchRequest) {
+    public ResponseEntity<?> filter(@RequestBody Optional<SearchRequest> searchRequest) {
         return ResponseEntity.ok(new SuccessResponsePage<>(productService.filter(searchRequest).map(productMapper::mapToProductCard)));
     }
 }
