@@ -1,6 +1,7 @@
 package com.service.userManagement.dto;
 
 import com.service.base.dto.BaseEntityDto;
+import com.service.business.dto.BusinessLoginDto;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
 import lombok.Getter;
@@ -15,5 +16,5 @@ public class UserDto extends BaseEntityDto<Long> {
     private UserTypeDto userType;
     private GovernorateDto governorate;
     private CityDto city;
-
+    private BusinessLoginDto business;
 }

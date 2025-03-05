@@ -21,6 +21,7 @@ import com.service.freelancer.service.TechnicalWorkerService;
 import com.service.business.mapper.BusinessMapper;
 import com.service.business.model.Business;
 import com.service.business.service.BusinessService;
+import com.service.userManagement.dto.UserDto;
 import com.service.userManagement.mapper.UserMapper;
 import com.service.userManagement.model.User;
 import com.service.userManagement.model.UserType;
@@ -115,13 +116,22 @@ public class AuthService {
 
         String token = jetGenerator.generateToken(user.getId(),false);
         String refreshToken = jetGenerator.generateToken(user.getId(),true);
+        UserDto userDto = userMapper.map(user);
+        setBusinessDtoInLoginResponse(userDto);
 
         return LoginResponseDto
                 .builder()
                 .token(token)
                 .refreshToken(refreshToken)
-                .user(userMapper.map(user))
+                .user(userDto)
                 .build();
+    }
+
+    private void setBusinessDtoInLoginResponse(UserDto userDto) {
+        Business business = businessService.findByUserId(userDto.getId());
+        if(business != null) {
+            userDto.setBusiness(businessMapper.mapToBusinessLoginDto(businessService.findByUserId(userDto.getId())));
+        }
     }
 
     private void checkUserIsEnabled(User user) {

@@ -3,13 +3,16 @@ package com.service.business.mapper;
 import com.service.auth.model.UserRegisterDto;
 import com.service.base.mapper.BaseMapper;
 import com.service.business.dto.BusinessDto;
+import com.service.business.dto.BusinessLoginDto;
+import com.service.business.dto.BusinessTypeDto;
 import com.service.business.model.Business;
 import com.service.userManagement.mapper.UserTypeMapper;
+import com.service.userManagement.model.UserType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(uses = {UserTypeMapper.class,BusinessMapper.class})
+@Mapper(uses = {UserTypeMapper.class,BusinessMapper.class, UserTypeMapper.class})
 public interface BusinessMapper extends BaseMapper<Business, BusinessDto> {
 
 
@@ -20,4 +23,9 @@ public interface BusinessMapper extends BaseMapper<Business, BusinessDto> {
             @Mapping(target = "bioEn",source = "t.business.bioEn"),
     })
     Business unMapUserRegister(UserRegisterDto t);
+
+    @Mappings({
+            @Mapping(target = "businessId", source = "t.id"),
+    })
+    BusinessLoginDto mapToBusinessLoginDto(Business t);
 }
