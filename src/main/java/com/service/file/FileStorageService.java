@@ -1,5 +1,6 @@
 package com.service.file;
 
+import com.service.base.Constant;
 import com.service.common.model.PortalConfig;
 import com.service.common.service.PortalConfigService;
 import com.service.freelancer.model.Project;
@@ -29,6 +30,8 @@ public class FileStorageService {
 
     @Value("${application.file.uploads.photos-output-path}")
     private String fileUploadPath;
+
+    private final FileStorageReps fileStorageReps;
 
     private final PortalConfigService portalConfigService;
     public List<ProjectImage> addProject(@Nonnull List<MultipartFile> sourceFile, @Nonnull Project project,User user) {
@@ -112,7 +115,7 @@ public class FileStorageService {
         String uniqueFileName = pathType + fileName ;
         String downloadUri = this.fileUploadPath + "/"+ uniqueFileName;
         uploadObjectFile(targetFolder,downloadUri,file);
-        updateImagePath(id, fileName, pathType , pathId);
+        updateImagePath(id, downloadUri, pathId);
         FileResponse fileInfo = new FileResponse(fileName, downloadUri, file.getContentType(), file.getSize(), pathType,
                 id , uniqueFileName);
 
@@ -132,8 +135,10 @@ public class FileStorageService {
         }
     }
 
-    private void updateImagePath(Long id, String fileName, String pathType, String pathId) {
-
+    private void updateImagePath(Long id, String downloadUri, String pathId) {
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.BUSINESS_PRODUCTS)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.BUSINESS_PRODUCTS, "image_path" ,downloadUri, id);
+        }
     }
 
     public String preparePathType(String pathId) {

@@ -47,4 +47,12 @@ public class Constant {
         public static final String TIME_FORMAT = "HH:mm:ss";
         public static final String DATE_FORMAT_UTC= "yyyy-MM-dd'T'HH:mm:ss'Z'";
     }
+
+    public class ImageTableNameEunm {
+        public static final String BUSINESS_PRODUCTS = "product_images";
+    }
+
+    public class ConfigKeyEnum {
+        public static final String BUSINESS_PRODUCTS = "BUSINESS_PRODUCTS";
+    }
 }
