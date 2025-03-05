@@ -12,10 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Delete all artifacts
-      uses: geekyeggo/delete-artifact@v2
-      with:
-        name: '*'
     
     - name: Checkout code
       uses: actions/checkout@v4
@@ -40,6 +36,7 @@ jobs:
       with:
         name: docker-image
         path: home4u-be.tar
+        retention-days: 1
         
     - name: Update Artifacts
       run: |
