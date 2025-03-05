@@ -42,3 +42,9 @@ jobs:
       run: |
           curl \
           "http://149.102.135.15:8080/generic-webhook-trigger/invoke?token=w34iK1MmmaOJfZ6deuFeRvtzuxgOxFoqQHoRh2E74lXs4tVyS2jUZWHj0VgYCQFPHOME4UAPI"
+    
+    - name: Delete Old Artifacts
+      uses: geekyeggo/delete-artifact@v2
+      with:
+        name: '*'
+        if_no_artifact_found: ignore
