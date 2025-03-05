@@ -1,6 +1,7 @@
 package com.service.business.dto;
 
 import com.service.base.dto.BaseEntityDto;
+import com.service.business.model.ProductImage;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -46,5 +47,5 @@ public class ProductDto extends BaseEntityDto<Long> {
     @Valid
     private List<ProductStockDto> stocks;
 
-    private List<String> imagePaths;
+    private List<ProductImage> imagePaths;
 }
