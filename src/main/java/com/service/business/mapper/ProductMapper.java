@@ -5,6 +5,7 @@ import com.service.business.dto.ColorDto;
 import com.service.business.dto.ProductCardDto;
 import com.service.business.dto.ProductDto;
 import com.service.business.model.Product;
+import com.service.business.model.ProductImage;
 import com.service.business.model.ProductStock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
 
 @Mapper(imports = {LocaleContextHolder.class, Collections.class},uses =
         {BusinessMapper.class,BusinessTypeMapper.class,ProductStockMapper.class,
-        ProductMaterialMapper.class, ProductBaseUnitMapper.class,ColorMapper.class})
+        ProductMaterialMapper.class, ProductBaseUnitMapper.class,ColorMapper.class,
+        ProductImageMapper.class})
 public interface ProductMapper extends BaseMapper<Product, ProductDto> {
 
 
