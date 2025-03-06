@@ -47,5 +47,5 @@ public class ProductDto extends BaseEntityDto<Long> {
     @Valid
     private List<ProductStockDto> stocks;
 
-    private List<ProductImage> imagePaths;
+    private List<ProductImageDto> imagePaths;
 }
