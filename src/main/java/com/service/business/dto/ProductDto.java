@@ -48,4 +48,5 @@ public class ProductDto extends BaseEntityDto<Long> {
     private List<ProductStockDto> stocks;
 
     private List<ProductImageDto> imagePaths;
+
 }
