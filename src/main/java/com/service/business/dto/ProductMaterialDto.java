@@ -1,11 +1,11 @@
 package com.service.business.dto;
 
-import com.service.base.model.BaseLkpEntity;
+import com.service.base.dto.BaseLkpEntityDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductMaterialDto extends BaseLkpEntity<Integer> {
+public class ProductMaterialDto extends BaseLkpEntityDto<Integer> {
 
 }
