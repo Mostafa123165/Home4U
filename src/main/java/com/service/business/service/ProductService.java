@@ -59,6 +59,7 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         List<Integer> materialIds = null;
         Number minPrice = null;
         Number maxPrice = null;
+        boolean inStock = false;
 
         if(searchRequest.getSearchCriteria() != null) {
             businessId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessId",null);
@@ -66,6 +67,7 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
             maxPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("maxPrice",null);
             colorIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("colorIds",null);
             businessTypeIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("businessTypeIds",null);
+            inStock = (boolean) searchRequest.getSearchCriteria().getOrDefault("inStock",false);
         }
 
         return productReps.filter(
@@ -76,6 +78,7 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
                 materialIds,
                 minPrice != null ? minPrice.doubleValue() : null,
                 maxPrice != null ? maxPrice.doubleValue() : null,
+                inStock,
                 pageable);
     }
 
