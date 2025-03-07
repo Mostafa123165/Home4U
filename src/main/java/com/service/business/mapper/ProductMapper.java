@@ -31,6 +31,7 @@ public interface ProductMapper extends BaseMapper<Product, ProductDto> {
             @Mapping(target = "type", expression = "java(LocaleContextHolder.getLocale().getLanguage().equals(\"ar\") ? t.getBusinessType().getNameAr() : t.getBusinessType().getNameEn())"),
             @Mapping(target = "imagePath", source = "t.mainImagePath"),
             @Mapping(target = "colors", expression = "java(mapStocksToColorDto(t.getStocks()))"),
+            @Mapping(target = "inStock" , expression = "java(t.getStockAmount()>0?true:false)")
     })
     ProductCardDto mapToProductCard(Product t);
 
