@@ -67,6 +67,7 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
             maxPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("maxPrice",null);
             colorIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("colorIds",null);
             businessTypeIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("businessTypeIds",null);
+            materialIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("materialIds",null);
             inStock = (boolean) searchRequest.getSearchCriteria().getOrDefault("inStock",false);
         }
 
