@@ -30,7 +30,8 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
                     SELECT 1 FROM product.materials materials
                     WHERE materials.id IN (:materialIds)
                 ))
+        AND (:inStock is false OR stock.amount > 0)
     ORDER BY product.createdDate DESC
     """)
-    Page<Product> filter(Long businessId, String name, List<Integer> businessTypeIds, List<Integer> colorIds,List<Integer> materialIds, Double minPrice , Double maxPrice, Pageable pageable);
+    Page<Product> filter(Long businessId, String name, List<Integer> businessTypeIds, List<Integer> colorIds,List<Integer> materialIds, Double minPrice , Double maxPrice,boolean inStock, Pageable pageable);
 }
