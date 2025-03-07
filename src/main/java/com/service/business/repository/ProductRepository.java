@@ -21,7 +21,7 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
     LEFT JOIN FETCH product.stocks stock
     LEFT JOIN FETCH stock.color color
     WHERE product.business.id = :businessId
-        AND (:name IS NULL OR product.nameAr = :name OR product.nameEn = :name)
+        AND (:name IS NULL OR product.nameAr LIKE concat('%',:name,'%') OR product.nameEn = :name)
         AND (:businessTypeIds IS NULL OR businessType.id in (:businessTypeIds))
         AND (:colorIds IS NULL OR color.id in (:colorIds))
         AND (:minPrice IS NULL OR product.price >= :minPrice)
