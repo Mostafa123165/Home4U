@@ -85,7 +85,11 @@ public class AuthService {
             Business business = businessMapper.unMapUserRegister(registerRequest);
             business.setUser(user);
             businessService.insert(business);
-        }
+        } else if(userType.getCode().equals(Constant.UserTypeEnum.ENGINEERING_OFFICE.name())){
+            EngineeringOffice engineeringOffice = engineeringOfficeMapper.unMap(registerRequest.getEngineeringOffice());
+            engineeringOffice.setUser(user);
+            engineeringOfficeService.insert(engineeringOffice);
+         }
 
         sendOptService.sendOtp(user);
 
@@ -174,32 +178,6 @@ public class AuthService {
            return new AccessTokenDto(token);
         }
         throw new BadRequestException("Invalid refresh token");
-    }
-
-    public String engineeringOfficeRegister(MultipartFile commercialRegister,
-                                            MultipartFile personalCard,
-                                            MultipartFile taxCard, MultipartFile cover,
-                                            UserRegisterDto registerRequest) {
-
-        checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPhone());
-
-        registerRequest.setPassword(hashingPassword(registerRequest.getPassword()));
-        User user = userMapper.unMapRegister(registerRequest);
-        user = userService.insert(user);
-        EngineeringOffice engineeringOffice = engineeringOfficeMapper.unMap(registerRequest.getEngineeringOffice());
-
-        if(!cover.isEmpty()) user.setPersonalPhoto(fileStorageService.addPersonalPhoto(cover,user.getId()));
-        engineeringOffice.setTaxCardPath(fileStorageService.addEngineeringTaxCard(taxCard,user));
-        engineeringOffice.setCommercialRegisterPath(fileStorageService.addEngineeringCommercialRegister(commercialRegister,user));
-        engineeringOffice.setPersonalCardPath(fileStorageService.addEngineeringPersonalCard(personalCard,user));
-
-        engineeringOffice.setUser(user);
-
-        engineeringOfficeService.insert(engineeringOffice);
-
-        sendOptService.sendOtp(user);
-
-        return messageSourceService.getMessage("success.user.registered");
     }
 
 }
