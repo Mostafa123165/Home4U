@@ -50,9 +50,16 @@ public class Constant {
 
     public class ImageTableNameEunm {
         public static final String BUSINESS_PRODUCTS = "product_images";
+        public static final String USER = "user";
+        public static final String ENGINEERING_OFFICE = "fre_engineering_office";
+
     }
 
     public class ConfigKeyEnum {
         public static final String BUSINESS_PRODUCTS = "BUSINESS_PRODUCTS";
+        public static final String COVER_PHOTO = "COVER_PHOTO";
+        public static final String PERSONAL_CARD = "PERSONAL_CARD";
+        public static final String TAX_CARD = "TAX_CARD";
+        public static final String COMMERCIAL_REGISTER = "COMMERCIAL_REGISTER";
     }
 }
