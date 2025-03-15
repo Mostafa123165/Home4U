@@ -37,6 +37,6 @@ public class EngineeringOffice extends BaseEntity<Long> {
             uniqueConstraints = @UniqueConstraint(columnNames={"engineering_office_id", "department_id"} ) ,
             joinColumns = @JoinColumn(name = "engineering_office_id"),
             inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private List<EngineeringOfficeDepartment> engineerServ;
+    private List<EngineeringOfficeDepartment> engineeringOfficeDepartments;
 
 }

@@ -139,6 +139,18 @@ public class FileStorageService {
         if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.BUSINESS_PRODUCTS)) {
             fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.BUSINESS_PRODUCTS, "image_path" ,downloadUri, id);
         }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.COVER_PHOTO)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.USER, "cover_photo" ,downloadUri, id);
+        }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.PERSONAL_CARD)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ENGINEERING_OFFICE, "personal_card_path" ,downloadUri, id);
+        }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.TAX_CARD)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ENGINEERING_OFFICE, "tax_card_path" ,downloadUri, id);
+        }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.COMMERCIAL_REGISTER)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ENGINEERING_OFFICE, "commercial_register_path" ,downloadUri, id);
+        }
     }
 
     public String preparePathType(String pathId) {
@@ -181,19 +193,4 @@ public class FileStorageService {
 
         }
     }*/
-
-    public String addEngineeringTaxCard(MultipartFile taxCard, User user) {
-        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/tax-card"; // certificate/userId
-        return uploadFile(taxCard, fileUploadSubPath);
-    }
-
-    public String addEngineeringCommercialRegister(MultipartFile commercialRegister, User user) {
-        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/commercia-register"; // certificate/userId
-        return uploadFile(commercialRegister, fileUploadSubPath);
-    }
-
-    public String addEngineeringPersonalCard(MultipartFile personalCard, User user) {
-        final String fileUploadSubPath = "engineering-office" + "/" + user.getId() +"/personal-card"; // certificate/userId
-        return uploadFile(personalCard, fileUploadSubPath);
-    }
 }

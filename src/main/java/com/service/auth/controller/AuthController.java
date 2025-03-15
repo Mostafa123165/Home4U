@@ -24,16 +24,6 @@ public class AuthController {
         return ResponseEntity.ok(new SuccessResponse<>(authService.register(registerRequest)));
     }
 
-    @PostMapping(path = "/engineering-office-register",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<?> engineeringOfficeRegister(
-            @RequestPart("commercialRegister") MultipartFile commercialRegister,
-            @RequestPart("personalCard") MultipartFile personalCard,
-            @RequestPart("taxCard") MultipartFile taxCard,
-            @RequestPart(value = "cover",required = false) MultipartFile cover,
-            @RequestPart UserRegisterDto registerRequest) {
-        return ResponseEntity.ok(new SuccessResponse<>(authService.engineeringOfficeRegister(commercialRegister,personalCard,taxCard,cover,registerRequest)));
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto authRequest  ) {
         return ResponseEntity.ok(new SuccessResponse<>(authService.login(authRequest)));
