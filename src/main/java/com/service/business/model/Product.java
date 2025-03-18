@@ -56,10 +56,10 @@ public class Product extends BaseEntity<Long> {
     @Transient
     private String mainImagePath;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ProductImage> imagePaths;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ProductStock> stocks;
 
     @ManyToOne(fetch = FetchType.LAZY)
