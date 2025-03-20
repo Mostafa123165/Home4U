@@ -69,6 +69,7 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
             businessTypeIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("businessTypeIds",null);
             materialIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("materialIds",null);
             inStock = (boolean) searchRequest.getSearchCriteria().getOrDefault("inStock",false);
+            name = (String) searchRequest.getSearchCriteria().getOrDefault("name",null);
         }
 
         return productReps.filter(
