@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,7 @@ public abstract class BaseLkpControllerImpl<T extends BaseLkpEntity<ID>,DTO exte
     }
 
     @Override
-    public ResponseEntity<?> findById(@RequestParam ID id) {
+    public ResponseEntity<?> findById(@PathVariable ID id) {
         return ResponseEntity.ok(new SuccessResponse<>(baseLkpService.findById(id)));
     }
 
