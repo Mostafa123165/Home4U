@@ -1,6 +1,7 @@
 package com.service.auth.service;
 
 
+import com.service.auth.dto.RegisterResponse;
 import com.service.auth.jwt.JwtGenerator;
 import com.service.auth.jwt.TokenUtils;
 import com.service.auth.model.*;
@@ -36,6 +37,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -60,7 +63,9 @@ public class AuthService {
     private final BusinessMapper businessMapper;
 
     @Transactional
-    public String register(UserRegisterDto registerRequest) {
+    public RegisterResponse register(UserRegisterDto registerRequest) {
+
+        RegisterResponse registerResponse = new RegisterResponse(messageSourceService.getMessage("success.user.registered"));
 
         checkDuplicateEmailOrPhone(registerRequest.getEmail(), registerRequest.getPhone());
 
@@ -88,12 +93,12 @@ public class AuthService {
         } else if(userType.getCode().equals(Constant.UserTypeEnum.ENGINEERING_OFFICE.name())){
             EngineeringOffice engineeringOffice = engineeringOfficeMapper.unMap(registerRequest.getEngineeringOffice());
             engineeringOffice.setUser(user);
-            engineeringOfficeService.insert(engineeringOffice);
+            registerResponse.setId(engineeringOfficeService.insert(engineeringOffice).getId());
          }
 
         sendOptService.sendOtp(user);
 
-        return messageSourceService.getMessage("success.user.registered");
+        return registerResponse;
     }
 
     private void checkDuplicateEmailOrPhone(String email, String phone) {
