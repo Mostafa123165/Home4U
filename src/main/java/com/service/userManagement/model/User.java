@@ -55,6 +55,8 @@ public class User extends BaseEntity<Long> implements UserDetails {
 
     private String personalPhoto;
 
+    private String coverPhoto;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_"+userType.getCode()));

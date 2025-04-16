@@ -32,6 +32,8 @@ public class UserRegisterDto {
 
     private String personalPhoto;
 
+    private String coverPhoto;
+
     @Min(value = 8, message = "Password must be at least 8 characters.")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
