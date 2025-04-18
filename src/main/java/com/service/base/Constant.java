@@ -52,6 +52,8 @@ public class Constant {
         public static final String BUSINESS_PRODUCTS = "product_images";
         public static final String USER = "user";
         public static final String ENGINEERING_OFFICE = "fre_engineering_office";
+        public static final String ASK_ENGINEER_PHOTOS = "fre_ask_engineer_photos";
+        public static final String ASK_WORKER_PHOTOS = "fre_ask_worker_photos";
 
     }
 
@@ -61,5 +63,7 @@ public class Constant {
         public static final String PERSONAL_CARD = "PERSONAL_CARD";
         public static final String TAX_CARD = "TAX_CARD";
         public static final String COMMERCIAL_REGISTER = "COMMERCIAL_REGISTER";
+        public static final String ASK_ENGINEER = "ASK_ENGINEER";
+        public static final String ASK_WORKER = "ASK_WORKER";
     }
 }
