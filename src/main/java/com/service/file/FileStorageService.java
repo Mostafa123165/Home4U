@@ -151,6 +151,12 @@ public class FileStorageService {
         if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.COMMERCIAL_REGISTER)) {
             fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ENGINEERING_OFFICE, "commercial_register_path" ,downloadUri, id);
         }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.ASK_ENGINEER)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ASK_ENGINEER_PHOTOS, "photo_path" ,downloadUri, id);
+        }
+        if (pathId.equalsIgnoreCase(Constant.ConfigKeyEnum.ASK_WORKER)) {
+            fileStorageReps.updateImagePath(Constant.ImageTableNameEunm.ASK_WORKER_PHOTOS, "photo_path" ,downloadUri, id);
+        }
     }
 
     public String preparePathType(String pathId) {
