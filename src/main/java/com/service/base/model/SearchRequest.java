@@ -17,6 +17,10 @@ public class SearchRequest {
     private Map<String, Object> searchCriteria = new HashMap<String, Object>();
 
     public void addSearchCriteria(String key, Object value) {
+        if(getSearchCriteria() == null)
+        {
+            setSearchCriteria(new HashMap<>());
+        }
         getSearchCriteria().put(key, value);
     }
 }
