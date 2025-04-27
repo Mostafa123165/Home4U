@@ -26,4 +26,10 @@ public class EngineeringOfficeDto extends BaseEntityDto<Long> {
     private EngineeringOfficeFieldDto engineeringOfficeField;
 
     private List<EngineeringOfficeDepartmentDto> engineeringOfficeDepartments;
+
+    private String facebookLink;
+
+    private String linkedinLink;
+
+    private String behanceLink;
 }

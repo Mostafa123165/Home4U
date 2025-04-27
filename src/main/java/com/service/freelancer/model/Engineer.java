@@ -37,10 +37,13 @@ public class Engineer extends BaseEntity<Long> {
     @Column(name = "bio", columnDefinition = "TEXT")
     private String bio;
 
+    @Column(name = "facebook_link")
+    private String facebookLink;
+
     @Column(name = "linkedin_link")
-    private String linkedin;
+    private String linkedinLink;
 
     @Column(name = "behance_link")
-    private String behance;
+    private String behanceLink;
 
 }
