@@ -38,5 +38,14 @@ public class TechnicalWorker extends BaseEntity<Long> {
     @Column(name = "bio", columnDefinition = "TEXT")
     private String bio;
 
+    @Column(name = "facebook_link")
+    private String facebookLink;
+
+    @Column(name = "linkedin_link")
+    private String linkedinLink;
+
+    @Column(name = "behance_link")
+    private String behanceLink;
+
 
 }

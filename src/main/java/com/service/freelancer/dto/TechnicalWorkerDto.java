@@ -15,4 +15,10 @@ public class TechnicalWorkerDto extends BaseEntityDto<Long> {
     private int yearsOfExperience;
     private List<TechnicalWorkerServDto> workerServs;
     private String bio;
+
+    private String facebookLink;
+
+    private String linkedinLink;
+
+    private String behanceLink;
 }
