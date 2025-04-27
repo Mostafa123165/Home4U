@@ -27,8 +27,9 @@ public class EngineerDto extends BaseEntityDto<Long> {
 
     private String bio;
 
-    @NotNull
-    private String linkedin;
+    private String facebookLink;
 
-    private String behance;
+    private String linkedinLink;
+
+    private String behanceLink;
 }

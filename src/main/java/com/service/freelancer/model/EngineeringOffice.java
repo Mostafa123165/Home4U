@@ -28,6 +28,15 @@ public class EngineeringOffice extends BaseEntity<Long> {
 
     private String personalCardPath;
 
+    @Column(name = "facebook_link")
+    private String facebookLink;
+
+    @Column(name = "linkedin_link")
+    private String linkedinLink;
+
+    @Column(name = "behance_link")
+    private String behanceLink;
+
     @ManyToOne
     @JoinColumn(name = "fields_id")
     private EngineeringOfficeField engineeringOfficeField;
