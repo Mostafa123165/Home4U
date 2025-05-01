@@ -10,10 +10,7 @@ import com.service.business.service.ProductService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -29,5 +26,10 @@ public class ProductController extends BaseControllerImpl<Product, ProductDto, L
     @PostMapping("/filter")
     public ResponseEntity<?> filter(@RequestBody Optional<SearchRequest> searchRequest) {
         return ResponseEntity.ok(new SuccessResponsePage<>(productService.filter(searchRequest).map(productMapper::mapToProductCard)));
+    }
+
+    @PostMapping("/shop-now")
+    public ResponseEntity<?> shopNow(@RequestBody Optional<SearchRequest> searchRequest) {
+        return ResponseEntity.ok(new SuccessResponsePage<>(productService.shopNow(searchRequest).map(productMapper::mapToProductShopNow)));
     }
 }

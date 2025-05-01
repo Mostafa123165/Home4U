@@ -4,8 +4,8 @@ import com.service.base.mapper.BaseMapper;
 import com.service.business.dto.ColorDto;
 import com.service.business.dto.ProductCardDto;
 import com.service.business.dto.ProductDto;
+import com.service.business.dto.ProductShopNowDto;
 import com.service.business.model.Product;
-import com.service.business.model.ProductImage;
 import com.service.business.model.ProductStock;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -36,6 +36,17 @@ public interface ProductMapper extends BaseMapper<Product, ProductDto> {
     ProductCardDto mapToProductCard(Product t);
 
     List<ProductCardDto> mapToProductCard(List<Product> t);
+
+    @Mappings({
+            @Mapping(target = "name", expression = "java(LocaleContextHolder.getLocale().getLanguage().equals(\"ar\") ? t.getNameAr() : t.getNameEn())"),
+            @Mapping(target = "imagePath", source = "t.mainImagePath"),
+            @Mapping(target = "price", source = "t.price"),
+            @Mapping(target = "rate", ignore = true),
+    })
+    ProductShopNowDto mapToProductShopNow(Product t);
+
+    List<ProductShopNowDto> mapToProductShopNow(List<Product> t);
+
 
     default List<ColorDto> mapStocksToColorDto(List<ProductStock> stocks) {
         return stocks.stream()
