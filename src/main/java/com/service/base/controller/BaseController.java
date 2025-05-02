@@ -1,5 +1,6 @@
 package com.service.base.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ public interface BaseController<T,DTO,ID>{
     ResponseEntity<?> findById(@PathVariable ID id);
 
     @PostMapping
-    ResponseEntity<?> insert( @RequestBody DTO dto);
+    ResponseEntity<?> insert(@Valid @RequestBody DTO dto);
 
     @PutMapping
-    ResponseEntity<?> update( @RequestBody DTO dto);
+    ResponseEntity<?> update(@Valid @RequestBody DTO dto);
 
     @PostMapping("/all")
-    ResponseEntity<?> saveAll( @RequestBody List<DTO> dtos);
+    ResponseEntity<?> saveAll(@Valid @RequestBody List<DTO> dtos);
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteById(@PathVariable ID id);
