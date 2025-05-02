@@ -40,6 +40,7 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
     SELECT product
     FROM Product product
     JOIN product.businessType buisinessType
+    JOIN product.businessTypeCategory businessTypeCategory
     WHERE (:name IS NULL OR product.nameAr LIKE CONCAT('%',:name,'%') OR product.nameEn LIKE CONCAT('%',:name,'%'))
         AND (:materialIds IS NULL OR EXISTS (
                     SELECT 1 FROM product.materials materials
@@ -51,12 +52,13 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
                     JOIN stock.color color
                     WHERE color.id IN (:colorIds)
                 ))
-        AND (:businessTypeId IS NULL OR buisinessType.id = :businessTypeId )
+        AND (:businessTypeId IS NULL OR buisinessType.id = :businessTypeId)
+        AND (:businessTypeCategoryId IS NULL OR businessTypeCategory.id = :businessTypeCategoryId)
         AND (:minPrice IS NULL OR product.price >= :minPrice)
         AND (:maxPrice IS NULL OR product.price <= :maxPrice)
     ORDER BY product.id DESC
     """)
-    Page<Product> shopNow(String name, List<Integer> materialIds, List<Integer> colorIds,Integer businessTypeId, Double minPrice, Double maxPrice, Pageable pageable);
+    Page<Product> shopNow(String name, List<Integer> materialIds, List<Integer> colorIds,Integer businessTypeId,Integer businessTypeCategoryId, Double minPrice, Double maxPrice, Pageable pageable);
 
     @Query("""
     SELECT p FROM Product p LEFT JOIN FETCH p.imagePaths WHERE p.id IN :ids
