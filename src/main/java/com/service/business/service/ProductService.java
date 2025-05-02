@@ -90,4 +90,41 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
             throw new BadRequestException("The business id is required.");
         }
     }
+
+    public Page<Product> shopNow(Optional<SearchRequest> req) {
+        SearchRequest searchRequest = req.orElse(new SearchRequest());
+        Pageable pageable = PageRequest.of(searchRequest.getPageNumber(), searchRequest.getPageSize());
+
+        String name = null;
+        List<Integer> materialIds = null;
+        List<Integer> colorIds = null;
+        Number minPrice = null;
+        Number maxPrice = null;
+        Number businessTypeId = null;
+        Number businessTypeCategoryId = null;
+
+        if (searchRequest.getSearchCriteria() != null) {
+            name = (String) searchRequest.getSearchCriteria().getOrDefault("name", null);
+            businessTypeId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessTypeId", null);
+            businessTypeCategoryId = (Number) searchRequest.getSearchCriteria().getOrDefault("businessTypeCategoryId", null);
+            materialIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("materialIds", null);
+            colorIds = (List<Integer>) searchRequest.getSearchCriteria().getOrDefault("colorIds", null);
+            minPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("minPrice", null);
+            maxPrice = (Number) searchRequest.getSearchCriteria().getOrDefault("maxPrice", null);
+        }
+
+         Page<Product> products = productReps.shopNow(
+                 name,
+                 materialIds,
+                 colorIds,
+                 businessTypeId != null ? businessTypeId.intValue() : null,
+                 businessTypeCategoryId != null ? businessTypeCategoryId.intValue() : null,
+                 minPrice != null ? minPrice.doubleValue() : null,
+                 maxPrice != null ? maxPrice.doubleValue() : null,
+                 pageable);
+
+        productReps.findProductsWithImages(products.getContent().stream().map(Product::getId).toList());
+
+        return products;
+    }
 }

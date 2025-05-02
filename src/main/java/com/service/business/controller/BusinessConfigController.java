@@ -1,15 +1,11 @@
 package com.service.business.controller;
 
 import com.service.base.model.SuccessResponse;
-import com.service.business.mapper.BusinessTypeMapper;
-import com.service.business.mapper.ColorMapper;
-import com.service.business.mapper.ProductBaseUnitMapper;
-import com.service.business.mapper.ProductMaterialMapper;
+import com.service.business.mapper.*;
 import com.service.business.model.BusinessConfigResponse;
-import com.service.business.service.BusinessTypeService;
-import com.service.business.service.ColorService;
-import com.service.business.service.ProductBaseUnitService;
-import com.service.business.service.ProductMaterialService;
+import com.service.business.model.BusinessTypeCategory;
+import com.service.business.repository.BusinessTypeCategoryReps;
+import com.service.business.service.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +32,10 @@ public class BusinessConfigController {
     private final BusinessTypeService businessTypeService;
     private final BusinessTypeMapper businessTypeMapper;
 
+    private final BusinessTypeCategoryService businessTypeCategoryService;
+    private final BusinessTypeCategoryMapper businessTypeCategoryMapper;
+
+
     @GetMapping
     public ResponseEntity<Object> getPortalConfig() {
 
@@ -45,6 +45,7 @@ public class BusinessConfigController {
         businessConfigResponse.setProductMaterial(productMaterialMapper.map(productMaterialService.findAll()));
         businessConfigResponse.setProductBaseUnits(productBaseUnitMapper.map(productBaseUnitService.findAll()));
         businessConfigResponse.setBusinessTypes(businessTypeMapper.map(businessTypeService.findAll()));
+        businessConfigResponse.setBusinessTypeCategories(businessTypeCategoryMapper.map(businessTypeCategoryService.findAll()));
 
         return ResponseEntity.ok(new SuccessResponse<BusinessConfigResponse>(businessConfigResponse));
     }

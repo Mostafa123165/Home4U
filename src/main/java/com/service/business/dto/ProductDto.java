@@ -39,6 +39,9 @@ public class ProductDto extends BaseEntityDto<Long> {
     @NotNull(message = "Business type is required")
     private BusinessTypeDto businessType;
 
+    @NotNull(message = "Business type category is required")
+    private BusinessTypeCategoryDto businessTypeCategory;
+
     @NotNull(message = "Base unit is required")
     private ProductBaseUnitDto baseUnit;
 

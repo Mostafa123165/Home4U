@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -67,12 +68,22 @@ public class GlobalExceptionHandling {
     }
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex) {
         log.error("Application error in: [" + ex.getClass().getName() + "]", ex);
 
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,ex.getMessage(),details);
         return new ResponseEntity<Object>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public final ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        List<String> details = new ArrayList<>();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            details.add(error.getField() + ": " + error.getDefaultMessage());
+        });
+        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST, details.toString());
+        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
 }
