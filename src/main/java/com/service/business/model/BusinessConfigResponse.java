@@ -1,9 +1,6 @@
 package com.service.business.model;
 
-import com.service.business.dto.BusinessTypeDto;
-import com.service.business.dto.ColorDto;
-import com.service.business.dto.ProductBaseUnitDto;
-import com.service.business.dto.ProductMaterialDto;
+import com.service.business.dto.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +17,6 @@ public class BusinessConfigResponse {
     private List<ProductMaterialDto> productMaterial;
 
     private List<BusinessTypeDto> businessTypes;
+
+    private List<BusinessTypeCategoryDto> businessTypeCategories;
 }

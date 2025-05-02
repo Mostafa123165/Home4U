@@ -34,6 +34,12 @@ public class Product extends BaseEntity<Long> {
     @JoinColumn(name = "business_type_id", nullable = false)
     private BusinessType businessType;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_type_category_id", nullable = false)
+    private BusinessTypeCategory businessTypeCategory;
+
+
     @ManyToMany
     @JoinTable(name = "products_materials",
             joinColumns = @JoinColumn(name = "product_id"),
