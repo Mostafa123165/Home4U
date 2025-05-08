@@ -13,6 +13,8 @@ public class OrderDto extends BaseEntityDto<Long> {
 
     private Long userId;
 
+    private String orderNumber;
+
     @Size(min = 1, message = "Order details must be greater than 0")
     private List<OrderDetailsDto> orderDetails;
 }

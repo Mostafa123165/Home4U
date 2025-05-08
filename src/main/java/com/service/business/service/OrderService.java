@@ -22,6 +22,12 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
         return super.insert(entity);
     }
 
+    @Override
+    public Order update(Order entity) {
+        entity.associateOrderDetails();
+        return super.update(entity);
+    }
+
     private void setCurrentUser(Order order) {
         order.setUser(userService.getCurrentUser());
     }
