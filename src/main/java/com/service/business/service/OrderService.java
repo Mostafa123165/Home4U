@@ -49,4 +49,11 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
                 userId,
                 statusCode.orElse(null));
     }
+
+    @Transactional
+    public void updateOldOrdersToDelivered() {
+        orderRepository.updateOldOrdersToDelivered();
+    }
+
+
 }
