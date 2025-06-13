@@ -32,16 +32,21 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
     }
 
     private void checkIfTheUserHasAlreadyRatedTheProduct(ProductRating productRating) {
-        boolean isProductRated = productRatingRepository.existsByProductIdAndUserId(
+        boolean isProductRated =existsByProductIdAndUserId(
                 productRating.getProduct().getId(), productRating.getUser().getId());
         if (isProductRated) {
             throw new BadRequestException(messageSourceService.getMessage("validation.product.already.rated"));
         }
     }
 
+
     private void associateCurrentUserWithProductRating(ProductRating productRating) {
         User user = userService.getCurrentUser();
         productRating.setUser(user);
+    }
+
+    public boolean existsByProductIdAndUserId(Long productId, Long userId) {
+        return productRatingRepository.existsByProductIdAndUserId(productId, userId);
     }
 
 }
