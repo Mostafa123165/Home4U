@@ -14,3 +14,8 @@ CREATE TABLE IF NOT EXISTS product_ratings (
     CONSTRAINT rate_range CHECK (rate >= 1 AND rate <= 5),
     UNIQUE KEY (product_id, user_id)
 );
+
+
+
+ALTER TABLE products
+ADD COLUMN rate DOUBLE DEFAULT 0;
