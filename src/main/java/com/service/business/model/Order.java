@@ -1,6 +1,7 @@
 package com.service.business.model;
 
 import com.service.base.model.BaseEntity;
+import com.service.common.model.OrderStatus;
 import com.service.userManagement.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,6 +23,10 @@ public class Order extends BaseEntity<Long> {
 
     @Column(name = "order_number", nullable = false)
     private String orderNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private OrderStatus status;
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;

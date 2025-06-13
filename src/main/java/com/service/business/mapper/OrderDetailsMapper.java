@@ -13,13 +13,13 @@ public interface OrderDetailsMapper extends BaseMapper<OrderDetails, OrderDetail
 
     @Override
     @Mappings({
-            @Mapping(target = "productId" ,source = "t.product.id"),
+            @Mapping(target = "productId" ,source = "product.id"),
     })
     OrderDetailsDto map(OrderDetails t);
 
     @Override
     @Mappings({
-            @Mapping(target = "product.id",source = "t.productId"),
+            @Mapping(target = "product.id",source = "productId"),
     })
     OrderDetails unMap(OrderDetailsDto t);
 }

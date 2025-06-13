@@ -66,4 +66,11 @@ public class Constant {
         public static final String ASK_ENGINEER = "ASK_ENGINEER";
         public static final String ASK_WORKER = "ASK_WORKER";
     }
+
+
+    public class OrderStatusEnum {
+        public static final String PENDING = "PENDING";
+        public static final String CANCELED = "CANCELED";
+        public static final String DELIVERED = "DELIVERED";
+    }
 }

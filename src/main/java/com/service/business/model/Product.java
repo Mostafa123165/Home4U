@@ -75,6 +75,8 @@ public class Product extends BaseEntity<Long> {
     @Formula("(select COALESCE(ROUND(SUM(stock.amount),2),0) from product_stocks stock where stock.product_id = id)")
     private double stockAmount;
 
+    private double rate;
+
     @Transient
     private boolean inStock;
 
