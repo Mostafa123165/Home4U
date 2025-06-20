@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
@@ -52,6 +54,14 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
             Pageable pageable
     );
 
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Query(value = """
+    SELECT rate.rate
+    FROM ProductRating rate
+    WHERE rate.id =  :productRateId
+    """)
+    Double getProductRateById(Long productRateId);
 }
 
 

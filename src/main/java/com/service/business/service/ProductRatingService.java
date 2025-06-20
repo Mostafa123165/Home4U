@@ -3,6 +3,7 @@ package com.service.business.service;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
 import com.service.business.dto.ProductRatingResponseDTO;
+import com.service.business.model.Product;
 import com.service.business.model.ProductRating;
 import com.service.business.repository.ProductRatingRepository;
 import com.service.common.service.MessageSourceService;
@@ -23,12 +24,14 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
     private final UserService userService;
     private final ProductRatingRepository productRatingRepository;
     private final MessageSourceService messageSourceService;
+    private final ProductService productService;
 
     @Override
     @Transactional
     public ProductRating insert(ProductRating productRating) {
         associateCurrentUserWithProductRating(productRating);
         checkIfTheUserHasAlreadyRatedTheProduct(productRating);
+        productService.updateProductRate(productRating.getProduct().getId(),productRating.getRate(),1);
         return super.insert(productRating);
     }
 
@@ -36,13 +39,20 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
     @Transactional
     public ProductRating update(ProductRating productRating) {
         associateCurrentUserWithProductRating(productRating);
+        Double oldProductRate = getProductRateById(productRating.getId());
+        if(!oldProductRate.equals(productRating.getRate())) {
+            productService.updateProductRate(productRating.getProduct().getId(), oldProductRate, -1);
+            productService.updateProductRate(productRating.getProduct().getId(), oldProductRate, +1);
+        }
         return super.update(productRating);
     }
 
     @Override
     @Transactional
-    public void deleteById(Long aLong) {
-        super.deleteById(aLong);
+    public void deleteById(Long productRatingId) {
+        ProductRating productRating = findById(productRatingId);
+        productService.updateProductRate(productRatingId,productRating.getRate(),-1);
+        super.deleteById(productRatingId);
     }
 
     private void checkIfTheUserHasAlreadyRatedTheProduct(ProductRating productRating) {
@@ -58,10 +68,6 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
         productRating.setUser(user);
     }
 
-    /*private void updateProductRate(Long productId, Double rate) {
-        ProductRating productRating = productRatingRepository.findById(productId)
-
-    }*/
 
     public boolean existsByProductIdAndUserId(Long productId, Long userId) {
         return productRatingRepository.existsByProductIdAndUserId(productId, userId);
@@ -81,6 +87,11 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
                 isTopRated,
                 pageable
         );
+    }
+
+
+    private Double getProductRateById(Long productRateId) {
+        return productRatingRepository.getProductRateById(productRateId);
     }
 
 

@@ -77,6 +77,12 @@ public class Product extends BaseEntity<Long> {
 
     private double rate;
 
+    @Column(name = "count_rates")
+    private Long countRates;
+
+    @Column(name = "sum_of_rates")
+    private double sumOfRates;
+
     @Transient
     private boolean inStock;
 
