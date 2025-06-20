@@ -68,9 +68,54 @@ public class Constant {
     }
 
 
-    public class OrderStatusEnum {
+    public static class OrderStatusEnum {
         public static final String PENDING = "PENDING";
         public static final String CANCELED = "CANCELED";
         public static final String DELIVERED = "DELIVERED";
+    }
+
+
+    public static class KitchenDeviceEnum {
+        public static final String FRIDGE = "FRIDGE";
+        public static final String OVEN = "OVEN";
+        public static final String MICROWAVE = "MICROWAVE";
+        public static final String DISHWASHER = "DISHWASHER";
+        public static final String COOKER = "COOKER";
+        public static final String HOOD = "HOOD";
+        public static final String FREEZER = "FREEZER";
+        public static final String WASHING_MACHINE = "WASHING_MACHINE";
+    }
+
+    public static class HomeFurnishingRequestTypeEnum {
+        public static final String FURNISH_HOUSE = "FURNISH_HOUSE";
+        public static final String DRESSING_ROOM = "DRESSING_ROOM";
+        public static final String KITCHEN = "KITCHEN";
+    }
+
+    public static class KitchenTypeEnum {
+        public static final String AMERICAN = "AMERICAN";
+        public static final String NORMAL = "NORMAL";
+    }
+
+    public static class FurnitureTypeEnum {
+        public static final String MASTER_BEDROOM_SET = "MASTER_BEDROOM_SET";
+        public static final String YOUTH_BEDROOM = "YOUTH_BEDROOM";
+        public static final String CHILDREN_BEDROOM = "CHILDREN_BEDROOM";
+        public static final String SEPARATE_BED = "SEPARATE_BED";
+        public static final String WARDROBE = "WARDROBE";
+        public static final String DESK = "DESK";
+        public static final String DRESSING_TABLE = "DRESSING_TABLE";
+        public static final String CABINET = "CABINET";
+        public static final String COMPLETE_SOFA_SET = "COMPLETE_SOFA_SET";
+        public static final String TWO_SEAT_SOFA = "TWO_SEAT_SOFA";
+        public static final String THREE_SEAT_SOFA = "THREE_SEAT_SOFA";
+        public static final String TOP_PIECE = "TOP_PIECE";
+        public static final String L_SHAPED_SOFA = "L_SHAPED_SOFA";
+        public static final String CENTER_TABLE = "CENTER_TABLE";
+        public static final String SIDE_TABLE = "SIDE_TABLE";
+        public static final String DINING_SET = "DINING_SET";
+        public static final String DINING_SET_4 = "DINING_SET_4";
+        public static final String DINING_SET_6 = "DINING_SET_6";
+        public static final String DINING_SET_8 = "DINING_SET_8";
     }
 }
