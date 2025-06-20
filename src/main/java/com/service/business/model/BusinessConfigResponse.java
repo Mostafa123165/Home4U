@@ -19,4 +19,6 @@ public class BusinessConfigResponse {
     private List<BusinessTypeDto> businessTypes;
 
     private List<BusinessTypeCategoryDto> businessTypeCategories;
+
+    private List<HomeFurnishingRequestTypeDto> homeFurnishingRequestTypes;
 }
