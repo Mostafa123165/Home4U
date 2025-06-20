@@ -4,6 +4,8 @@ import com.service.base.model.SuccessResponse;
 import com.service.business.mapper.*;
 import com.service.business.model.BusinessConfigResponse;
 import com.service.business.model.BusinessTypeCategory;
+import com.service.business.model.HomeFurnishingRequest;
+import com.service.business.model.HomeFurnishingRequestType;
 import com.service.business.repository.BusinessTypeCategoryReps;
 import com.service.business.service.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,6 +37,9 @@ public class BusinessConfigController {
     private final BusinessTypeCategoryService businessTypeCategoryService;
     private final BusinessTypeCategoryMapper businessTypeCategoryMapper;
 
+    private final HomeFurnishingRequestTypeService homeFurnishingRequestTypeService;
+    private final HomeFurnishingRequestTypeMapper homeFurnishingRequestTypeMapper;
+
 
     @GetMapping
     public ResponseEntity<Object> getPortalConfig() {
@@ -46,7 +51,7 @@ public class BusinessConfigController {
         businessConfigResponse.setProductBaseUnits(productBaseUnitMapper.map(productBaseUnitService.findAll()));
         businessConfigResponse.setBusinessTypes(businessTypeMapper.map(businessTypeService.findAll()));
         businessConfigResponse.setBusinessTypeCategories(businessTypeCategoryMapper.map(businessTypeCategoryService.findAll()));
-
+        businessConfigResponse.setHomeFurnishingRequestTypes(homeFurnishingRequestTypeMapper.map(homeFurnishingRequestTypeService.findAll()));
         return ResponseEntity.ok(new SuccessResponse<BusinessConfigResponse>(businessConfigResponse));
     }
 }
