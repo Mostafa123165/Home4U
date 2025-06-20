@@ -31,5 +31,13 @@ public interface OrderRepository extends BaseRepository<Order, Long> {
           AND ord.status_id = (select id from order_status_lkp where code = 'PENDING')
     """,nativeQuery = true)
     void updateOldOrdersToDelivered();
+
+    @Modifying
+    @Query(value = """
+    UPDATE Order ord
+    SET ord.status.id = (SELECT status.id FROM  OrderStatus status WHERE status.code = :cancelStatusCode)
+    WHERE ord.id = :orderId
+    """)
+    void cancelOrder(Long orderId,String cancelStatusCode);
 }
 

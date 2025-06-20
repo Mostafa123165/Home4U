@@ -4,11 +4,11 @@ import com.service.base.Constant;
 import com.service.base.service.BaseServiceImpl;
 import com.service.business.model.Order;
 import com.service.business.repository.OrderRepository;
-import com.service.common.model.OrderStatus;
+import com.service.common.service.MessageSourceService;
 import com.service.common.service.OrderNumberSeqService;
+import com.service.error.BadRequestException;
 import com.service.userManagement.service.UserService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Constants;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +23,7 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
     private final OrderRepository orderRepository;
     private final OrderNumberSeqService orderNumberSeqService;
     private final OrderStatusService orderStatusService;
+    private final MessageSourceService messageSourceService;
 
     @Override
     @Transactional
@@ -56,4 +57,18 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
     }
 
 
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        Order order = findById(orderId);
+        validateOrderStatus(order);
+        orderRepository.cancelOrder(orderId,Constant.OrderStatusEnum.CANCELED);
+    }
+
+    private void validateOrderStatus(Order order) {
+        if(order.getStatus().getCode().equals(Constant.OrderStatusEnum.CANCELED) ||
+                order.getStatus().getCode().equals(Constant.OrderStatusEnum.DELIVERED)) {
+            throw new BadRequestException(messageSourceService.getMessage("validation.order.cannot.cancel",
+                    new String[]{order.getStatus().getNameEn()}));
+        }
+    }
 }
