@@ -27,7 +27,8 @@ public interface OrderRepository extends BaseRepository<Order, Long> {
     @Query(value = """
     UPDATE orders ord
     SET ord.status_id = (select id from order_status_lkp where code = 'DELIVERED')
-    WHERE datediff(current_date(),DATE(ord.created_date)) >= 3; 
+    WHERE datediff(current_date(),DATE(ord.created_date)) >= 3 
+          AND ord.status_id = (select id from order_status_lkp where code = 'PENDING')
     """,nativeQuery = true)
     void updateOldOrdersToDelivered();
 }
