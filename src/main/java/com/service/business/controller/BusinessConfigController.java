@@ -3,10 +3,6 @@ package com.service.business.controller;
 import com.service.base.model.SuccessResponse;
 import com.service.business.mapper.*;
 import com.service.business.model.BusinessConfigResponse;
-import com.service.business.model.BusinessTypeCategory;
-import com.service.business.model.HomeFurnishingRequest;
-import com.service.business.model.HomeFurnishingRequestType;
-import com.service.business.repository.BusinessTypeCategoryReps;
 import com.service.business.service.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +36,15 @@ public class BusinessConfigController {
     private final HomeFurnishingRequestTypeService homeFurnishingRequestTypeService;
     private final HomeFurnishingRequestTypeMapper homeFurnishingRequestTypeMapper;
 
+    private final FurnitureTypeService furnitureTypeService;
+    private final FurnitureTypeMapper furnitureTypeMapper;
+
+    private final DevicesAttachedService devicesAttachedService;
+    private final DevicesAttachedMapper devicesAttachedMapper;
+
+    private final KitchenTypeService kitchenTypeService;
+    private final KitchenTypeMapper kitchenTypeMapper;
+
 
     @GetMapping
     public ResponseEntity<Object> getPortalConfig() {
@@ -52,6 +57,11 @@ public class BusinessConfigController {
         businessConfigResponse.setBusinessTypes(businessTypeMapper.map(businessTypeService.findAll()));
         businessConfigResponse.setBusinessTypeCategories(businessTypeCategoryMapper.map(businessTypeCategoryService.findAll()));
         businessConfigResponse.setHomeFurnishingRequestTypes(homeFurnishingRequestTypeMapper.map(homeFurnishingRequestTypeService.findAll()));
+        businessConfigResponse.setDevicesAttacheds(devicesAttachedMapper.map(devicesAttachedService.findAll()));
+        businessConfigResponse.setKitchenTypes(kitchenTypeMapper.map(kitchenTypeService.findAll()));
+        businessConfigResponse.setFurnitureTypes(furnitureTypeMapper.map(furnitureTypeService.findAll()));
+
+
         return ResponseEntity.ok(new SuccessResponse<BusinessConfigResponse>(businessConfigResponse));
     }
 }
