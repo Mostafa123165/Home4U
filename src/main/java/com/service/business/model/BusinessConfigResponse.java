@@ -21,4 +21,10 @@ public class BusinessConfigResponse {
     private List<BusinessTypeCategoryDto> businessTypeCategories;
 
     private List<HomeFurnishingRequestTypeDto> homeFurnishingRequestTypes;
+
+    private List<FurnitureTypeDto> furnitureTypes;
+
+    private List<DevicesAttachedDto> devicesAttacheds;
+
+    private List<KitchenTypeDto> kitchenTypes;
 }
