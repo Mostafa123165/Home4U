@@ -1,6 +1,7 @@
 package com.service.freelancer.mapper;
 
 import com.service.base.mapper.BaseMapper;
+import com.service.common.dto.SimpleDto;
 import com.service.common.mapper.CityMapper;
 import com.service.common.mapper.GovernorateMapper;
 import com.service.freelancer.dto.TechnicalWorkerDto;
@@ -14,4 +15,5 @@ import org.springframework.context.i18n.LocaleContextHolder;
          uses = { UserMapper.class,TechnicalWorkerServMapper.class,TechnicalWorkerTypeMapper.class
                  ,UserTypeMapper.class, CityMapper.class, GovernorateMapper.class})
 public interface TechnicalWorkerMapper extends BaseMapper<TechnicalWorker, TechnicalWorkerDto> {
+    TechnicalWorker unMapSimple(SimpleDto dto);
 }

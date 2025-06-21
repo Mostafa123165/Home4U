@@ -5,6 +5,7 @@ import com.service.userManagement.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class EngineeringOffice extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "fields_id")
     private EngineeringOfficeField engineeringOfficeField;
+
+    @Formula("(SELECT COALESCE(AVG(r.rate),0) FROM fre_engineering_office_rate r WHERE r.office_id = id)")
+    private Double averageRate;
 
     @ManyToMany
     @JoinTable(name = "fre_engineering_office_department",
