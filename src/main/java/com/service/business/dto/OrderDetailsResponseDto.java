@@ -7,14 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderDetailsDto extends BaseEntityDto<Long> {
+public class OrderDetailsResponseDto extends BaseEntityDto<Long> {
 
-    @NotNull(message = "Product id is required")
-    private Long productId;
+    private ProductIdDto product;
 
-    @NotNull(message = "Product price is required")
     private double price;
 
-    @NotNull(message = "amount is required")
     private double amount;
 }
