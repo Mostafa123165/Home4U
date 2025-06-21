@@ -77,8 +77,8 @@ public class Product extends BaseEntity<Long> {
 
     private double rate;
 
-    @Column(name = "count_rates")
-    private Long countRates;
+    @Column(name = "count_rates", columnDefinition = "bigint default 0")
+    private long countRates;
 
     @Column(name = "sum_of_rates")
     private double sumOfRates;
