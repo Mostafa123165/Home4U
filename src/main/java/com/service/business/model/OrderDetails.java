@@ -3,6 +3,7 @@ package com.service.business.model;
 import com.service.base.model.BaseEntity;
 import com.service.userManagement.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,10 @@ public class OrderDetails extends BaseEntity<Long> {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @NotNull
+    private double price;
+
+    @NotNull
     private double amount;
 
 }

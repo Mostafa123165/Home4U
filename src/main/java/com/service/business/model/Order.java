@@ -31,6 +31,9 @@ public class Order extends BaseEntity<Long> {
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 
+    @Column(name = "total_price")
+    private double totalPrice;
+
     public void associateOrderDetails() {
         this.getOrderDetails().forEach(orderDetail -> orderDetail.setOrder(this));
     }
