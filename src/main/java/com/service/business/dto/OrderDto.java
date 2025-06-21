@@ -21,6 +21,6 @@ public class OrderDto extends BaseEntityDto<Long> {
     @Valid
     private List<OrderDetailsDto> orderDetails;
 
-    @NotNull
+    @NotNull(message = "Order total price cannot be null")
     private double totalPrice;
 }
