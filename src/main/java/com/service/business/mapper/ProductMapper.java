@@ -1,10 +1,7 @@
 package com.service.business.mapper;
 
 import com.service.base.mapper.BaseMapper;
-import com.service.business.dto.ColorDto;
-import com.service.business.dto.ProductCardDto;
-import com.service.business.dto.ProductDto;
-import com.service.business.dto.ProductShopNowDto;
+import com.service.business.dto.*;
 import com.service.business.model.Product;
 import com.service.business.model.ProductStock;
 import org.mapstruct.Mapper;
@@ -12,6 +9,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.parameters.P;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +44,11 @@ public interface ProductMapper extends BaseMapper<Product, ProductDto> {
     ProductShopNowDto mapToProductShopNow(Product t);
 
     List<ProductShopNowDto> mapToProductShopNow(List<Product> t);
+
+    @Mappings({
+            @Mapping(target = "name", expression = "java(LocaleContextHolder.getLocale().getLanguage().equals(\"ar\") ? t.getNameAr() : t.getNameEn())"),
+    })
+    ProductIdDto mapToId(Product t);
 
 
     default List<ColorDto> mapStocksToColorDto(List<ProductStock> stocks) {

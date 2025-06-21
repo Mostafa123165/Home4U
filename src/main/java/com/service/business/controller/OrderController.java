@@ -4,6 +4,7 @@ import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SuccessResponse;
 import com.service.base.model.SuccessResponseList;
 import com.service.business.dto.OrderDto;
+import com.service.business.dto.OrderResponseDto;
 import com.service.business.mapper.OrderMapper;
 import com.service.business.model.Order;
 import com.service.business.service.OrderService;
@@ -24,6 +25,12 @@ public class OrderController extends BaseControllerImpl<Order, OrderDto, Long> {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
     private final MessageSourceService messageSourceService;
+
+    @Override
+    public ResponseEntity<?> findById(Long id) {
+        OrderResponseDto dto = orderMapper.mapToResponse(orderService.findById(id));
+        return ResponseEntity.ok(new SuccessResponse<>(dto));
+    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> findByUserId(@PathVariable Long userId,
