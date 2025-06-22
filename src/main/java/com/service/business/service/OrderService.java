@@ -41,7 +41,7 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
     }
 
     private void validateTotalPrice(Order order) {
-        double totalPrice = order.getOrderDetails().stream().mapToDouble(OrderDetails::getPrice).sum();
+        double totalPrice = order.getOrderDetails().stream().mapToDouble(orderDetail -> orderDetail.getPrice() * orderDetail.getAmount() ).sum();
         totalPrice = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
         if(order.getTotalPrice() - totalPrice > 0.02 || order.getTotalPrice() - totalPrice < -0.02) {
             throw new BadRequestException("The total price does not match the sum of order details prices.");
