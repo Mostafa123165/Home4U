@@ -32,4 +32,7 @@ public class EngineerDto extends BaseEntityDto<Long> {
     private String linkedinLink;
 
     private String behanceLink;
+
+    private Double averageRate;
+
 }

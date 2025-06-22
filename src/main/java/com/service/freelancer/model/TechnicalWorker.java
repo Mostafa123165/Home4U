@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class TechnicalWorker extends BaseEntity<Long> {
 
     @Column(name = "behance_link")
     private String behanceLink;
+
+    @Formula("(SELECT COALESCE(AVG(r.rate),0) FROM fre_technical_worker_rating r WHERE r.worker_id = id)")
+    private Double averageRate;
 
 
 }
