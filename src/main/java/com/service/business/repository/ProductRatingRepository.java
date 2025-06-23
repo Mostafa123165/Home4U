@@ -79,4 +79,13 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
     WHERE product.id = :productId
     """)
     ProductRatingCharDto getProductRateChart(Long productId);
+
+    @Query(value = """
+    SELECT rate
+    FROM ProductRating rate
+    JOIN rate.user user
+    JOIN FETCH rate.product product
+    WHERE product.id = :productId AND user.id = :userId
+    """)
+    ProductRating getByUserIdAndProductId(Long productId, Long userId);
 }

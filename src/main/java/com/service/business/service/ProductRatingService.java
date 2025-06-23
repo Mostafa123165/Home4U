@@ -3,6 +3,7 @@ package com.service.business.service;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
 import com.service.business.dto.ProductRatingCharDto;
+import com.service.business.dto.ProductRatingDto;
 import com.service.business.dto.ProductRatingResponseDTO;
 import com.service.business.model.Product;
 import com.service.business.model.ProductRating;
@@ -97,5 +98,10 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
 
     public ProductRatingCharDto getProductRateChart(Long productId) {
         return productRatingRepository.getProductRateChart(productId);
+    }
+
+    public ProductRating getByUserIdAndProductId(Long productId, Long userId) {
+        ProductRating byUserIdAndProductId = productRatingRepository.getByUserIdAndProductId(productId, userId);
+        return byUserIdAndProductId;
     }
 }
