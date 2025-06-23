@@ -40,10 +40,16 @@ public class ProductRatingController extends BaseControllerImpl<ProductRating, P
         return ResponseEntity.ok(new SuccessResponsePage<>(productRatingService.getProductRatingsWithFilters(searchRequest)));
     }
 
-
     @GetMapping("/chart/{productId}")
     private ResponseEntity<?> getProductRateChart(@PathVariable Long productId) {
         return ResponseEntity.ok(new SuccessResponse<>(productRatingService.getProductRateChart(productId)));
     }
+
+    @GetMapping("/product/{productId}/user/{userId}")
+    private ResponseEntity<?> getByUserIdAndProductId(@PathVariable Long productId,
+                                                      @PathVariable Long userId) {
+        return ResponseEntity.ok(new SuccessResponse<>(productRatingMapper.map(productRatingService.getByUserIdAndProductId(productId,userId))));
+    }
+
 }
 
