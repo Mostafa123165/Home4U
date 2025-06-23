@@ -12,7 +12,6 @@ import com.service.business.service.ProductRatingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +38,12 @@ public class ProductRatingController extends BaseControllerImpl<ProductRating, P
     @Operation(summary = "Get product ratings with filters")
     public ResponseEntity<?> getProductRatings(@RequestBody SearchRequest searchRequest) {
         return ResponseEntity.ok(new SuccessResponsePage<>(productRatingService.getProductRatingsWithFilters(searchRequest)));
+    }
+
+
+    @GetMapping("/chart/{productId}")
+    private ResponseEntity<?> getProductRateChart(@PathVariable Long productId) {
+        return ResponseEntity.ok(new SuccessResponse<>(productRatingService.getProductRateChart(productId)));
     }
 }
 

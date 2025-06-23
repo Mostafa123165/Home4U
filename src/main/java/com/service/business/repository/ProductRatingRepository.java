@@ -1,6 +1,7 @@
 package com.service.business.repository;
 
 import com.service.base.repository.BaseRepository;
+import com.service.business.dto.ProductRatingCharDto;
 import com.service.business.dto.ProductRatingResponseDTO;
 import com.service.business.model.ProductRating;
 import org.springframework.data.domain.Page;
@@ -62,6 +63,20 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
     WHERE rate.id =  :productRateId
     """)
     Double getProductRateById(Long productRateId);
+
+    @Query(value = """
+    SELECT new com.service.business.dto.ProductRatingCharDto(
+        product.rate,
+        product.countRates,
+        ROUND(COUNT(CASE WHEN rate.rate >= 0 AND rate.rate <= 1 THEN 1 END) * 100.0 / product.countRates, 2),
+        ROUND(COUNT(CASE WHEN rate.rate > 1 AND rate.rate <= 2  THEN 1 END) * 100.0 / product.countRates, 2),
+        ROUND(COUNT(CASE WHEN rate.rate > 2 AND rate.rate <= 3  THEN 1 END) * 100.0 / product.countRates, 2),
+        ROUND(COUNT(CASE WHEN rate.rate > 3 AND rate.rate <= 4  THEN 1 END) * 100.0 / product.countRates, 2),
+        ROUND(COUNT(CASE WHEN rate.rate > 4 AND rate.rate <= 5  THEN 1 END) * 100.0 / product.countRates, 2)
+    )
+    FROM ProductRating rate
+    JOIN rate.product product
+    WHERE product.id = :productId
+    """)
+    ProductRatingCharDto getProductRateChart(Long productId);
 }
-
-
