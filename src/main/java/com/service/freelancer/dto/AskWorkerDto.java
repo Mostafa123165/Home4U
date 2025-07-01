@@ -4,6 +4,7 @@ import com.service.base.dto.BaseEntityDto;
 import com.service.business.dto.ProductMaterialDto;
 import com.service.common.dto.CityDto;
 import com.service.common.dto.GovernorateDto;
+import com.service.userManagement.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +33,7 @@ public class AskWorkerDto extends BaseEntityDto<Long> {
     private Long budget;
 
     private List<AskWorkerPhotosDto> photos;
+
+    private UserDto user;
+
 }

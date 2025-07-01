@@ -2,6 +2,7 @@ package com.service.freelancer.dto;
 
 import com.service.base.dto.BaseEntityDto;
 import com.service.common.dto.GovernorateDto;
+import com.service.userManagement.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,7 @@ public class RequestDesignDto extends BaseEntityDto<Long> {
     private Long requiredDuration;
 
     private String notes;
+
+    private UserDto user;
+
 }

@@ -17,4 +17,5 @@ public class UserDto extends BaseEntityDto<Long> {
     private GovernorateDto governorate;
     private CityDto city;
     private BusinessLoginDto business;
+    private String personalPhoto;
 }

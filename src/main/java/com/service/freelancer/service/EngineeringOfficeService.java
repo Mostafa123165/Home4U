@@ -2,7 +2,6 @@ package com.service.freelancer.service;
 
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
-import com.service.freelancer.mapper.EngineeringOfficeMapper;
 import com.service.freelancer.model.EngineeringOffice;
 import com.service.freelancer.repository.EngineeringOfficeReps;
 import com.service.userManagement.service.UserService;
