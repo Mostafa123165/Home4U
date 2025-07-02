@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -81,5 +82,10 @@ public class AskWorkerService extends BaseServiceImpl<AskWorker , Long> {
                 budgetTo != null ? budgetTo.longValue() : null,
                 pageable
         );
+    }
+
+    public List<AskWorker> getMyAsks() {
+        Long userId = userService.getCurrentUser().getId();
+        return askWorkerReps.getMyAsks(userId);
     }
 }

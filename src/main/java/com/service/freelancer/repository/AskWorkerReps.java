@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AskWorkerReps extends BaseRepository<AskWorker, Long> {
 
@@ -30,4 +32,11 @@ public interface AskWorkerReps extends BaseRepository<AskWorker, Long> {
         (:budgetTo IS NULL OR askWorker.budget <= :budgetTo)
     """)
     Page<AskWorker> filter(Long userId, Integer unitTypeId, Integer governorateId, Integer cityId, String projectName, Integer workerTypeId, Integer materialId, Long budgetFrom, Long budgetTo, Pageable pageable);
+
+    @Query("""
+        FROM AskWorker askWorker
+        JOIN askWorker.user user
+        WHERE user.id = :userId
+        """)
+    List<AskWorker> getMyAsks(Long userId);
 }
