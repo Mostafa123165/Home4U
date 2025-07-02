@@ -3,11 +3,13 @@ package com.service.freelancer.controller;
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
 import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
 import com.service.business.mapper.ProductMaterialMapper;
 import com.service.business.service.ProductMaterialService;
 import com.service.common.mapper.GovernorateMapper;
 import com.service.common.service.GovernorateService;
+import com.service.freelancer.dto.AskEngineerDto;
 import com.service.freelancer.dto.AskWorkerDto;
 import com.service.freelancer.dto.AskWorkerLkpsDto;
 import com.service.freelancer.mapper.AskWorkerMapper;
@@ -24,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -59,5 +62,11 @@ public class AskWorkerController extends BaseControllerImpl<AskWorker, AskWorker
     public ResponseEntity<?> filter(@Valid @RequestBody SearchRequest req) {
         Page<AskWorkerDto> dtos = askWorkerService.filter(Optional.ofNullable(req)).map(askWorkerMapper::map);
         return ResponseEntity.ok(new SuccessResponsePage<AskWorkerDto>(dtos));
+    }
+
+    @GetMapping("/my-asks")
+    public ResponseEntity<?> getMyAsks () {
+        List<AskWorkerDto> dtos = askWorkerMapper.map(askWorkerService.getMyAsks());
+        return ResponseEntity.ok(new SuccessResponseList<AskWorkerDto>(dtos));
     }
 }

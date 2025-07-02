@@ -3,6 +3,7 @@ package com.service.freelancer.controller;
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
 import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
 import com.service.common.dto.GovernorateDto;
 import com.service.common.mapper.GovernorateMapper;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -56,5 +58,11 @@ public class AskEngineerController extends BaseControllerImpl<AskEngineer, AskEn
     public ResponseEntity<?> filter (@Valid @RequestBody SearchRequest req){
         Page<AskEngineerDto> dtos =  askEngineerService.filter(Optional.ofNullable(req)).map(askEngineerMapper::map);
         return ResponseEntity.ok(new SuccessResponsePage<AskEngineerDto>(dtos));
+    }
+
+    @GetMapping("/my-asks")
+    public ResponseEntity<?> getMyAsks () {
+        List<AskEngineerDto> dtos = askEngineerMapper.map(askEngineerService.getMyAsks());
+        return ResponseEntity.ok(new SuccessResponseList<AskEngineerDto>(dtos));
     }
 }

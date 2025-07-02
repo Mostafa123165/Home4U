@@ -9,6 +9,7 @@ import com.service.userManagement.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,22 @@ public class AskWorker extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "askWorker", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AskWorkerPhotos> photos ;
+
+    @Formula("(SELECT COALESCE(count(r.id),0) FROM fre_request_ask_worker r WHERE r.ask_id = id AND (r.is_rejected IS NULL OR r.is_rejected != false))")
+    private Long requestCount;
+
+    @Formula(
+            "(SELECT " +
+                    "  CASE " +
+                    "    WHEN (SELECT COUNT(r.id) FROM fre_request_ask_worker r WHERE r.ask_id = id AND r.is_finished = true) > 0 " +
+                    "      THEN 'finished' " +
+                    "    WHEN (SELECT COUNT(r.id) FROM fre_request_ask_worker r WHERE r.ask_id = id AND r.is_accepted = true) > 0 " +
+                    "      THEN 'pending' " +
+                    "    ELSE 'available' " +
+                    "  END" +
+                    ")"
+    )
+    private String askStatus;
 
 
 }
