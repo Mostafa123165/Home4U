@@ -2,6 +2,7 @@ package com.service.freelancer.service;
 
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
+import com.service.freelancer.model.AskEngineer;
 import com.service.freelancer.model.RequestDesign;
 import com.service.freelancer.repository.RequestDesignReps;
 import com.service.userManagement.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +22,11 @@ public class RequestDesignService extends BaseServiceImpl<RequestDesign, Long> {
 
     private final UserService userService;
     private final RequestDesignReps requestDesignReps;
+
+    public List<RequestDesign> getMyAsks() {
+        Long userId = userService.getCurrentUser().getId();
+        return requestDesignReps.getMyAsks(userId);
+    }
 
     @Override
     public RequestDesign insert(RequestDesign entity) {
