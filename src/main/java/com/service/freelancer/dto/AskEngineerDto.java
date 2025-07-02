@@ -21,7 +21,6 @@ public class AskEngineerDto extends BaseEntityDto<Long> {
 
     private EngineerTypeDto engineerType;
 
-
     private UnitTypeDto unitType;
 
     private Long budget;
@@ -37,5 +36,9 @@ public class AskEngineerDto extends BaseEntityDto<Long> {
     private List<AskEngineerPhotosDto> photos;
 
     private UserDto user;
+
+    private Long requestCount;
+
+    private String askStatus;
 
 }

@@ -1,8 +1,8 @@
 package com.service.freelancer.service;
 
-import com.service.base.mapper.BaseMapper;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
+import com.service.freelancer.dto.AskEngineerDto;
 import com.service.freelancer.model.AskEngineer;
 import com.service.freelancer.repository.AskEngineerReps;
 import com.service.userManagement.service.UserService;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,7 +22,7 @@ public class AskEngineerService extends BaseServiceImpl<AskEngineer, Long> {
 
     private final UserService userService;
 
-    private final AskEngineerReps homeRenovateReps;
+    private final AskEngineerReps askEngineerReps;
 
     @Override
     public AskEngineer insert(AskEngineer entity) {
@@ -68,7 +69,7 @@ public class AskEngineerService extends BaseServiceImpl<AskEngineer, Long> {
 
         Pageable pageable = PageRequest.of(req.getPageNumber(), req.getPageSize(), sort);
 
-        return homeRenovateReps.filter(
+        return askEngineerReps.filter(
                 userId != null ? userId.longValue() : null,
                 unitTypeId,
                 governorateId,
@@ -80,5 +81,10 @@ public class AskEngineerService extends BaseServiceImpl<AskEngineer, Long> {
                 budgetTo != null ? budgetTo.longValue() : null,
                 pageable
         );
+    }
+
+    public List<AskEngineer> getMyAsks() {
+        Long userId = userService.getCurrentUser().getId();
+        return askEngineerReps.getMyAsks(userId);
     }
 }

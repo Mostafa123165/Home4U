@@ -36,4 +36,8 @@ public class AskWorkerDto extends BaseEntityDto<Long> {
 
     private UserDto user;
 
+    private Long requestCount;
+
+    private String askStatus;
+
 }
