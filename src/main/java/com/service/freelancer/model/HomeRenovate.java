@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 @Getter
 @Setter
@@ -67,5 +68,21 @@ public class HomeRenovate extends BaseEntity<Long> {
     private Long requiredDuration;
 
     private String notes;
+
+    @Formula("(SELECT COALESCE(count(r.id),0) FROM fre_request_home_renovate r WHERE r.renovate_id = id AND (r.is_rejected IS NULL OR r.is_rejected != false))")
+    private Long requestCount;
+
+    @Formula(
+            "(SELECT " +
+                    "  CASE " +
+                    "    WHEN (SELECT COUNT(r.id) FROM fre_request_home_renovate r WHERE r.renovate_id = id AND r.is_finished = true) > 0 " +
+                    "      THEN 'finished' " +
+                    "    WHEN (SELECT COUNT(r.id) FROM fre_request_home_renovate r WHERE r.renovate_id = id AND r.is_accepted = true) > 0 " +
+                    "      THEN 'pending' " +
+                    "    ELSE 'available' " +
+                    "  END" +
+                    ")"
+    )
+    private String askStatus;
 
 }

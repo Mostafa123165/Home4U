@@ -3,6 +3,7 @@ package com.service.freelancer.service;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
 import com.service.freelancer.dto.HomeRenovateDto;
+import com.service.freelancer.model.AskEngineer;
 import com.service.freelancer.model.HomeRenovate;
 import com.service.freelancer.repository.HomeRenovateReps;
 import com.service.userManagement.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class HomeRenovateService extends BaseServiceImpl<HomeRenovate, Long> {
 
     private final UserService userService;
     private final HomeRenovateReps homeRenovateReps;
+
+    public List<HomeRenovate> getMyAsks() {
+        Long userId = userService.getCurrentUser().getId();
+        return homeRenovateReps.getMyAsks(userId);
+    }
 
     @Override
     public HomeRenovate insert(HomeRenovate entity) {

@@ -26,4 +26,8 @@ public class RequestDesignDto extends BaseEntityDto<Long> {
 
     private UserDto user;
 
+    private Long requestCount;
+
+    private String askStatus;
+
 }

@@ -3,7 +3,9 @@ package com.service.freelancer.controller;
 
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
+import com.service.freelancer.dto.AskEngineerDto;
 import com.service.freelancer.dto.RequestDesignDto;
 import com.service.freelancer.mapper.RequestDesignMapper;
 import com.service.freelancer.model.RequestDesign;
@@ -13,11 +15,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +34,12 @@ public class RequestDesignController extends BaseControllerImpl<RequestDesign, R
     public ResponseEntity<?> filter(@Valid @RequestBody SearchRequest req) {
         Page<RequestDesignDto> dtos = requestDesignService.filter(Optional.ofNullable(req)).map(requestDesignMapper::map);
         return ResponseEntity.ok(new SuccessResponsePage<RequestDesignDto>(dtos));
+    }
+
+    @GetMapping("/my-request-design")
+    public ResponseEntity<?> getMyAsks () {
+        List<RequestDesignDto> dtos = requestDesignMapper.map(requestDesignService.getMyAsks());
+        return ResponseEntity.ok(new SuccessResponseList<RequestDesignDto>(dtos));
     }
 
 }

@@ -43,4 +43,8 @@ public class HomeRenovateDto extends BaseEntityDto<Long> {
 
     private String notes;
 
+    private Long requestCount;
+
+    private String askStatus;
+
 }

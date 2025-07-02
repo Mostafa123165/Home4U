@@ -2,6 +2,7 @@ package com.service.freelancer.service;
 
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
+import com.service.freelancer.model.AskEngineer;
 import com.service.freelancer.model.SelectCustomPackage;
 import com.service.freelancer.repository.SelectCustomPackageReps;
 import com.service.userManagement.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class SelectCustomPackageService extends BaseServiceImpl<SelectCustomPack
     private final UserService userService;
 
     private final SelectCustomPackageReps selectCustomPackageReps;
+
+    public List<SelectCustomPackage> getMyAsks() {
+        Long userId = userService.getCurrentUser().getId();
+        return selectCustomPackageReps.getMyAsks(userId);
+    }
 
     @Override
     public SelectCustomPackage insert(SelectCustomPackage entity) {
