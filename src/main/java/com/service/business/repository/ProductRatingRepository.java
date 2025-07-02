@@ -67,7 +67,7 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
     SELECT new com.service.business.dto.ProductRatingCharDto(
         COALESCE(product.rate,0),
         COALESCE(product.countRates,0),
-        COALESCE(ROUND(COUNT(CASE WHEN rate.rate >= 0 AND rate.rate <= 1 THEN 1 END) * 100.0 / product.countRates, 2),0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate >= 0 AND rate.rate <= 1 THEN 1 END) * 100.0  / product.countRates, 2),0),
         COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 1  AND rate.rate <= 2  THEN 1 END) * 100.0 / product.countRates, 2),0),
         COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 2  AND rate.rate <= 3  THEN 1 END) * 100.0 / product.countRates, 2),0),
         COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 3  AND rate.rate <= 4  THEN 1 END) * 100.0 / product.countRates, 2),0),

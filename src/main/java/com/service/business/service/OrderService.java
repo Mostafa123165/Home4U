@@ -3,7 +3,6 @@ package com.service.business.service;
 import com.service.base.Constant;
 import com.service.base.service.BaseServiceImpl;
 import com.service.business.model.Order;
-import com.service.business.model.OrderDetails;
 import com.service.business.repository.OrderRepository;
 import com.service.common.service.MessageSourceService;
 import com.service.common.service.OrderNumberSeqService;
@@ -17,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -83,5 +81,9 @@ public class OrderService extends BaseServiceImpl<Order, Long> {
             throw new BadRequestException(messageSourceService.getMessage("validation.order.cannot.cancel",
                     new String[]{order.getStatus().getNameEn()}));
         }
+    }
+
+    public List<Long> getProductIdsPurchasedByUserId(Long userId) {
+        return orderRepository.getProductIdsPurchasedByUserId(userId);
     }
 }

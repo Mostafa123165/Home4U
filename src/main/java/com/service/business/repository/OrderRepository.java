@@ -39,5 +39,16 @@ public interface OrderRepository extends BaseRepository<Order, Long> {
     WHERE ord.id = :orderId
     """)
     void cancelOrder(Long orderId,String cancelStatusCode);
+
+
+    @Query(value = """
+        SELECT distinct prod.id
+        FROM Order order
+        JOIN order.orderDetails detail
+        JOIN detail.product prod
+        JOIN order.user user
+        WHERE user.id = :userId
+    """)
+    List<Long> getProductIdsPurchasedByUserId(Long userId);
 }
 

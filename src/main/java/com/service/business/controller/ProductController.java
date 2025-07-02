@@ -2,11 +2,13 @@ package com.service.business.controller;
 
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
 import com.service.business.dto.ProductDto;
 import com.service.business.mapper.ProductMapper;
 import com.service.business.model.Product;
 import com.service.business.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,4 +34,20 @@ public class ProductController extends BaseControllerImpl<Product, ProductDto, L
     public ResponseEntity<?> shopNow(@RequestBody Optional<SearchRequest> searchRequest) {
         return ResponseEntity.ok(new SuccessResponsePage<>(productService.shopNow(searchRequest).map(productMapper::mapToProductShopNow)));
     }
+
+    @GetMapping("/recommended-for-you")
+    public ResponseEntity<?> recommendedProducts(@RequestParam Long userId) {
+        return ResponseEntity.ok(new SuccessResponseList<>(productMapper.mapToProductSimpleProjection(productService.recommendedProducts(userId))));
+    }
+
+   @GetMapping("/highest-rated")
+   public ResponseEntity<?> bestSellingProducts() {
+       return ResponseEntity.ok(new SuccessResponseList<>(productMapper.mapToProductSimpleProjection(productService.getHighestRatedProducts())));
+    }
+
+   @GetMapping("/top-best-seller")
+   public ResponseEntity<?> topBestSellerProducts() {
+        return ResponseEntity.ok(new SuccessResponseList<>(productMapper.mapToProductSimpleProjection(productService.getTopBestSellerProducts())));
+   }
+
 }
