@@ -2,12 +2,14 @@ package com.service.business.service;
 
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
+import com.service.business.dto.ProductSimpleProjection;
 import com.service.business.model.Business;
 import com.service.business.model.Product;
 import com.service.business.repository.ProductRepository;
 import com.service.error.BadRequestException;
 import com.service.userManagement.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductService extends BaseServiceImpl<Product, Long> {
 
     private final UserService userService;
     private final BusinessService businessService;
     private final ProductRepository productReps;
+    private final OrderService orderService;
+    private final ProductVisitService productVisitService;
 
     @Override
     public Product insert(Product product) {
@@ -137,4 +141,53 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         product.setRate(product.getSumOfRates() / (product.getCountRates() * 5 ) * 5);
     }
 
+    public List<ProductSimpleProjection> recommendedProducts(Long userId) {
+        List<Long> productVisitedIds = productVisitService.getProductIdsVisitedByUserId(userId);
+        List<Long> productPurchasedIds = orderService.getProductIdsPurchasedByUserId(userId);
+        productVisitedIds.addAll(productPurchasedIds);
+        List<Long> productCategoryIds =  getBusinessTypeCategoryIdsByProductIds(productVisitedIds);
+
+        List<ProductSimpleProjection> recommendedProducts = productReps.recommendedProducts(productCategoryIds);
+
+        if(recommendedProducts.size() < 10)  {
+            fillRecommendedProductsIfNotContainTenProducts(recommendedProducts);
+        }
+
+        return recommendedProducts;
+    }
+
+    private void fillRecommendedProductsIfNotContainTenProducts(List<ProductSimpleProjection> recommendedProducts) {
+
+        if (recommendedProducts.isEmpty() || recommendedProducts.size() < 10) {
+            List<ProductSimpleProjection> highestRatedProducts = getHighestRatedProducts();
+            highestRatedProducts.forEach(product -> {
+                if(recommendedProducts.size() < 10 || !recommendedProducts.contains(product)) {
+                    recommendedProducts.add(product);
+                }
+            });
+            if(recommendedProducts.size() < 10) {
+                List<ProductSimpleProjection> topBestSellerProducts = getTopBestSellerProducts();
+                topBestSellerProducts.forEach(product -> {
+                    if(recommendedProducts.size() < 10 || !recommendedProducts.contains(product)) {
+                        recommendedProducts.add(product);
+                    }
+                });
+            }
+        }
+    }
+
+    private List<Long> getBusinessTypeCategoryIdsByProductIds(List<Long> productIds) {
+        if (productIds.isEmpty()) {
+            return List.of();
+        }
+        return productReps.getBusinessTypeCategoryIdsByProductIds(productIds);
+    }
+
+    public List<ProductSimpleProjection> getHighestRatedProducts() {
+        return productReps.getHighestRatedProducts();
+    }
+
+    public List<ProductSimpleProjection> getTopBestSellerProducts() {
+        return productReps.getTopBestSellerProducts();
+    }
 }

@@ -2,6 +2,7 @@ package com.service.business.repository;
 
 import com.service.base.repository.BaseRepository;
 import com.service.business.model.ProductVisit;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -10,11 +11,19 @@ import java.util.List;
 @Repository
 public interface ProductVisitRepository extends BaseRepository<ProductVisit, Long> {
 
-    @Query("SELECT pv FROM ProductVisit pv WHERE pv.product.id = :productId")
-    List<ProductVisit> findByProductId(Long productId);
+    @Query(value = """
+    SELECT product.id
+    FROM ProductVisit visit
+    JOIN visit.user user
+    JOIN visit.product product
+    WHERE user.id = :userId
+    """)
+    List<Long> getProductIdsVisitedByUserId(Long userId);
 
-    @Query("SELECT pv FROM ProductVisit pv WHERE pv.user.id = :userId")
-    List<ProductVisit> findByUserId(Long userId);
-
-    boolean existsByProductIdAndUserId(Long productId, Long userId);
+    @Modifying
+    @Query(value = """
+    DELETE FROM ProductVisit visit
+    WHERE visit.user.id = :userId AND visit.product.id = :productId
+    """)
+    void deleteTheLastVisitByUserId(Long userId, Long productId);
 }
