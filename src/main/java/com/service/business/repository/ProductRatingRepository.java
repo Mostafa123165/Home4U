@@ -7,7 +7,6 @@ import com.service.business.model.ProductRating;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,7 +42,7 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
         JOIN rate.user user
         JOIN rate.product product
         WHERE (:productId IS NULL OR product.id = :productId)
-        AND (:stars IS NULL OR rate.rate = :stars)
+        AND (:stars IS NULL OR CEIL(rate.rate) = :stars)
         ORDER BY
         CASE WHEN :isTopRated IS TRUE THEN rate.rate ELSE NULL END DESC
             ,rate.createdDate DESC
@@ -66,13 +65,13 @@ public interface ProductRatingRepository extends BaseRepository<ProductRating, L
 
     @Query(value = """
     SELECT new com.service.business.dto.ProductRatingCharDto(
-        product.rate,
-        product.countRates,
-        ROUND(COUNT(CASE WHEN rate.rate >= 0 AND rate.rate <= 1 THEN 1 END) * 100.0 / product.countRates, 2),
-        ROUND(COUNT(CASE WHEN rate.rate > 1 AND rate.rate <= 2  THEN 1 END) * 100.0 / product.countRates, 2),
-        ROUND(COUNT(CASE WHEN rate.rate > 2 AND rate.rate <= 3  THEN 1 END) * 100.0 / product.countRates, 2),
-        ROUND(COUNT(CASE WHEN rate.rate > 3 AND rate.rate <= 4  THEN 1 END) * 100.0 / product.countRates, 2),
-        ROUND(COUNT(CASE WHEN rate.rate > 4 AND rate.rate <= 5  THEN 1 END) * 100.0 / product.countRates, 2)
+        COALESCE(product.rate,0),
+        COALESCE(product.countRates,0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate >= 0 AND rate.rate <= 1 THEN 1 END) * 100.0  / product.countRates, 2),0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 1  AND rate.rate <= 2  THEN 1 END) * 100.0 / product.countRates, 2),0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 2  AND rate.rate <= 3  THEN 1 END) * 100.0 / product.countRates, 2),0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 3  AND rate.rate <= 4  THEN 1 END) * 100.0 / product.countRates, 2),0),
+        COALESCE(ROUND(COUNT(CASE WHEN rate.rate > 4  AND rate.rate <= 5  THEN 1 END) * 100.0 / product.countRates, 2),0)
     )
     FROM ProductRating rate
     JOIN rate.product product

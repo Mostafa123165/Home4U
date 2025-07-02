@@ -7,14 +7,14 @@ import lombok.Setter;
 public class ProductRatingCharDto {
 
     private double overAllRating;
-    private Long countRantings;
+    private long countRantings;
     private double oneStarPct;
     private double twoStarPct;
     private double threeStarPct;
     private double fourStarPct;
     private double fiveStarPct;
 
-    public ProductRatingCharDto(double overAllRating,Long countRantings,double oneStarPct, double twoStarPct, double threeStarPct, double fourStarPct,double fiveStarPct) {
+    public ProductRatingCharDto(double overAllRating,long countRantings,double oneStarPct, double twoStarPct, double threeStarPct, double fourStarPct,double fiveStarPct) {
         this.overAllRating = overAllRating;
         this.countRantings = countRantings;
         this.oneStarPct = oneStarPct;

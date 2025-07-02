@@ -2,7 +2,9 @@ package com.service.business.repository;
 
 
 import com.service.base.repository.BaseRepository;
+import com.service.business.dto.ProductSimpleProjection;
 import com.service.business.model.Product;
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -65,4 +67,90 @@ public interface ProductRepository extends BaseRepository<Product, Long> {
     """)
     List<Product> findProductsWithImages(List<Long> ids);
 
+    @Query(value = """
+    SELECT product.id as id,
+           product.name_ar as nameAr,
+           product.name_en as nameEn,
+           product.price as price, 
+           product.count_rates as countRates,
+           product.rate as rate,
+           category.name_ar  as categoryNameAr,
+           category.name_en  as categoryNameEn,
+           GROUP_CONCAT(images.image_path) as images,
+           salesView.numberOfSales  as numberOfSales,
+           salesView.ranking  as productRankBySales,
+           CASE 
+            WHEN salesView.ranking <= 10
+            THEN 1 ELSE 0
+           END     
+           as isBestSeller
+    FROM products product
+    JOIN business_type_category_lkp category on category.id = product.business_type_category_id
+    LEFT JOIN product_ranking_by_sales_view salesView on salesView.product_id = product.id
+    LEFT JOIN product_images images on images.product_id = product.id
+    WHERE product.business_type_category_id IN (:categoryIds)
+    GROUP BY product.id
+    ORDER BY productRankBySales DESC,RAND()
+    limit 10
+    """,nativeQuery = true)
+    List<ProductSimpleProjection> recommendedProducts(List<Long> categoryIds);
+
+    @Query(value = """
+    SELECT DISTINCT category.id
+    FROM Product product
+    JOIN product.businessTypeCategory category
+    WHERE product.id IN (:productIds)
+    """)
+    List<Long> getBusinessTypeCategoryIdsByProductIds(List<Long> productIds);
+
+    @Query(value = """
+    SELECT product.id as id,
+           product.name_ar as nameAr,
+           product.name_en as nameEn,
+           product.price as price, 
+           product.count_rates as countRates,
+           product.rate as rate,
+           category.name_ar  as categoryNameAr,
+           category.name_en  as categoryNameEn,
+           GROUP_CONCAT(images.image_path) as images,
+           salesView.numberOfSales  as numberOfSales,
+           salesView.ranking  as productRankBySales,
+           CASE 
+            WHEN salesView.ranking <= 10
+            THEN 1 ELSE 0
+           END     
+           as isBestSeller
+    FROM products product
+    JOIN business_type_category_lkp category on category.id = product.business_type_category_id
+    LEFT JOIN product_ranking_by_sales_view salesView on salesView.product_id = product.id
+    LEFT JOIN product_images images on images.product_id = product.id
+    GROUP BY product.id  
+    ORDER BY product.rate DESC
+    LIMIT 10    
+    """,nativeQuery = true)
+   List<ProductSimpleProjection> getHighestRatedProducts();
+
+
+    @Query(value = """
+    SELECT product.id as id,
+           product.name_ar as nameAr,
+           product.name_en as nameEn,
+           product.price as price, 
+           product.count_rates as countRates,
+           product.rate as rate,
+           category.name_ar  as categoryNameAr,
+           category.name_en  as categoryNameEn,
+           GROUP_CONCAT(images.image_path) as images,
+           salesView.numberOfSales  as numberOfSales,
+           salesView.ranking  as productRankBySales,
+           TRUE as isBestSeller
+    FROM products product
+    JOIN business_type_category_lkp category on category.id = product.business_type_category_id
+    LEFT JOIN product_ranking_by_sales_view salesView on salesView.product_id = product.id
+    LEFT JOIN product_images images on images.product_id = product.id
+    WHERE salesView.ranking <= 10
+    GROUP BY product.id  
+    LIMIT 10    
+    """,nativeQuery = true)
+    List<ProductSimpleProjection> getTopBestSellerProducts();
 }

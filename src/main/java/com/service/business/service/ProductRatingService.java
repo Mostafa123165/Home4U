@@ -3,9 +3,7 @@ package com.service.business.service;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
 import com.service.business.dto.ProductRatingCharDto;
-import com.service.business.dto.ProductRatingDto;
 import com.service.business.dto.ProductRatingResponseDTO;
-import com.service.business.model.Product;
 import com.service.business.model.ProductRating;
 import com.service.business.repository.ProductRatingRepository;
 import com.service.common.service.MessageSourceService;
@@ -101,7 +99,6 @@ public class ProductRatingService extends BaseServiceImpl<ProductRating, Long> {
     }
 
     public ProductRating getByUserIdAndProductId(Long productId, Long userId) {
-        ProductRating byUserIdAndProductId = productRatingRepository.getByUserIdAndProductId(productId, userId);
-        return byUserIdAndProductId;
+        return productRatingRepository.getByUserIdAndProductId(productId, userId);
     }
 }
