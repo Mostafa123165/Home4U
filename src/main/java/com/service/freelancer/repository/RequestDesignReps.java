@@ -2,15 +2,25 @@ package com.service.freelancer.repository;
 
 import com.service.base.repository.BaseRepository;
 import com.service.freelancer.model.RequestDesign;
+import com.service.freelancer.model.SelectCustomPackage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface RequestDesignReps extends BaseRepository<RequestDesign, Long> {
+
+    @Query("""
+        FROM RequestDesign request
+        JOIN request.user user
+        WHERE user.id = :userId
+        """)
+    List<RequestDesign> getMyAsks(Long userId);
+
 
     @Query("""
     SELECT request

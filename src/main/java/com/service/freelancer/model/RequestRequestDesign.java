@@ -22,7 +22,7 @@ public class RequestRequestDesign extends BaseEntity<Long> {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "requesrt_id", nullable = false)
+    @JoinColumn(name = "request_id", nullable = false)
     private RequestDesign requestDesign;
 
     @NotNull

@@ -1,6 +1,7 @@
 package com.service.freelancer.dto;
 
 import com.service.base.dto.BaseEntityDto;
+import com.service.common.dto.SimpleDto;
 import com.service.userManagement.dto.UserDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -13,7 +14,7 @@ public class RequestSelectCustomPackageDto extends BaseEntityDto<Long> {
 
     private UserDto user;
 
-    private SelectCustomPackageDto selectCustomPackage;
+    private SimpleDto selectCustomPackage;
 
     @NotNull
     private String comment;

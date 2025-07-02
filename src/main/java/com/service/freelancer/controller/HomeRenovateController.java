@@ -3,12 +3,12 @@ package com.service.freelancer.controller;
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
 import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
 import com.service.common.mapper.GovernorateMapper;
 import com.service.common.service.GovernorateService;
 import com.service.freelancer.dto.HomeRenovateDto;
 import com.service.freelancer.dto.HomeRenovateLkpsDto;
-import com.service.freelancer.dto.RequestDesignDto;
 import com.service.freelancer.mapper.*;
 import com.service.freelancer.model.HomeRenovate;
 import com.service.freelancer.service.*;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -54,9 +55,15 @@ public class HomeRenovateController extends BaseControllerImpl<HomeRenovate, Hom
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<?> filter (@Valid @RequestBody SearchRequest req){
-        Page<HomeRenovateDto> dtos =  homeRenovateService.filter(Optional.ofNullable(req)).map(homeRenovateMapper::map);
+    public ResponseEntity<?> filter(@Valid @RequestBody SearchRequest req) {
+        Page<HomeRenovateDto> dtos = homeRenovateService.filter(Optional.ofNullable(req)).map(homeRenovateMapper::map);
         return ResponseEntity.ok(new SuccessResponsePage<HomeRenovateDto>(dtos));
+    }
+
+    @GetMapping("/my-home-renovate")
+    public ResponseEntity<?> getMyAsks() {
+        List<HomeRenovateDto> dtos = homeRenovateMapper.map(homeRenovateService.getMyAsks());
+        return ResponseEntity.ok(new SuccessResponseList<HomeRenovateDto>(dtos));
     }
 
 }

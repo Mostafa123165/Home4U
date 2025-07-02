@@ -18,7 +18,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/ request-request-design")
+@RequestMapping("api/v1/request-request-design")
 @Tag(name = "  Request Request Design")
 public class RequestRequestDesignController extends BaseControllerImpl<RequestRequestDesign, RequestRequestDesignDto, Long> {
 

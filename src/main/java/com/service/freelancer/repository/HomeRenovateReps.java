@@ -3,11 +3,14 @@ package com.service.freelancer.repository;
 import com.service.base.mapper.BaseMapper;
 import com.service.base.repository.BaseRepository;
 import com.service.freelancer.model.HomeRenovate;
+import com.service.freelancer.model.RequestDesign;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface HomeRenovateReps extends BaseRepository<HomeRenovate, Long> {
@@ -40,4 +43,10 @@ public interface HomeRenovateReps extends BaseRepository<HomeRenovate, Long> {
             Long userId,
             Integer unitTypeId, Integer governorateId, Integer cityId, Integer unitStatusId, Integer workSkillId, Integer unitWorkTypeId,
             Long budgetFrom, Long budgetTo, Long unitAreaFrom, Long unitAreaTo, Long requiredDurationFrom, Long requiredDurationTo, Pageable pageable);
-}
+
+    @Query("""
+        FROM HomeRenovate renovate
+        JOIN renovate.user user
+        WHERE user.id = :userId
+        """)
+    List<HomeRenovate> getMyAsks(Long userId);}
