@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,5 +60,9 @@ public class TechnicalWorkerService extends BaseServiceImpl<TechnicalWorker, Lon
                 rate,
                 pageable
         );
+    }
+
+    public List<TechnicalWorker> LandingPage() {
+        return technicalWorkerReps.LandingPage();
     }
 }

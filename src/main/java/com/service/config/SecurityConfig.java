@@ -44,6 +44,8 @@ public class SecurityConfig {
             "api/v1/governorates/**",
             "api/v1/cities/governorate/**",
             "api/v1/engineer-types/**",
+            "api/v1/engineers/top-engineers/**",
+            "api/v1/technical-workers/top-workers/**",
             "api/v1/engineer-services/service/**",
             "api/v1/technical-worker-types/**",
             "api/v1/technical-worker-services/service/**",
