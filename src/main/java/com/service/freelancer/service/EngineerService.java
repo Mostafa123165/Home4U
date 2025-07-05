@@ -3,6 +3,7 @@ package com.service.freelancer.service;
 import com.service.base.model.SearchRequest;
 import com.service.base.service.BaseServiceImpl;
 import com.service.freelancer.model.Engineer;
+import com.service.freelancer.model.TechnicalWorker;
 import com.service.freelancer.repository.EngineerReps;
 import com.service.userManagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,5 +53,9 @@ public class EngineerService extends BaseServiceImpl<Engineer, Long> {
         Pageable pageable = PageRequest.of(req.getPageNumber(), req.getPageSize(), sort);
 
         return engineerReps.filterTop(governorateId, cityId, engineerTypeId, yearsOfExperience, engineerServId, rate, pageable);
+    }
+
+    public List<Engineer> LandingPage() {
+        return engineerReps.LandingPage();
     }
 }

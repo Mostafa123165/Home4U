@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TechnicalWorkerReps extends BaseRepository<TechnicalWorker, Long> {
     @Query("""
@@ -31,4 +33,12 @@ public interface TechnicalWorkerReps extends BaseRepository<TechnicalWorker, Lon
                     (:rate IS NULL OR technicalWorker.averageRate >= :rate)
                 ORDER BY technicalWorker.averageRate DESC
             """)
-    Page<TechnicalWorker> filterTop(Number governorateId, Number cityId, Number technicalWorkerTypeId, Integer yearsOfExperience, Number technicalWorkerServId, Integer rate, Pageable pageable);}
+    Page<TechnicalWorker> filterTop(Number governorateId, Number cityId, Number technicalWorkerTypeId, Integer yearsOfExperience, Number technicalWorkerServId, Integer rate, Pageable pageable);
+
+    @Query("""
+        FROM TechnicalWorker technicalWorker
+            ORDER BY technicalWorker.averageRate DESC
+                limit 10
+       """)
+    List<TechnicalWorker> LandingPage();
+}

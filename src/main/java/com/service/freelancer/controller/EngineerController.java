@@ -3,8 +3,10 @@ package com.service.freelancer.controller;
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
 import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
 import com.service.freelancer.dto.EngineerDto;
+import com.service.freelancer.dto.TechnicalWorkerDto;
 import com.service.freelancer.mapper.EngineerMapper;
 import com.service.freelancer.model.Engineer;
 import com.service.freelancer.service.EngineerService;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -54,5 +57,9 @@ public class EngineerController extends BaseControllerImpl<Engineer, EngineerDto
         return ResponseEntity.ok(new SuccessResponsePage<EngineerDto>(dtos));
     }
 
-
+    @GetMapping("/top-engineers")
+    public ResponseEntity<?> LandingPage() {
+        List<EngineerDto> dtos = engineerMapper.map(engineerService.LandingPage());
+        return ResponseEntity.ok(new SuccessResponseList<EngineerDto>(dtos));
+    }
 }

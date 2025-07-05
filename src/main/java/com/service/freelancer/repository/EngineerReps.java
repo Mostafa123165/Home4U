@@ -2,10 +2,13 @@ package com.service.freelancer.repository;
 
 import com.service.base.repository.BaseRepository;
 import com.service.freelancer.model.Engineer;
+import com.service.freelancer.model.TechnicalWorker;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface EngineerReps extends BaseRepository<Engineer, Long> {
@@ -32,4 +35,11 @@ public interface EngineerReps extends BaseRepository<Engineer, Long> {
                 ORDER BY engineer.averageRate DESC
             """)
     Page<Engineer> filterTop(Number governorateId, Number cityId, Number engineerTypeId, Integer yearsOfExperience, Number engineerServId, Integer rate, Pageable pageable);
+
+    @Query("""
+        FROM Engineer engineer
+            ORDER BY engineer.averageRate DESC
+                limit 10
+       """)
+    List<Engineer> LandingPage();
 }
