@@ -1,6 +1,7 @@
 package com.service.freelancer.controller;
 
 import com.service.base.controller.BaseControllerImpl;
+import com.service.base.model.SuccessResponse;
 import com.service.base.model.SuccessResponseList;
 import com.service.freelancer.dto.RequestAskWorkerDto;
 import com.service.freelancer.mapper.RequestAskWorkerMapper;
@@ -9,10 +10,7 @@ import com.service.freelancer.service.RequestAskWorkerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +27,14 @@ public class RequestAskWorkerController extends BaseControllerImpl<RequestAskWor
     public ResponseEntity<?> getMyAsks(@RequestParam Long askId) {
         List<RequestAskWorkerDto> dtos = requestAskWorkerMapper.map(requestAskWorkerService.getByAskId(askId));
         return ResponseEntity.ok(new SuccessResponseList<RequestAskWorkerDto>(dtos));
+    }
+
+    @Override
+    public ResponseEntity<?> update(@RequestBody RequestAskWorkerDto dto) {
+        RequestAskWorker entity1 = requestAskWorkerService.findById(dto.getId());
+        RequestAskWorker entity2 = requestAskWorkerMapper.UpdateMap(dto, entity1);
+        RequestAskWorker result = requestAskWorkerService.update(entity2);
+        RequestAskWorkerDto dtos = requestAskWorkerMapper.map(result);
+        return ResponseEntity.ok(new SuccessResponse<>(dtos));
     }
 }
