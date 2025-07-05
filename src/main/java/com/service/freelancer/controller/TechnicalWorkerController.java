@@ -3,7 +3,9 @@ package com.service.freelancer.controller;
 import com.service.base.controller.BaseControllerImpl;
 import com.service.base.model.SearchRequest;
 import com.service.base.model.SuccessResponse;
+import com.service.base.model.SuccessResponseList;
 import com.service.base.model.SuccessResponsePage;
+import com.service.freelancer.dto.EngineerDto;
 import com.service.freelancer.dto.TechnicalWorkerDto;
 import com.service.freelancer.mapper.TechnicalWorkerMapper;
 import com.service.freelancer.model.TechnicalWorker;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -50,5 +53,10 @@ public class TechnicalWorkerController extends BaseControllerImpl<TechnicalWorke
     public ResponseEntity<?> filterTop(@Valid @RequestBody SearchRequest req) {
         Page<TechnicalWorkerDto> dtos = technicalWorkerService.filterTop(Optional.ofNullable(req)).map(technicalWorkerMapper::map);
         return ResponseEntity.ok(new SuccessResponsePage<TechnicalWorkerDto>(dtos));
+    }
+    @GetMapping("/top-workers")
+    public ResponseEntity<?> LandingPage() {
+        List<TechnicalWorkerDto> dtos = technicalWorkerMapper.map(technicalWorkerService.LandingPage());
+        return ResponseEntity.ok(new SuccessResponseList<TechnicalWorkerDto>(dtos));
     }
 }
