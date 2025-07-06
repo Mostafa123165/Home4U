@@ -36,7 +36,7 @@ public class ProductController extends BaseControllerImpl<Product, ProductDto, L
     }
 
     @GetMapping("/recommended-for-you")
-    public ResponseEntity<?> recommendedProducts(@RequestParam Long userId) {
+    public ResponseEntity<?> recommendedProducts(@RequestParam Optional<Long> userId) {
         return ResponseEntity.ok(new SuccessResponseList<>(productMapper.mapToProductSimpleProjection(productService.recommendedProducts(userId))));
     }
 
