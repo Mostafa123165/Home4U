@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,9 +142,15 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         product.setRate(product.getSumOfRates() / (product.getCountRates() * 5 ) * 5);
     }
 
-    public List<ProductSimpleProjection> recommendedProducts(Long userId) {
-        List<Long> productVisitedIds = productVisitService.getProductIdsVisitedByUserId(userId);
-        List<Long> productPurchasedIds = orderService.getProductIdsPurchasedByUserId(userId);
+    public List<ProductSimpleProjection> recommendedProducts(Optional<Long> userId) {
+        List<Long> productVisitedIds = new ArrayList<>();
+        List<Long> productPurchasedIds = new ArrayList<>();
+
+        if(userId.isPresent()) {
+            productVisitedIds = productVisitService.getProductIdsVisitedByUserId(userId.get());
+            productPurchasedIds = orderService.getProductIdsPurchasedByUserId(userId.get());
+        }
+
         productVisitedIds.addAll(productPurchasedIds);
         List<Long> productCategoryIds =  getBusinessTypeCategoryIdsByProductIds(productVisitedIds);
 
