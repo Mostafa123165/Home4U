@@ -73,6 +73,7 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
                 | request.getRequestURI().startsWith("/api/v1/engineering-office-department/field")
                 | request.getRequestURI().startsWith("api/v1/products/recommended-for-you")
                 | request.getRequestURI().startsWith("/api/v1/products/top-best-seller")
+                | request.getRequestURI().startsWith("/api/v1/business-config")
                 | request.getRequestURI().startsWith("/api/v1/products/highest-rated");
     }
 }
