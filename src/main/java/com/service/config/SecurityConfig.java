@@ -59,6 +59,7 @@ public class SecurityConfig {
             "/api/v1/engineering-office-field/**",
             "/api/v1/engineering-office-department/field/**",
             "api/v1/products/recommended-for-you/**",
+            "/api/v1/business-config/**",
             "api/v1/products/top-best-seller/**",
             "api/v1/products/highest-rated/**",
     };
